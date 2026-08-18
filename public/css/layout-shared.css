@@ -91,3 +91,27 @@ textarea#referencias.form-control {
 	resize: vertical !important;
 	field-sizing: fixed;
 }
+
+.vl-avatar-slot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 0;
+}
+
+.vl-avatar-placeholder {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	flex-shrink: 0;
+	background: rgba(128, 128, 128, 0.28);
+	color: inherit;
+	line-height: 1;
+	box-sizing: border-box;
+}
+
+.vl-avatar-placeholder .bi {
+	font-size: 70%;
+	line-height: 1;
+}

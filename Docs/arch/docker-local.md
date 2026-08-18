@@ -1,6 +1,8 @@
 # Docker local
 
-O ambiente local tem dois serviços: `vl-web` (PHP 8.2 + Composer + `spark serve` na porta 8080) e `vl-db` (MariaDB 10.6).
+O ambiente local tem dois serviços: `vl-web` (PHP 8.2 + Composer + servidor embutido na porta 8080) e `vl-db` (MariaDB 10.6).
+
+A document root do `vl-web` é a raiz do repositório (igual XAMPP/produção), não a pasta `public/`. O roteador é `.docker/router.php`. Assim `/public/css/...` e `/public/js/...` resolvem.
 
 O `Dockerfile` instala só as extensões que o app usa (`mysqli`, `pdo_mysql`, `intl`, `gd`, `mbstring`) e o Composer. O código da pasta do projeto é montado no container; o `entrypoint` cria `.env` a partir de `env.docker` se faltar e roda `composer install`.
 

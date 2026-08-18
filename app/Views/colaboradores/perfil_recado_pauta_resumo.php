@@ -16,8 +16,12 @@ $imagem = $pauta['imagem'] ?? null;
 			<?php foreach ($comentarios as $c): ?>
 				<li class="mb-2 pb-2 border-bottom">
 					<div class="d-flex gap-2">
-						<img src="<?= esc(($c['avatar'] != null) ? $c['avatar'] : site_url('public/assets/avatar-default.png')); ?>"
-							alt="" class="rounded-circle" width="28" height="28">
+						<?= avatar_html(
+							$c['avatar'] ?? null,
+							'',
+							'rounded-circle',
+							'width:28px;height:28px;object-fit:cover;'
+						); ?>
 						<div>
 							<p class="mb-0 small">
 								<span class="fw-semibold"><?= esc($c['apelido'] ?? ''); ?></span>

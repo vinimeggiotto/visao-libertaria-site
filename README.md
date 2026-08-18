@@ -158,7 +158,7 @@ O primeiro build instala extensões PHP e pode levar vários minutos.
 
 O que sobe:
 
-- **vl-web** — PHP 8.2 + Composer; o código da pasta é montado no container; o entrypoint roda `composer install` e `php spark serve`.
+- **vl-web** — PHP 8.2 + Composer; o código da pasta é montado no container; o entrypoint roda `composer install` e o servidor embutido do PHP (raiz do projeto + `.docker/router.php`).
 - **vl-db** — MariaDB 10.6.16; banco `visao_libertaria`; root sem senha; dados em `./.db`.
 
 Se **não existir** `.env`, o entrypoint cria um a partir de `env.docker` (host `vl-db`, URL `http://localhost:8080`).

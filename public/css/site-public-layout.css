@@ -134,12 +134,50 @@
 			border-radius: 50%;
 		}
 
+		.vl-avatar-slot {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			line-height: 0;
+		}
+
+		.vl-avatar-placeholder {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+			flex-shrink: 0;
+			background: rgba(255, 255, 255, 0.12);
+			color: #f1f1f1;
+			line-height: 1;
+			box-sizing: border-box;
+		}
+
+		.vl-avatar-placeholder .bi {
+			font-size: 70%;
+			line-height: 1;
+		}
+
+		#gen-user-btn .vl-avatar-placeholder {
+			background: transparent;
+			color: #fff;
+		}
+
 		.navbar-brand div {
 			font-size: 1.5rem;
 			/* Tamanho similar ao loader, mas ajustado para a navbar */
 			font-weight: bold;
 			color: #fff;
 			margin-left: 15px;
+		}
+
+		/*
+		 * O tema deixa o header position:absolute para flutuar no banner vh-100.
+		 * Sem .banner-section (home local sem projetos_videos) o conteúdo ia para baixo do header.
+		 * Com banner (produção) o seletor não casa e o header continua absoluto.
+		 */
+		body:not(:has(.banner-section)) header#gen-header.gen-header-style-1.gen-has-sticky {
+			position: relative;
 		}
 
 		/* Overlay para escurecer a imagem de fundo do banner */

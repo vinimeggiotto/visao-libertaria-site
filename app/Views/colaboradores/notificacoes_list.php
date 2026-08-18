@@ -25,8 +25,12 @@ use CodeIgniter\I18n\Time;
 									<div class="d-flex align-items-center">
 										<!-- img -->
 										<div class="mr-3">
-											<img src="<?= ($n['avatar'] != NULL) ? ($n['avatar']) : (site_url('public/assets/avatar-default.png')); ?>"
-												alt="Image" class="avatar-sm rounded-circle" style="height:auto; width:3.5rem;">
+											<?= avatar_html(
+												$n['avatar'] ?? null,
+												'Avatar',
+												'avatar-sm rounded-circle',
+												'width:3.5rem;height:3.5rem;object-fit:cover;'
+											); ?>
 										</div>
 										<div class="ms-3">
 											<p class="mb-0 font-weight-medium">

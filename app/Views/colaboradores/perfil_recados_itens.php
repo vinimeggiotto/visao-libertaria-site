@@ -15,8 +15,12 @@ $idx_inicio = $idx_inicio ?? 0;
 			<li class="list-group-item p-2">
 				<div class="d-flex align-items-center">
 					<div class="me-2">
-						<img src="<?= esc(($n['avatar'] != null) ? $n['avatar'] : site_url('public/assets/avatar-default.png')); ?>"
-							alt="" class="rounded-circle" style="height:auto; width:3.5rem;">
+						<?= avatar_html(
+							$n['avatar'] ?? null,
+							'',
+							'rounded-circle',
+							'width:3.5rem;height:3.5rem;object-fit:cover;'
+						); ?>
 					</div>
 					<div class="ms-2 flex-grow-1">
 						<p class="mb-0">

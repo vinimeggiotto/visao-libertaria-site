@@ -53,7 +53,7 @@
 <div id="gen-loading">
    <div id="gen-loading-center">
       <img
-         src="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : ('https://yt3.googleusercontent.com/ytc/AIf8zZSU5BzsyFkBIMmIdu0lPTvOEIu6c2h3V_DRrviXcA=s176-c-k-c0x00ffffff-no-rj'); ?>"
+         src="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>"
          alt="loading">
       <div><?= $_SESSION['site_config']['texto_nome']; ?></div>
    </div>

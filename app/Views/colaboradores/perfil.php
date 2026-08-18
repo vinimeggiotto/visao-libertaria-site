@@ -5,9 +5,7 @@ $pct_diario = $limites['limite_pautas_diario'] > 0
 $pct_semanal = $limites['limite_pautas_semanal'] > 0
 	? min(100, ($limites['limite_pautas_semanal_usadas'] / $limites['limite_pautas_semanal']) * 100)
 	: 0;
-$avatarSrc = ($colaboradores['avatar'] != NULL)
-	? $colaboradores['avatar']
-	: site_url('public/assets/avatar-default.png');
+$avatarSrc = $colaboradores['avatar'] ?? null;
 ?>
 <?= $this->extend('layouts/main'); ?>
 
@@ -21,9 +19,13 @@ $avatarSrc = ($colaboradores['avatar'] != NULL)
 				<div class="card mb-3">
 					<div class="card-body">
 						<div class="d-flex flex-column align-items-center text-center">
-							<img src="<?= esc($avatarSrc); ?>"
-								id="avatar_perfil" class="rounded-circle p-1 bg-primary" width="110"
-								height="110" alt="Avatar">
+							<?= avatar_slot_html(
+								'avatar_perfil',
+								$avatarSrc,
+								'Avatar',
+								'rounded-circle p-1 bg-primary',
+								'width:110px;height:110px;object-fit:cover;'
+							); ?>
 							<div class="mt-3">
 								<h4 class="apelido_colaborador">
 									<?= esc($colaboradores['apelido']); ?>
@@ -481,23 +483,29 @@ $avatarSrc = ($colaboradores['avatar'] != NULL)
 		return formData;
 	}
 
-	var avatarPerfilOriginal = $('#avatar_perfil').attr('src');
-	var avatarMenuOriginal = $('#avatar_menu').attr('src');
+	var avatarPerfilOriginal = $('#avatar_perfil').html();
+	var avatarMenuOriginal = $('#avatar_menu').html();
 	var avatarPreviewPendente = false;
+
+	function aplicarPreviewAvatar(seletor, src, classe, estilo) {
+		$(seletor).html(
+			'<img src="' + src + '" alt="" class="' + classe + '" style="' + estilo + '">'
+		);
+	}
 
 	function restaurarAvatarPreview() {
 		if (avatarPreviewPendente) {
-			$('#avatar_perfil').attr('src', avatarPerfilOriginal);
+			$('#avatar_perfil').html(avatarPerfilOriginal);
 			if (avatarMenuOriginal !== undefined) {
-				$('#avatar_menu').attr('src', avatarMenuOriginal);
+				$('#avatar_menu').html(avatarMenuOriginal);
 			}
 			avatarPreviewPendente = false;
 		}
 	}
 
 	function confirmarAvatarPreview() {
-		avatarPerfilOriginal = $('#avatar_perfil').attr('src');
-		avatarMenuOriginal = $('#avatar_menu').attr('src');
+		avatarPerfilOriginal = $('#avatar_perfil').html();
+		avatarMenuOriginal = $('#avatar_menu').html();
 		avatarPreviewPendente = false;
 	}
 
@@ -505,8 +513,18 @@ $avatarSrc = ($colaboradores['avatar'] != NULL)
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				$('#avatar_perfil').attr('src', e.target.result);
-				$('#avatar_menu').attr('src', e.target.result);
+				aplicarPreviewAvatar(
+					'#avatar_perfil',
+					e.target.result,
+					'rounded-circle p-1 bg-primary',
+					'width:110px;height:110px;object-fit:cover;'
+				);
+				aplicarPreviewAvatar(
+					'#avatar_menu',
+					e.target.result,
+					'rounded-circle',
+					'width:30px;height:30px;object-fit:cover;'
+				);
 				avatarPreviewPendente = true;
 			};
 			reader.readAsDataURL(input.files[0]);

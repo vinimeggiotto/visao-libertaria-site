@@ -28,10 +28,10 @@
 	<meta name="twitter:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>">
 	<meta name="twitter:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>">
 	<meta name="twitter:image"
-		content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : ('https://yt3.googleusercontent.com/ytc/AIf8zZSU5BzsyFkBIMmIdu0lPTvOEIu6c2h3V_DRrviXcA=s176-c-k-c0x00ffffff-no-rj'); ?>">
+		content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
 	<meta property="og:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>" />
 	<meta property="og:image"
-		content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : ('https://yt3.googleusercontent.com/ytc/AIf8zZSU5BzsyFkBIMmIdu0lPTvOEIu6c2h3V_DRrviXcA=s176-c-k-c0x00ffffff-no-rj'); ?>" />
+		content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>" />
 	<meta property="og:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>" />
 
 	<!-- Font Awesome -->
@@ -88,7 +88,7 @@
 		<?= $_SESSION['site_config']['texto_nome']; ?>
 	</title>
 	<link rel="icon" type="image/x-icon"
-		href="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : ('https://yt3.googleusercontent.com/ytc/AIf8zZSU5BzsyFkBIMmIdu0lPTvOEIu6c2h3V_DRrviXcA=s176-c-k-c0x00ffffff-no-rj'); ?>">
+		href="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
 
 
 	<link rel="stylesheet"
@@ -169,7 +169,7 @@
 				<div>
 					<a class="navbar-brand mt-2 mt-lg-0" href="<?= site_url('colaboradores/artigos/dashboard'); ?>">
 						<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-							src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : ('https://yt3.googleusercontent.com/ytc/AIf8zZSU5BzsyFkBIMmIdu0lPTvOEIu6c2h3V_DRrviXcA=s176-c-k-c0x00ffffff-no-rj'); ?>"
+							src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : (site_url('public/assets/logo.jpg')); ?>"
 							loading="lazy">
 						<span class="lead fw-bold"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					</a>
@@ -232,8 +232,13 @@
 									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
 										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span class="position-relative d-inline-block">
-											<img id="avatar_menu" src="<?= $_SESSION['colaboradores']['avatar']; ?>" width="30"
-												height="30" class="rounded-circle">
+											<?= avatar_slot_html(
+												'avatar_menu',
+												$_SESSION['colaboradores']['avatar'] ?? null,
+												'Avatar',
+												'rounded-circle',
+												'width:30px;height:30px;object-fit:cover;'
+											); ?>
 											<span class="avatar-recados-indicator position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle<?= $temRecados ? '' : ' d-none'; ?>">
 												<span class="visually-hidden">Novos recados</span>
 											</span>

@@ -7,4 +7,4 @@ fi
 
 composer install
 
-php spark serve --host 0.0.0.0 --port 80
+php -S 0.0.0.0:80 -t /var/www/localhost/htdocs /var/www/localhost/htdocs/.docker/router.php

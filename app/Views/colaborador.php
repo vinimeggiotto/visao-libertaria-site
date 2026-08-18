@@ -2,9 +2,7 @@
 
 <?= $this->section('content'); ?>
 <?php
-$avatarPadrao = site_url('public/assets/avatar-default.png');
 $avatarBruto = isset($colaborador['avatar']) ? trim((string) $colaborador['avatar']) : '';
-$avatarSrc = ($avatarBruto !== '') ? $avatarBruto : $avatarPadrao;
 $urlListaColaborador = site_url('site/colaboradorList/' . rawurlencode($colaborador['apelido']));
 ?>
 
@@ -14,10 +12,12 @@ $urlListaColaborador = site_url('site/colaboradorList/' . rawurlencode($colabora
 			<div class="row align-items-center g-4">
 				<div class="col-md-auto text-center text-md-start">
 					<div class="position-relative d-inline-block mb-3">
-						<img class="rounded-circle border border-3 border-white shadow d-block"
-							style="width: 8.5rem; height: 8.5rem; object-fit: cover;"
-							src="<?= esc($avatarSrc, 'attr'); ?>"
-							alt="Avatar de <?= esc($colaborador['apelido']); ?>">
+						<?= avatar_html(
+							$avatarBruto !== '' ? $avatarBruto : null,
+							'Avatar de ' . $colaborador['apelido'],
+							'rounded-circle border border-3 border-white shadow d-block',
+							'width:8.5rem;height:8.5rem;object-fit:cover;'
+						); ?>
 						<span class="position-absolute top-100 start-50 translate-middle badge bg-danger rounded-pill px-3 py-2 shadow-sm text-nowrap"><?= (int) $contador_pautas; ?>
 							pauta<?= ($contador_pautas > 1) ? 's' : ''; ?></span>
 					</div>

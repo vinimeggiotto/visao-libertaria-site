@@ -571,7 +571,7 @@ class Site extends BaseController
 							'id' => $colaborador['id'],
 							'nome' => $colaborador['apelido'],
 							'email' => $colaborador['email'],
-							'avatar' => ($colaborador['avatar'] != NULL) ? ($colaborador['avatar']) : (site_url('public/assets/avatar-default.png')),
+							'avatar' => ($colaborador['avatar'] != NULL) ? ($colaborador['avatar']) : null,
 							'notificacoes' => $quantidadeNotificacoes,
 							'notificacoes_cache_em' => time(),
 							'permissoes' => array(),
@@ -1107,7 +1107,7 @@ class Site extends BaseController
 					'id' => $colaborador['id'],
 					'nome' => $colaborador['apelido'],
 					'email' => $colaborador['email'],
-					'avatar' => ($colaborador['avatar'] != NULL) ? ($colaborador['avatar']) : (site_url('public/assets/avatar-default.png')),
+					'avatar' => ($colaborador['avatar'] != NULL) ? ($colaborador['avatar']) : null,
 					'permissoes' => array()
 				]
 			];
