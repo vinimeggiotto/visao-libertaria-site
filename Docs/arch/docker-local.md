@@ -4,7 +4,7 @@ O ambiente local tem dois serviços: `vl-web` (PHP 8.2 + Composer + servidor emb
 
 A document root do `vl-web` é a raiz do repositório (igual XAMPP/produção), não a pasta `public/`. O roteador é `.docker/router.php`. Assim `/public/css/...` e `/public/js/...` resolvem.
 
-O `Dockerfile` instala só as extensões que o app usa (`mysqli`, `pdo_mysql`, `intl`, `gd`, `mbstring`) e o Composer. O código da pasta do projeto é montado no container; o `entrypoint` cria `.env` a partir de `env.docker` se faltar e roda `composer install`.
+O `Dockerfile` instala só as extensões que o app usa (`mysqli`, `pdo_mysql`, `intl`, `gd`, `mbstring`, `exif`) e o Composer. Os limites de upload (`8M` / `12M`) e `memory_limit=256M` vêm de `.docker/php-uploads.ini` copiado para o PHP do container. Mudança nessa ini ou nas extensões exige rebuild da imagem (`docker compose build web`). O código da pasta do projeto é montado no container; o `entrypoint` cria `.env` a partir de `env.docker` se faltar e roda `composer install`.
 
 O `web` espera o healthcheck do `db` antes de subir. O `.env` precisa apontar o banco para o host `vl-db` (como no `env.docker`); se o arquivo já existir, o entrypoint não sobrescreve.
 

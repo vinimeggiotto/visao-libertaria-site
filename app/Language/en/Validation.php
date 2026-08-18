@@ -42,8 +42,8 @@ $lang['valid_base64']				= "O campo {field} deve ser um base64 válido.";
 $lang['valid_json']					= "O campo {field} deve ser um json válido.";
 
 $lang['uploaded']					= "O campo {field} deve ser informado.";
-$lang['max_size']					= "O campo {field} deve ser menor do que {param}kb.";
-$lang['max_dims']					= "O campo {field} deve ser menor do que {param}px.";
+$lang['max_size']					= "O arquivo do campo {field} excede o tamanho máximo permitido.";
+$lang['max_dims']					= "As dimensões do campo {field} excedem o máximo permitido.";
 $lang['mime_in']					= "O campo {field} deve ser do(s) tipo(s) {param}.";
 $lang['ext_in']						= "O campo {field} deve ser do(s) tipo(s) {param}.";
 $lang['is_image']					= "O campo {field} deve ser uma imagem.";

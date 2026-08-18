@@ -79,10 +79,13 @@ class Perfil extends BaseController
 			if (!empty($valida->getErrors())) {
 				return $retorno->retorno(false, $this->errosValidacao($valida), true);
 			}
-			$nome_arquivo = $session['id'] . '.' . $avatar->guessExtension();
-			if ($avatar->move('public/assets/avatars', $nome_arquivo, true)) {
-				$dados['avatar'] = base_url('public/assets/avatars/' . $nome_arquivo);
+			try {
+				$recodificador = new \App\Libraries\RecodificadorAvatar();
+				$dados['avatar'] = $recodificador->recodificarEGravar($avatar, (string) $session['id']);
 				$session['avatar'] = $dados['avatar'];
+			} catch (\Throwable $e) {
+				log_message('error', 'Avatar: ' . $e->getMessage());
+				return $retorno->retorno(false, 'Não foi possível processar o avatar. Envie um JPEG, PNG ou WebP.', true);
 			}
 		}
 

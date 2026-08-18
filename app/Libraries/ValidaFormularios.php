@@ -140,10 +140,19 @@ class ValidaFormularios extends BaseController
 	public function validaFormularioPerfilColaboradorFile()
 	{
 		$validation = \Config\Services::validation();
+		$maxKb = RecodificadorAvatar::MAX_KB;
+		$maxDim = RecodificadorAvatar::MAX_DIM;
+		$extensoes = RecodificadorAvatar::EXTENSOES;
 		$validation->setRules([
 			'avatar' => [
 				'label' => 'Avatar',
-				'rules' => 'is_image[avatar]|ext_in[avatar,png]|max_size[avatar,1024]|max_dims[avatar,2048,2048]'
+				'rules' => 'is_image[avatar]|ext_in[avatar,' . $extensoes . ']|max_size[avatar,' . $maxKb . ']|max_dims[avatar,' . $maxDim . ',' . $maxDim . ']',
+				'errors' => [
+					'is_image' => 'O campo Avatar deve ser uma imagem.',
+					'ext_in' => 'O campo Avatar deve ser JPEG, PNG ou WebP.',
+					'max_size' => 'O campo Avatar deve ter no máximo 8 MB.',
+					'max_dims' => 'O campo Avatar deve ter no máximo 8000×8000 pixels.',
+				],
 			],
 		]);
 		$validation->run();

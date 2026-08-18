@@ -69,6 +69,9 @@ No `C:\xampp\php\php.ini`, deixe ativas (sem `;` na frente) e reinicie o Apache:
 - `extension=gd`
 - `extension=mbstring`
 - `extension=curl`
+- `extension=exif` (orientação de foto no avatar)
+
+No mesmo `php.ini`, para o upload do avatar: `upload_max_filesize=8M`, `post_max_size=12M`, `memory_limit=256M`.
 
 Confira com `php -m`.
 

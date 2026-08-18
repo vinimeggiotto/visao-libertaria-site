@@ -3,7 +3,9 @@ FROM php:8.2-cli-alpine
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN apk add --no-cache bash \
-    && install-php-extensions mysqli pdo_mysql intl gd mbstring @composer
+    && install-php-extensions mysqli pdo_mysql intl gd mbstring exif @composer
+
+COPY .docker/php-uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 WORKDIR /var/www/localhost/htdocs
 

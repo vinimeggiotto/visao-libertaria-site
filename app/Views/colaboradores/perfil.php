@@ -349,9 +349,10 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 									<div class="mb-3">
 										<label for="avatar" class="form-label">Alterar avatar</label>
 										<input type="file" class="form-control" id="avatar" name="avatar"
-											onchange="onFileUpload(this);" aria-label="Avatar" accept=".png,image/png">
+											onchange="onFileUpload(this);" aria-label="Avatar"
+											accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
 										<div class="form-text">
-											Apenas PNG, até 1&nbsp;MB, no máximo 2048×2048 pixels.
+											JPEG, PNG ou WebP, até 8&nbsp;MB. A foto será recortada em quadrado e otimizada automaticamente. Não use HEIC (foto original do iPhone).
 										</div>
 									</div>
 
@@ -486,6 +487,8 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 	var avatarPerfilOriginal = $('#avatar_perfil').html();
 	var avatarMenuOriginal = $('#avatar_menu').html();
 	var avatarPreviewPendente = false;
+	var avatarRecodificando = false;
+	var avatarPreviewObjectUrl = null;
 
 	function aplicarPreviewAvatar(seletor, src, classe, estilo) {
 		$(seletor).html(
@@ -495,6 +498,7 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 
 	function restaurarAvatarPreview() {
 		if (avatarPreviewPendente) {
+			revogarPreviewObjectUrl();
 			$('#avatar_perfil').html(avatarPerfilOriginal);
 			if (avatarMenuOriginal !== undefined) {
 				$('#avatar_menu').html(avatarMenuOriginal);
@@ -509,26 +513,89 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 		avatarPreviewPendente = false;
 	}
 
-	function onFileUpload(input) {
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				aplicarPreviewAvatar(
-					'#avatar_perfil',
-					e.target.result,
-					'rounded-circle p-1 bg-primary',
-					'width:110px;height:110px;object-fit:cover;'
-				);
-				aplicarPreviewAvatar(
-					'#avatar_menu',
-					e.target.result,
-					'rounded-circle',
-					'width:30px;height:30px;object-fit:cover;'
-				);
-				avatarPreviewPendente = true;
-			};
-			reader.readAsDataURL(input.files[0]);
+	function revogarPreviewObjectUrl() {
+		if (avatarPreviewObjectUrl) {
+			URL.revokeObjectURL(avatarPreviewObjectUrl);
+			avatarPreviewObjectUrl = null;
 		}
+	}
+
+	function substituirArquivoInput(input, arquivo) {
+		if (typeof DataTransfer === 'undefined') {
+			return false;
+		}
+		var transferencia = new DataTransfer();
+		transferencia.items.add(arquivo);
+		input.files = transferencia.files;
+		return true;
+	}
+
+	function recodificarAvatarCliente(arquivo) {
+		return new Promise(function (resolve) {
+			if (!arquivo || typeof createImageBitmap === 'undefined') {
+				resolve(null);
+				return;
+			}
+			createImageBitmap(arquivo, { imageOrientation: 'from-image' }).then(function (bitmap) {
+				var ladoOrigem = Math.min(bitmap.width, bitmap.height);
+				if (ladoOrigem < 1) {
+					bitmap.close();
+					resolve(null);
+					return;
+				}
+				var lado = Math.min(512, ladoOrigem);
+				var sx = Math.floor((bitmap.width - ladoOrigem) / 2);
+				var sy = Math.floor((bitmap.height - ladoOrigem) / 2);
+				var canvas = document.createElement('canvas');
+				canvas.width = lado;
+				canvas.height = lado;
+				var ctx = canvas.getContext('2d');
+				ctx.drawImage(bitmap, sx, sy, ladoOrigem, ladoOrigem, 0, 0, lado, lado);
+				bitmap.close();
+				if (!canvas.toBlob) {
+					resolve(null);
+					return;
+				}
+				canvas.toBlob(function (blob) {
+					if (!blob || blob.type !== 'image/webp') {
+						resolve(null);
+						return;
+					}
+					resolve(new File([blob], 'avatar.webp', { type: 'image/webp' }));
+				}, 'image/webp', 0.8);
+			}).catch(function () {
+				resolve(null);
+			});
+		});
+	}
+
+	function onFileUpload(input) {
+		if (!input.files || !input.files[0]) {
+			return;
+		}
+		var original = input.files[0];
+		avatarRecodificando = true;
+		recodificarAvatarCliente(original).then(function (recodificado) {
+			var arquivo = recodificado && substituirArquivoInput(input, recodificado)
+				? recodificado
+				: original;
+			revogarPreviewObjectUrl();
+			avatarPreviewObjectUrl = URL.createObjectURL(arquivo);
+			aplicarPreviewAvatar(
+				'#avatar_perfil',
+				avatarPreviewObjectUrl,
+				'rounded-circle p-1 bg-primary',
+				'width:110px;height:110px;object-fit:cover;'
+			);
+			aplicarPreviewAvatar(
+				'#avatar_menu',
+				avatarPreviewObjectUrl,
+				'rounded-circle',
+				'width:30px;height:30px;object-fit:cover;'
+			);
+			avatarPreviewPendente = true;
+			avatarRecodificando = false;
+		});
 	}
 
 	$('.listar-colaboracoes-fechadas').on('click', function (e) {
@@ -698,6 +765,10 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 
 		$('#colaboradores_perfil').on('submit', function (e) {
 			e.preventDefault();
+			if (avatarRecodificando) {
+				popMessage('ATENÇÃO', 'Aguarde a otimização da foto.', TOAST_STATUS.WARNING);
+				return;
+			}
 			$.ajax({
 				url: "<?php echo base_url('colaboradores/perfil/atualizarPerfil'); ?>",
 				method: "POST",
