@@ -20,7 +20,23 @@ Duas formas de rodar localmente — **escolha uma**:
 
 Não use os dois ao mesmo tempo na porta 3306.
 
-Login após o seed: `admin@admin.com` / `12345678`.
+Login após o seed — senha de todas as contas fixas: `12345678`.
+
+| Atribuição | E-mail |
+|---|---|
+| Colaborador (1) | `colaborador@colaborador.com` |
+| Escritor (2) | `escritor@escritor.com` |
+| Revisor (3) | `revisor@revisor.com` |
+| Narrador (4) | `narrador@narrador.com` |
+| Produtor (5) | `produtor@produtor.com` |
+| Publicador (6) | `publicador@publicador.com` |
+| Administrador (7) | `admin@admin.com` |
+| Pagador (8) | `pagador@pagador.com` |
+| Recrutador (9) | `recrutador@recrutador.com` |
+| Pautador (10) | `pautador@pautador.com` |
+| Redator (11) | `redator@redator.com` |
+
+O que cada um vê no menu: `Docs/features/permissoes/o-que-cada-usuario-pode-clicar.md`.
 
 ---
 
@@ -123,7 +139,7 @@ php spark migrate
 php spark db:seed Main
 ```
 
-O seed cria ~1000 colaboradores de teste e pode demorar alguns minutos.
+O seed cria as 11 contas fixas (tabela acima) e ~1000 colaboradores aleatórios. Pode demorar alguns minutos.
 
 ### 9. E-mail (opcional para só navegar)
 
@@ -184,6 +200,8 @@ docker compose exec web php spark migrate
 docker compose exec web php spark db:seed Main
 ```
 
+Banco que já foi populado (sem rodar o Main de novo): `docker compose exec web php spark db:seed SincronizaContasFixas` — só cria/atualiza as 11 contas da tabela do topo.
+
 ### 4. Acessar
 
 http://localhost:8080
@@ -231,7 +249,7 @@ O `.env` **não é o mesmo**:
 | Erro de classe / autoload | Faltou `composer install` |
 | `Unknown database` | Banco não criado no phpMyAdmin, ou nome diferente do `.env` |
 | Home quebra com tabela inexistente | Faltou `php spark migrate` |
-| Login admin não entra | Faltou `db:seed Main` |
+| Login das contas fixas não entra | Faltou `db:seed Main` (ou, num banco já populado, `db:seed SincronizaContasFixas`) |
 | Docker: conexão recusada no banco | `.env` com `hostname = localhost` em vez de `vl-db` |
 | `Bind for 0.0.0.0:3306 failed` | MySQL do XAMPP ainda está no ar |
 | Site no Docker não abre na 8080 | Docker Desktop fechado, ou build ainda rodando |
