@@ -216,12 +216,14 @@
 										</li>
 										<?php if (isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null): ?>
 											<li class="menu-item">
-												<a href="<?= site_url('colaboradores/artigos/dashboard'); ?>">Colaborar</a>
+												<a class="js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
+													data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">Colaborar</a>
 											</li>
 										<?php endif; ?>
 										<?php if (isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null && in_array('7', $_SESSION['colaboradores']['permissoes']) || in_array('8', $_SESSION['colaboradores']['permissoes']) || in_array('9', $_SESSION['colaboradores']['permissoes']) || in_array('10', $_SESSION['colaboradores']['permissoes'])): ?>
 											<li class="menu-item">
-												<a href="<?= site_url('colaboradores/admin/dashboard'); ?>">Administrar</a>
+												<a class="js-requer-permissao" href="<?= site_url('colaboradores/admin/dashboard'); ?>"
+													data-permissoes="7" data-permissao-nome="<?= esc(nome_atribuicao('7'), 'attr'); ?>">Administrar</a>
 											</li>
 										<?php endif; ?>
 										<?php if (!isset($_SESSION['colaboradores']) || $_SESSION['colaboradores']['id'] === null): ?>
@@ -495,10 +497,11 @@
 			Toast.enableTimers(TOAST_TIMERS.DISABLED);
 			Toast.setMaxCount(10);
 			Toast.enableQueue(true);
-			window.popMessage = function (titulo, mensagem, status) {
+			window.popMessage = function (titulo, mensagem, status, timeoutMs) {
 				toast.message = mensagem;
 				toast.title = titulo;
 				toast.status = status;
+				toast.timeout = timeoutMs || 3000;
 				Toast.create(toast);
 			};
 
@@ -617,6 +620,7 @@
 		});
 	</script>
 	<?= $this->renderSection('scripts') ?>
+	<?= view('components/_aviso_permissao'); ?>
 </body>
 
 </html>

@@ -110,12 +110,13 @@
 		Toast.enableTimers(TOAST_TIMERS.DISABLED);
 		Toast.setMaxCount(10);
 		Toast.enableQueue(true);
-		function popMessage(titulo, mensagem, status) {
+		window.popMessage = function (titulo, mensagem, status, timeoutMs) {
 			toast.message = mensagem;
 			toast.title = titulo;
 			toast.status = status;
+			toast.timeout = timeoutMs || 3000;
 			Toast.create(toast);
-		}
+		};
 	</script>
 
 	<div class="modal bg-light" style="opacity: 0.4; z-index:7000;" id="modal-loading" tabindex="-1"
@@ -140,8 +141,9 @@
 						<?php endif; ?>
 						<?php if (in_array('7', $_SESSION['colaboradores']['permissoes']) || in_array('8', $_SESSION['colaboradores']['permissoes']) || in_array('9', $_SESSION['colaboradores']['permissoes']) || in_array('10', $_SESSION['colaboradores']['permissoes'])): ?>
 							<li class="nav-item">
-								<a class="nav-link ps-0"
-									href="<?= site_url('colaboradores/admin/dashboard'); ?>">Administração</a>
+								<a class="nav-link ps-0 js-requer-permissao"
+									href="<?= site_url('colaboradores/admin/dashboard'); ?>"
+									data-permissoes="7" data-permissao-nome="<?= esc(nome_atribuicao('7'), 'attr'); ?>">Administração</a>
 							</li>
 						<?php endif; ?>
 					</ul>
@@ -167,7 +169,8 @@
 		<nav class="navbar navbar-expand-lg shadow-0 bg-primary">
 			<div class="container">
 				<div>
-					<a class="navbar-brand mt-2 mt-lg-0" href="<?= site_url('colaboradores/artigos/dashboard'); ?>">
+					<a class="navbar-brand mt-2 mt-lg-0 js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
+						data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">
 						<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
 							src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : (site_url('public/assets/logo.jpg')); ?>"
 							loading="lazy">
@@ -183,7 +186,8 @@
 				<div class="collapse navbar-collapse" id="menuPrincipal">
 					<ul class="navbar-nav d-flex justify-content-center">
 						<li class="nav-item active">
-							<a class="nav-link" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"><i
+							<a class="nav-link js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
+								data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>"><i
 									class="fas fa-globe"></i> Dashboard</a>
 						</li>
 						<li class="nav-item dropdown">
@@ -191,11 +195,13 @@
 									id="menuArtigosColaboradores"></i>
 								Artigos</a>
 							<ul class="dropdown-menu bg-primary" aria-labelledby="menuArtigosColaboradores">
-								<li> <a class="dropdown-item"
-										href="<?= site_url('colaboradores/artigos/cadastrar'); ?>">Escrever novo</a>
+								<li> <a class="dropdown-item js-requer-permissao"
+										href="<?= site_url('colaboradores/artigos/cadastrar'); ?>"
+										data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">Escrever novo</a>
 								</li>
-								<li> <a class="dropdown-item"
-										href="<?= site_url('colaboradores/artigos/meusArtigos'); ?>">Meus artigos</a>
+								<li> <a class="dropdown-item js-requer-permissao"
+										href="<?= site_url('colaboradores/artigos/meusArtigos'); ?>"
+										data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">Meus artigos</a>
 								</li>
 								<?php if (in_array('3', $_SESSION['colaboradores']['permissoes']) || in_array('4', $_SESSION['colaboradores']['permissoes']) || in_array('5', $_SESSION['colaboradores']['permissoes']) || in_array('6', $_SESSION['colaboradores']['permissoes'])): ?>
 									<li> <a class="dropdown-item"
@@ -292,6 +298,7 @@
 			</div>
 		</div>
 	</div>
+	<?= view('components/_aviso_permissao'); ?>
 </body>
 
 <script type="text/javascript">

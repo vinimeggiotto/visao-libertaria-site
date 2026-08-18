@@ -916,7 +916,7 @@ class Artigos extends BaseController
 		}
 
 		if (empty($fase_permitida)) {
-			return redirect()->to(base_url() . 'colaboradores/artigos/dashboard');
+			$this->verificaPermissao->recusarAcesso(['3', '4', '5', '6']);
 		}
 
 		$data['permissoes'] = $this->session->get('colaboradores')['permissoes'];

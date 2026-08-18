@@ -117,12 +117,13 @@
 		Toast.enableTimers(TOAST_TIMERS.DISABLED);
 		Toast.setMaxCount(10);
 		Toast.enableQueue(true);
-		function popMessage(titulo, mensagem, status) {
+		window.popMessage = function (titulo, mensagem, status, timeoutMs) {
 			toast.message = mensagem;
 			toast.title = titulo;
 			toast.status = status;
+			toast.timeout = timeoutMs || 3000;
 			Toast.create(toast);
-		}
+		};
 	</script>
 
 	<div class="modal bg-light" style="opacity: 0.4; z-index:7000;" id="modal-loading" tabindex="-1"
@@ -142,7 +143,8 @@
 					<ul class="nav">
 						<?php if (isset($_SESSION) && $_SESSION['colaboradores']['id'] !== null): ?>
 							<li class="nav-item">
-								<a class="nav-link ps-0" href="<?= site_url('colaboradores/artigos/dashboard'); ?>">Área do
+								<a class="nav-link ps-0 js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
+									data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">Área do
 									colaborador</a>
 							</li>
 						<?php endif; ?>
@@ -174,7 +176,8 @@
 		<nav class="navbar navbar-expand-lg shadow-0 bg-primary">
 			<div class="container">
 				<div>
-					<a class="navbar-brand mt-2 mt-lg-0" href="<?= site_url('colaboradores/artigos/dashboard'); ?>">
+					<a class="navbar-brand mt-2 mt-lg-0 js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
+						data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">
 						<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
 							src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : (site_url('public/assets/logo.jpg')); ?>"
 							loading="lazy">
@@ -190,7 +193,8 @@
 				<div class="collapse navbar-collapse" id="menuPrincipal">
 					<ul class="navbar-nav d-flex justify-content-center">
 						<li class="nav-item active">
-							<a class="nav-link" href="<?= site_url('colaboradores/admin/dashboard'); ?>"><i
+							<a class="nav-link js-requer-permissao" href="<?= site_url('colaboradores/admin/dashboard'); ?>"
+								data-permissoes="7" data-permissao-nome="<?= esc(nome_atribuicao('7'), 'attr'); ?>"><i
 									class="fas fa-globe"></i> Dashboard</a>
 						</li>
 						<?php if (isset($_SESSION) && $_SESSION['colaboradores']['id'] != null): ?>
@@ -238,10 +242,12 @@
 									<a class="nav-link dropdown-toggle" id="menuAdministracaoConfiguracao"><i
 										class="fas fa-user-group"></i> Colaboradores</a>
 									<ul class="dropdown-menu bg-primary" aria-labelledby="menuAdministracaoConfiguracao">
-										<li> <a class="dropdown-item"
-												href="<?= site_url('colaboradores/admin/permissoes'); ?>">Colaboradores</a> </li>
-										<li> <a class="dropdown-item"
-												href="<?= site_url('colaboradores/admin/contatos'); ?>">Mensagens de contato</a>
+										<li> <a class="dropdown-item js-requer-permissao"
+												href="<?= site_url('colaboradores/admin/permissoes'); ?>"
+												data-permissoes="9" data-permissao-nome="<?= esc(nome_atribuicao('9'), 'attr'); ?>">Colaboradores</a> </li>
+										<li> <a class="dropdown-item js-requer-permissao"
+												href="<?= site_url('colaboradores/admin/contatos'); ?>"
+												data-permissoes="7" data-permissao-nome="<?= esc(nome_atribuicao('7'), 'attr'); ?>">Mensagens de contato</a>
 										</li>
 									</ul>
 								</li>
@@ -329,6 +335,7 @@
 			</div>
 		</div>
 	</div>
+	<?= view('components/_aviso_permissao'); ?>
 </body>
 
 <script type="text/javascript">
