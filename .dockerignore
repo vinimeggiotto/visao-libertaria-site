@@ -1,0 +1,13 @@
+.git
+.db
+.idea
+.vscode
+vendor
+writable/cache
+writable/logs
+writable/session
+writable/debugbar
+tests/coverage*
+.phpunit.result.cache
+*.md
+Docs

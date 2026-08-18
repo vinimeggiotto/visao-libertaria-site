@@ -1,30 +1,30 @@
 .PHONY: up down bash-web bash-db build help restart migrate seed
 
 up:
-	docker-compose up -d
+	docker compose up -d
 
 down:
-	docker-compose down -v
+	docker compose down -v
 
 bash-web:
-	docker-compose exec -it web bash
+	docker compose exec -it web bash
 	
 bash-db:
-	docker-compose exec -it db bash
+	docker compose exec -it db bash
 
 build:
-	docker-compose build web
+	docker compose build web
 
 restart: down up
 
 test:
-	docker-compose exec web bash -c "./vendor/bin/phpunit"
+	docker compose exec web bash -c "./vendor/bin/phpunit"
 
 migrate:
-	docker-compose exec -it web bash -c "php spark migrate"
+	docker compose exec -it web php spark migrate
 
 seed:
-	docker-compose exec -it web bash -c "php spark db:seed Main"
+	docker compose exec -it web php spark db:seed Main
 
 help:
 	@echo "Available commands:"

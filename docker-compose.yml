@@ -6,10 +6,9 @@ services:
       - "8080:80"
     volumes:
       - .:/var/www/localhost/htdocs
-    environment:
-      - XDEBUG_MODE=coverage
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   db:
     container_name: vl-db
     image: mariadb:10.6.16
@@ -21,3 +20,9 @@ services:
     environment:
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
       MARIADB_DATABASE: visao_libertaria
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s

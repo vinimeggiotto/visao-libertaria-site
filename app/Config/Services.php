@@ -2,7 +2,9 @@
 
 namespace Config;
 
+use App\Database\AppMigrationRunner;
 use CodeIgniter\Config\BaseService;
+use CodeIgniter\Database\MigrationRunner;
 
 /**
  * Services Configuration file.
@@ -19,14 +21,14 @@ use CodeIgniter\Config\BaseService;
  */
 class Services extends BaseService
 {
-    /*
-     * public static function example($getShared = true)
-     * {
-     *     if ($getShared) {
-     *         return static::getSharedInstance('example');
-     *     }
-     *
-     *     return new \CodeIgniter\Example();
-     * }
-     */
+    public static function migrations(?Migrations $config = null, $db = null, bool $getShared = true): MigrationRunner
+    {
+        if ($getShared) {
+            return static::getSharedInstance('migrations', $config, $db);
+        }
+
+        $config ??= config(Migrations::class);
+
+        return new AppMigrationRunner($config, $db);
+    }
 }
