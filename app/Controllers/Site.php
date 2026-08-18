@@ -399,7 +399,7 @@ class Site extends BaseController
 				$colaboradoresAtribuicoesModel->save(['colaboradores_id' => $gravar['id'], 'atribuicoes_id' => '1']);
 				$colaboradoresAtribuicoesModel->save(['colaboradores_id' => $gravar['id'], 'atribuicoes_id' => '2']);
 			}
-			return redirect()->to(site_url('site') . '?openLogin=1');
+			return redirect()->to(url_home_com_login());
 		}
 	}
 
@@ -607,26 +607,15 @@ class Site extends BaseController
 				return $retorno->retorno(false, $string_erros, true);
 			}
 		} else {
-			$get = service('request')->getGet();
-			$urlDestino = 'colaboradores/perfil';
-			if (!empty($get) && isset($get['url']) && str_contains($get['url'], site_url())) {
-				$urlDestino = $get['url'];
-			}
+			$next = caminho_retorno_login($this->request->getGet('next'));
+			$urlDestino = $next ?? 'colaboradores/perfil';
 
 			$colaboradorSession = $this->session->get('colaboradores');
 			if (is_array($colaboradorSession) && !empty($colaboradorSession['id'])) {
 				return redirect()->to($urlDestino);
 			}
 
-			$url = false;
-			if (!empty($get) && isset($get['url']) && str_contains($get['url'], site_url())) {
-				$url = $get['url'];
-			}
-			$params = ['openLogin' => '1'];
-			if ($url !== false) {
-				$params['url'] = $url;
-			}
-			return redirect()->to(site_url('site') . '?' . http_build_query($params));
+			return redirect()->to(url_home_com_login($next));
 		}
 	}
 
@@ -635,9 +624,9 @@ class Site extends BaseController
 		helper('cookie');
 		$this->session->remove('colaboradores');
 		$link = base_url() . 'site';
-		$get = $this->request->getGet();
-		if (!empty($get)) {
-			$link .= '?url=' . $get['url'];
+		$next = caminho_retorno_login($this->request->getGet('next'));
+		if ($next !== null) {
+			$link .= '?' . http_build_query(['next' => $next]);
 		} else {
 			delete_cookie('hash');
 		}

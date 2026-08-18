@@ -233,7 +233,7 @@
 								<a class="nav-link ps-0" href="<?= site_url('site/cadastre-se'); ?>">Cadastre-se</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<?= site_url('site') . '?openLogin=1'; ?>">Acessar</a>
+								<a class="nav-link" href="<?= esc(url_home_com_login(), 'attr'); ?>">Acessar</a>
 							</li>
 						<?php endif; ?>
 						<?php if (isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null): ?>

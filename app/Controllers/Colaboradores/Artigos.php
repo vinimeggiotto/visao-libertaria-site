@@ -653,7 +653,7 @@ class Artigos extends BaseController
 		}
 
 		if (!$this->session->has('colaboradores')) {
-			return redirect()->to(site_url('site') . '?openLogin=1');
+			return redirect()->to(url_home_com_login(caminho_atual_retorno_login()));
 		}
 
 		$validaFormularios = new \App\Libraries\ValidaFormularios();

@@ -504,7 +504,7 @@
 
 			$(function () {
 			var qs = new URLSearchParams(window.location.search);
-			var deveAbrirLogin = qs.get('openLogin') === '1' || qs.has('url');
+			var deveAbrirLogin = qs.get('openLogin') === '1' || qs.has('next');
 			if (deveAbrirLogin) {
 				var loginModalEl = document.getElementById('header-login-modal');
 				if (loginModalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
@@ -562,9 +562,9 @@
 						if (retorno.status === true) {
 							popMessage('Sucesso!', retorno.mensagem, TOAST_STATUS.SUCCESS);
 							setTimeout(function () {
-								var urlDestino = qs.get('url');
-								if (urlDestino && urlDestino.indexOf('<?= site_url(); ?>') === 0) {
-									window.location.href = urlDestino;
+								var next = qs.get('next');
+								if (next && next.charAt(0) === '/' && next.charAt(1) !== '/') {
+									window.location.href = next;
 									return;
 								}
 								window.location.href = '<?= base_url('colaboradores/perfil'); ?>';

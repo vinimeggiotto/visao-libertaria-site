@@ -37,8 +37,7 @@ class AuthCookieFilter implements FilterInterface
 			return;
 		}
 
-		$url = current_url();
-		return redirect()->to(site_url('site') . '?openLogin=1&url=' . urlencode($url));
+		return redirect()->to(url_home_com_login(caminho_atual_retorno_login()));
 	}
 
 	public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

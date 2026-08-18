@@ -103,7 +103,7 @@
 					<?php if ($formulario == 'senha'): ?>
 						$('#esqueci').hide();
 						setTimeout(function () {
-							document.location.href = '<?= site_url('site') . '?openLogin=1'; ?>';
+							document.location.href = <?= json_encode(url_home_com_login()); ?>;
 						}, 5000);
 					<?php endif; ?>
 				} else {

@@ -8,4 +8,6 @@ O `Dockerfile` instala só as extensões que o app usa (`mysqli`, `pdo_mysql`, `
 
 O `web` espera o healthcheck do `db` antes de subir. O `.env` precisa apontar o banco para o host `vl-db` (como no `env.docker`); se o arquivo já existir, o entrypoint não sobrescreve.
 
+`METHOD` no Docker local tem de ser cifra **sem** AEAD (ex.: `aes-256-cbc`) e `METHOD_HMAC` um algoritmo de hash do `hash_hmac` (ex.: `sha256`). `aria-256-ccm` exige tag no `openssl_encrypt`; `aria-128-ofb` não é hash. Com “lembrar-me” isso vira HTTP 500 em `/site/login`.
+
 Depois: `docker compose exec web php spark migrate` e `docker compose exec web php spark db:seed Main`. O migrate usa `AppMigrationRunner` (`glob`) porque o `DirectoryIterator` do PHP, no volume do Docker no Windows, não lista todos os arquivos.
