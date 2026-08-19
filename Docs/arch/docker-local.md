@@ -8,7 +8,7 @@ O `Dockerfile` é `php:8.2-fpm-alpine` e instala as extensões que o app usa (`m
 
 O `entrypoint` cria `.env` a partir de `env.docker` se faltar, roda `composer install`, deixa `writable/debugbar` gravável pelo pool FPM (`www-data`) e sobe `php-fpm`. Sem isso o toolbar injeta o script e o `?debugbar_time=` devolve 404 (o JSON não foi escrito). `.env` já existente não é sobrescrito: para usar Redis, inclua `REDIS_HOST=vl-redis` (como no `env.docker`). Sem essa variável o cache e a sessão continuam em arquivo. Sem Redis no Plesk, não defina `REDIS_HOST` em produção.
 
-O arquivo `.docker/router.php` existe no repo, mas não é o runtime HTTP. Estáticos, gzip e `expires` estão em `.docker/nginx.conf` (css/js 1 mês; imagens e fontes 1 ano; HTML sem `Cache-Control` longo). Não reativar `.docker/apache2.conf`.
+O arquivo `.docker/router.php` existe no repo, mas não é o runtime HTTP. Estáticos, gzip e `expires` estão em `.docker/nginx.conf` (css/js 1 mês; imagens e fontes 1 ano; HTML sem `Cache-Control` longo). `GET /__hot-reload` é probe do browser do Cursor: o nginx responde SSE vazio e não manda ao PHP. Não reativar `.docker/apache2.conf`.
 
 Depois do migrate de performance: `docker compose exec web php spark thumbs:backfill` (thumbs locais). Detalhes de servidor: `performance-servidor.md`.
 
