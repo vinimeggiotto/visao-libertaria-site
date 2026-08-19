@@ -26,20 +26,15 @@ if (!empty($dados['abrir_nova_aba'])) {
             <?php if ($ytIdCard !== null): ?>
             <img class="rounded" style="max-width: inherit;" src="<?= cria_url_thumb($ytIdCard); ?>" alt="<?= esc($dados['titulo']); ?>" width="480" height="270" loading="lazy">
             <?php else: ?>
-            <span class="vl-thumb-placeholder" aria-hidden="true"></span>
+            <img class="rounded" style="max-width: inherit;" src="<?= esc(cria_url_placeholder(), 'attr'); ?>" alt="" width="480" height="270" loading="lazy" onerror="<?= esc(attr_onerror_placeholder(), 'attr'); ?>">
             <?php endif; ?>
         <?php else: ?>
             <?php
             $imagemBrutaH = trim((string) ($dados['imagem'] ?? ''));
-            $ehDefaultH = $imagemBrutaH === ''
-                || str_contains($imagemBrutaH, 'imagem-default.webp')
-                || str_contains($imagemBrutaH, 'imagem-default.png');
+            $ehVaziaH = imagem_publica_eh_vazia($imagemBrutaH);
+            $imagemSrcH = $ehVaziaH ? cria_url_placeholder() : $imagemBrutaH;
             ?>
-            <?php if (! $ehDefaultH): ?>
-            <img class="rounded" style="max-width: inherit;" src="<?= esc($imagemBrutaH, 'attr'); ?>" alt="<?= esc($dados['titulo']); ?>" width="480" height="270" loading="lazy">
-            <?php else: ?>
-            <span class="vl-thumb-placeholder" aria-hidden="true"></span>
-            <?php endif; ?>
+            <img class="rounded" style="max-width: inherit;" src="<?= esc($imagemSrcH, 'attr'); ?>" alt="<?= esc($dados['titulo']); ?>" width="480" height="270" loading="lazy"<?php if ($ehVaziaH): ?> onerror="<?= esc(attr_onerror_placeholder(), 'attr'); ?>"<?php endif; ?>>
         <?php endif; ?>
         </div>
         <div class="<?= (isset($dados['class-div'])) ? ($dados['class-div']) : ('col-7'); ?>">

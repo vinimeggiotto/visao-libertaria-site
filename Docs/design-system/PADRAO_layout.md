@@ -22,7 +22,7 @@ Quando a página **não** tem `.banner-section`, o header passa a `position: rel
 
 ## Marca (logo / favicon / rodapé)
 
-URLs de favicon e rodapé vêm de `site_config.marca_favicon` e `site_config.marca_rodape` (resolvidas uma vez no `BaseController`). Prioridade: arquivo enviado no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`); senão `public/assets/logo.webp`. Sem thumb/YouTube, o card usa bloco CSS (`.vl-thumb-placeholder`, 480×270, fundo `#222`) — sem `<img>` e sem request de `imagem-default.webp`. O form de pauta ainda pode gravar essa URL; no preview, se o valor for o default, a mesma classe (sem fallback YouTube). Views não chamam `file_exists` para marca. Não usar URL externa do YouTube nem Unsplash.
+URLs de favicon e rodapé vêm de `site_config.marca_favicon` e `site_config.marca_rodape` (resolvidas uma vez no `BaseController`). Prioridade: arquivo enviado no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`); senão `public/assets/logo.webp`. Sem thumb/YouTube (ou se a URL for `imagem-default` / `via.placeholder.com`), o card usa `<img>` do **placehold.co** via `cria_url_placeholder()` (`480×270`, fundo `#222222`, texto `#888888`, WebP). Se o `.co` falhar, `onerror` troca uma vez para `https://placehold.net/600x400.png` (ADR em `Docs/arch/placeholder-fallback.md`). A mesma URL primária em todos os cards vazios para o browser cachear um arquivo. Preview de pauta usa o mesmo par. Não usar `via.placeholder.com` nem Unsplash. Views não chamam `file_exists` para marca. Não usar URL externa do YouTube.
 
 ## Avatar de colaborador
 

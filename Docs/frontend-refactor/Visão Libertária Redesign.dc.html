@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #171512; }
+  a { color: #f3c921; }
+  a:hover { color: #ffd94d; }
+</style>
+</helmet>
+
+<div style="font-family:'Public Sans',sans-serif;background:#171512;color:#f2f0ee;min-height:100vh;">
+
+  <div style="position:sticky;top:0;z-index:50;background:#211f1b;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#f3c921;flex-shrink:0;"></div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#f2f0ee;letter-spacing:0.03em;">VISÃO LIBERTÁRIA</span>
+      </div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        <button onClick="{{ goHome }}" style="{{ homeTabStyle }}">Home</button>
+        <button onClick="{{ goNoticias }}" style="{{ noticiasTabStyle }}">Notícias</button>
+        <button onClick="{{ goVideos }}" style="{{ videosTabStyle }}">Vídeos</button>
+        <button onClick="{{ goPerfil }}" style="{{ perfilTabStyle }}">Perfil</button>
+        <button onClick="{{ goContato }}" style="{{ contatoTabStyle }}">Contato / Cadastro</button>
+        <button onClick="{{ goPainel }}" style="{{ painelTabStyle }}">Painel do colaborador</button>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section style="max-width:1280px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:minmax(300px,1.1fr) minmax(280px,0.9fr);gap:48px;align-items:center;">
+        <div>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:0.08em;color:#f3c921;text-transform:uppercase;margin-bottom:16px;">Vídeos e artigos sobre liberdade individual</div>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,52px);line-height:1.08;font-weight:700;margin:0 0 20px;">Ideias que desafiam o poder.</h1>
+          <p style="font-size:17px;line-height:1.6;color:#ada89f;max-width:480px;margin:0 0 28px;">Visão Libertária é um projeto de vídeos e notícias sobre livre mercado, anarcocapitalismo e crítica ao estado — feito por uma comunidade de escritores e narradores voluntários.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Assistir ao último vídeo</button>
+            <button onClick="{{ goNoticias }}" style="background:transparent;color:#f2f0ee;border:1px solid rgba(255,255,255,0.18);font-weight:600;font-size:15px;padding:14px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Ler notícias</button>
+          </div>
+        </div>
+        <div style="position:relative;aspect-ratio:16/10;border-radius:16px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#847e72;position:absolute;top:14px;left:14px;">vídeo em destaque</span>
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(24,22,18,0.6);display:flex;align-items:center;justify-content:center;">
+            <div style="width:0;height:0;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #f2f0ee;margin-left:4px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <section style="max-width:1280px;margin:0 auto;padding:32px 24px;">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;">
+          <sc-for list="{{ projetos }}" as="p" hint-placeholder-count="4">
+            <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:13px;padding:7px 14px;border-radius:999px;">{{ p }}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;">
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin:0;">Últimos vídeos</h2>
+          <a href="#" style="font-size:14px;font-weight:600;text-decoration:none;">Ver todos →</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
+          <sc-for list="{{ videosHome }}" as="v" hint-placeholder-count="4">
+            <div>
+              <div style="aspect-ratio:16/9;border-radius:10px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);position:relative;overflow:hidden;margin-bottom:10px;">
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                  <div style="width:40px;height:40px;border-radius:50%;background:rgba(24,22,18,0.55);display:flex;align-items:center;justify-content:center;">
+                    <div style="width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent #f2f0ee;margin-left:2px;"></div>
+                  </div>
+                </div>
+                <span style="position:absolute;bottom:8px;right:8px;background:rgba(24,22,18,0.75);color:#f2f0ee;font-size:11px;padding:2px 6px;border-radius:4px;font-family:ui-monospace,monospace;">{{ v.duracao }}</span>
+              </div>
+              <div style="font-size:12px;color:#f3c921;font-weight:600;margin-bottom:4px;">{{ v.projeto }}</div>
+              <div style="font-size:15px;font-weight:600;line-height:1.35;">{{ v.titulo }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="max-width:1280px;margin:0 auto;padding:16px 24px 56px;">
+        <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-left:3px solid #f3c921;border-radius:12px;padding:36px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+          <div>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin:0 0 8px;">Escreva e ganhe satoshis</h3>
+            <p style="color:#ada89f;font-size:15px;margin:0;max-width:520px;">Transforme uma pauta em artigo e ele pode virar vídeo no canal. Cada publicação paga em sats.</p>
+          </div>
+          <button onClick="{{ goContato }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:13px 22px;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:'Public Sans',sans-serif;">Cadastre-se agora</button>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isNoticias }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 64px;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,300px);gap:40px;">
+      <div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin:0 0 8px;">Notícias</h1>
+        <p style="color:#ada89f;font-size:15px;margin:0 0 28px;">Pautas sugeridas pela comunidade e selecionadas pela equipe editorial.</p>
+        <div style="display:flex;gap:10px;margin-bottom:16px;">
+          <div style="flex:1;display:flex;align-items:center;gap:8px;background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;">
+            <span style="color:#847e72;">⌕</span>
+            <span style="color:#847e72;font-size:14px;">Buscar por título, texto ou link…</span>
+          </div>
+          <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:0 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Filtrar</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
+          <span style="background:#f3c921;color:#181818;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;">Todas</span>
+          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:12px;padding:6px 12px;border-radius:999px;">Economia</span>
+          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:12px;padding:6px 12px;border-radius:999px;">Política</span>
+          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:12px;padding:6px 12px;border-radius:999px;">Mundo</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <sc-for list="{{ noticias }}" as="n" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:150px 1fr;gap:16px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;">
+              <div style="aspect-ratio:4/3;border-radius:8px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);"></div>
+              <div>
+                <div style="display:flex;gap:10px;align-items:center;font-size:12px;color:#847e72;margin-bottom:6px;">
+                  <span style="color:#f3c921;font-weight:600;">{{ n.categoria }}</span>
+                  <span>·</span>
+                  <span>{{ n.data }}</span>
+                </div>
+                <div style="font-size:16px;font-weight:700;line-height:1.35;margin-bottom:6px;">{{ n.titulo }}</div>
+                <p style="font-size:14px;color:#ada89f;line-height:1.5;margin:0 0 8px;">{{ n.resumo }}</p>
+                <span style="font-size:13px;color:#847e72;">por {{ n.autor }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:32px;">
+          <button style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:14px;padding:12px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Carregar mais notícias</button>
+        </div>
+      </div>
+      <aside style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 8px;">Sugerir uma pauta</h4>
+          <p style="color:#ada89f;font-size:13px;line-height:1.5;margin:0 0 14px;">Encontrou uma notícia relevante? Envie o link e a equipe avalia para virar artigo.</p>
+          <button onClick="{{ goContato }}" style="width:100%;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:11px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Sugerir pauta</button>
+        </div>
+        <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;">
+          <h4 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 8px;">Como funciona</h4>
+          <p style="color:#ada89f;font-size:13px;line-height:1.6;margin:0;">1. Você sugere ou vota em pautas.<br>2. A equipe fecha as mais relevantes.<br>3. Escritores transformam em artigo e vídeo.</p>
+        </div>
+      </aside>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isVideos }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin:0 0 8px;">Vídeos</h1>
+      <p style="color:#ada89f;font-size:15px;margin:0 0 24px;">Todos os vídeos publicados, organizados por projeto.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
+        <span style="background:#f3c921;color:#181818;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;">Todos os projetos</span>
+        <sc-for list="{{ projetos }}" as="p" hint-placeholder-count="4">
+          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:13px;padding:7px 14px;border-radius:999px;">{{ p }}</span>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
+        <sc-for list="{{ videosGrid }}" as="v" hint-placeholder-count="8">
+          <div>
+            <div style="aspect-ratio:16/9;border-radius:10px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);position:relative;overflow:hidden;margin-bottom:10px;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                <div style="width:40px;height:40px;border-radius:50%;background:rgba(24,22,18,0.55);display:flex;align-items:center;justify-content:center;">
+                  <div style="width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent #f2f0ee;margin-left:2px;"></div>
+                </div>
+              </div>
+              <span style="position:absolute;bottom:8px;right:8px;background:rgba(24,22,18,0.75);color:#f2f0ee;font-size:11px;padding:2px 6px;border-radius:4px;font-family:ui-monospace,monospace;">{{ v.duracao }}</span>
+            </div>
+            <div style="font-size:12px;color:#f3c921;font-weight:600;margin-bottom:4px;">{{ v.projeto }}</div>
+            <div style="font-size:15px;font-weight:600;line-height:1.35;">{{ v.titulo }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPerfil }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1000px;margin:0 auto;padding:48px 24px 64px;">
+      <div style="background:rgba(243,201,33,0.1);border-radius:16px;padding:36px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:28px;">
+        <div style="width:96px;height:96px;border-radius:50%;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 8px,#232019 8px,#232019 16px);flex-shrink:0;"></div>
+        <div>
+          <div style="font-size:12px;color:#f3c921;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Escritor</div>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 8px;">Marina Costa</h1>
+          <p style="color:#ada89f;font-size:14px;line-height:1.5;margin:0;max-width:520px;">Escreve sobre economia e política monetária desde 2023. Colaboradora do projeto Visão Libertária.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;">
+        <sc-for list="{{ badges }}" as="b" hint-placeholder-count="3">
+          <span style="border:1px solid rgba(255,255,255,0.14);color:#f2f0ee;font-size:13px;padding:7px 14px;border-radius:999px;">🏅 {{ b }}</span>
+        </sc-for>
+      </div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin:0 0 16px;">Artigos publicados</h2>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <sc-for list="{{ artigosPerfil }}" as="a" hint-placeholder-count="4">
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;">
+            <div style="font-size:12px;color:#847e72;margin-bottom:6px;">{{ a.data }}</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:6px;">{{ a.titulo }}</div>
+            <p style="font-size:14px;color:#ada89f;line-height:1.5;margin:0;">{{ a.resumo }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isContato }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1080px;margin:0 auto;padding:56px 24px 64px;display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1fr);gap:48px;align-items:start;">
+      <div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:0 0 16px;">Faça parte do projeto</h1>
+        <p style="color:#ada89f;font-size:15px;line-height:1.6;margin:0 0 24px;">Cadastre-se para sugerir pautas, comentar notícias e, se quiser escrever, ganhar satoshis por cada artigo publicado.</p>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#f3c921;font-size:18px;">✓</span>
+            <span style="font-size:14px;color:#f2f0ee;">Sugira pautas e acompanhe o que vira artigo</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#f3c921;font-size:18px;">✓</span>
+            <span style="font-size:14px;color:#f2f0ee;">Comente e vote nas notícias da comunidade</span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#f3c921;font-size:18px;">✓</span>
+            <span style="font-size:14px;color:#f2f0ee;">Ganhe satoshis escrevendo artigos que viram vídeo</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px;">
+        <div style="display:flex;gap:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.1);">
+          <span style="padding-bottom:10px;font-size:14px;font-weight:700;color:#f2f0ee;border-bottom:2px solid #f3c921;">Cadastro</span>
+          <span style="padding-bottom:10px;font-size:14px;font-weight:600;color:#847e72;">Contato</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Nome</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Seu nome</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">E-mail</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">voce@email.com</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Senha</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">••••••••</div>
+          </div>
+          <button style="margin-top:8px;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Criar minha conta</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPainel }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:220px 1fr;gap:32px;">
+      <aside style="padding:32px 0;display:flex;flex-direction:column;gap:4px;">
+        <div style="font-size:11px;color:#847e72;text-transform:uppercase;letter-spacing:0.06em;padding:0 12px;margin-bottom:8px;">Painel</div>
+        <span style="background:rgba(243,201,33,0.14);color:#f3c921;font-weight:700;font-size:14px;padding:10px 12px;border-radius:8px;">Dashboard</span>
+        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Meus artigos</span>
+        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Pautas</span>
+        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Pagamentos</span>
+        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Meu perfil</span>
+      </aside>
+      <div style="padding:32px 0 56px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h1 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin:0 0 4px;">Olá, Marina</h1>
+            <p style="color:#847e72;font-size:14px;margin:0;">Aqui está um resumo da sua atividade</p>
+          </div>
+          <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:12px 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Escrever novo artigo</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px;">
+          <sc-for list="{{ statsPainel }}" as="st" hint-placeholder-count="4">
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;">
+              <div style="font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:4px;">{{ st.value }}</div>
+              <div style="font-size:13px;color:#847e72;">{{ st.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin:0 0 14px;">Atividade recente</h2>
+        <div style="display:flex;flex-direction:column;gap:2px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;">
+          <sc-for list="{{ atividadePainel }}" as="at" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:14px;color:#f2f0ee;">{{ at.texto }}</span>
+              <span style="font-size:13px;color:#847e72;white-space:nowrap;">{{ at.tempo }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ true }}">
+    <footer style="border-top:1px solid rgba(255,255,255,0.08);margin-top:24px;">
+      <div style="max-width:1280px;margin:0 auto;padding:40px 24px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#f3c921;"></div>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;">VISÃO LIBERTÁRIA</span>
+        </div>
+        <p style="color:#847e72;font-size:13px;margin:0;">Desenvolvido e mantido pela comunidade.</p>
+      </div>
+    </footer>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { activeScreen: 'home' };
+
+  videosHome = [
+    { titulo: 'Por que impostos são roubo institucionalizado', projeto: 'Visão Libertária', duracao: '12:34' },
+    { titulo: 'A falácia do salário mínimo', projeto: 'Ancapsu', duracao: '9:02' },
+    { titulo: 'Bancos centrais explicados em 10 minutos', projeto: 'Safe Source', duracao: '15:47' },
+    { titulo: 'Anarcocapitalismo não é caos', projeto: 'Mundo em Revolução', duracao: '11:20' }
+  ];
+
+  videosGrid = [
+    { titulo: 'Por que impostos são roubo institucionalizado', projeto: 'Visão Libertária', duracao: '12:34' },
+    { titulo: 'A falácia do salário mínimo', projeto: 'Ancapsu', duracao: '9:02' },
+    { titulo: 'Bancos centrais explicados em 10 minutos', projeto: 'Safe Source', duracao: '15:47' },
+    { titulo: 'Anarcocapitalismo não é caos', projeto: 'Mundo em Revolução', duracao: '11:20' },
+    { titulo: 'O problema do cálculo econômico socialista', projeto: 'Visão Libertária', duracao: '18:03' },
+    { titulo: 'Bitcoin contra a inflação', projeto: 'Safe Source', duracao: '10:15' },
+    { titulo: 'A história da escola austríaca', projeto: 'Mundo em Revolução', duracao: '22:41' },
+    { titulo: 'Regulação: quem realmente paga a conta', projeto: 'Ancapsu', duracao: '8:52' }
+  ];
+
+  projetos = ['Ancapsu', 'Safe Source', 'Visão Libertária', 'Mundo em Revolução'];
+
+  noticias = [
+    { titulo: 'Governo anuncia novo imposto sobre transações via Pix', resumo: 'Medida provisória amplia a base de arrecadação e preocupa especialistas em livre mercado.', autor: 'Marina Costa', data: '12 ago 2026', categoria: 'Economia' },
+    { titulo: 'Banco Central eleva juros pela quarta vez no ano', resumo: 'Decisão do Copom repete o ciclo histórico de resposta tardia à inflação.', autor: 'Diego Ramos', data: '10 ago 2026', categoria: 'Economia' },
+    { titulo: 'Cidade dos EUA elimina zoneamento e libera construção', resumo: 'Reforma reduz preço de aluguéis em bairros centrais após dois anos.', autor: 'Julia Prado', data: '08 ago 2026', categoria: 'Mundo' },
+    { titulo: 'STF julga caso sobre liberdade de expressão online', resumo: 'Decisão pode redefinir os limites da moderação de conteúdo no país.', autor: 'Rafael Nunes', data: '05 ago 2026', categoria: 'Política' },
+    { titulo: 'Novo estudo questiona eficácia de subsídios agrícolas', resumo: 'Pesquisa aponta distorções de mercado causadas por incentivos estatais.', autor: 'Marina Costa', data: '02 ago 2026', categoria: 'Economia' }
+  ];
+
+  artigosPerfil = [
+    { titulo: 'O mito do monopólio natural', data: '28 jul 2026', resumo: 'Como a concorrência resolve problemas que se atribui à regulação.' },
+    { titulo: 'Bitcoin como reserva de valor', data: '14 jul 2026', resumo: 'Por que ativos com oferta fixa protegem contra a desvalorização monetária.' },
+    { titulo: 'Propriedade privada e meio ambiente', data: '30 jun 2026', resumo: 'O paradoxo dos recursos comuns e como direitos de propriedade evitam a tragédia.' },
+    { titulo: 'Por que economistas austríacos rejeitam modelos matemáticos', data: '15 jun 2026', resumo: 'A diferença entre previsão qualitativa e quantitativa em economia.' }
+  ];
+
+  badges = ['Primeira publicação', '10 artigos publicados', 'Colaborador do mês'];
+
+  statsPainel = [
+    { label: 'Artigos em produção', value: '3' },
+    { label: 'Pautas fechadas', value: '12' },
+    { label: 'Saldo em sats', value: '184.200' },
+    { label: 'Recados novos', value: '2' }
+  ];
+
+  atividadePainel = [
+    { texto: 'Artigo "O mito do monopólio natural" aprovado para publicação', tempo: 'há 2 horas' },
+    { texto: 'Nova pauta atribuída: "Reforma tributária e livre mercado"', tempo: 'há 1 dia' },
+    { texto: 'Pagamento de 42.000 sats confirmado', tempo: 'há 3 dias' }
+  ];
+
+  setScreen(name) {
+    this.setState({ activeScreen: name });
+  }
+
+  renderVals() {
+    const s = this.state.activeScreen;
+    const base = { border: 'none', borderRadius: '999px', padding: '9px 16px', fontSize: '14px', cursor: 'pointer', fontFamily: "'Public Sans',sans-serif" };
+    const tabStyle = (name) => s === name
+      ? { ...base, background: '#f3c921', color: '#181818', fontWeight: 700 }
+      : { ...base, background: 'transparent', color: '#ada89f', fontWeight: 500 };
+
+    return {
+      isHome: s === 'home',
+      isNoticias: s === 'noticias',
+      isVideos: s === 'videos',
+      isPerfil: s === 'perfil',
+      isContato: s === 'contato',
+      isPainel: s === 'painel',
+      showFooter: s !== 'painel',
+      goHome: () => this.setScreen('home'),
+      goNoticias: () => this.setScreen('noticias'),
+      goVideos: () => this.setScreen('videos'),
+      goPerfil: () => this.setScreen('perfil'),
+      goContato: () => this.setScreen('contato'),
+      goPainel: () => this.setScreen('painel'),
+      homeTabStyle: tabStyle('home'),
+      noticiasTabStyle: tabStyle('noticias'),
+      videosTabStyle: tabStyle('videos'),
+      perfilTabStyle: tabStyle('perfil'),
+      contatoTabStyle: tabStyle('contato'),
+      painelTabStyle: tabStyle('painel'),
+      videosHome: this.videosHome,
+      videosGrid: this.videosGrid,
+      projetos: this.projetos,
+      noticias: this.noticias,
+      artigosPerfil: this.artigosPerfil,
+      badges: this.badges,
+      statsPainel: this.statsPainel,
+      atividadePainel: this.atividadePainel
+    };
+  }
+}
+
+</script>
+</body>
+</html>

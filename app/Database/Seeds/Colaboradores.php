@@ -37,7 +37,7 @@ class Colaboradores extends Seeder
 			$confirmado = $faker->randomDigit();
 			$data = [
 				'apelido' => $faker->name,
-				'avatar' => ($faker->randomDigit() > 5) ? ($faker->imageUrl(500, 500, true)) : (null),
+				'avatar' => null,
 				'email' => $faker->safeEmail,
 				'carteira' => ($faker->randomDigit() < 8) ? ('bc1' . $faker->shuffle('qq4luzck97cvndxdg74m234wteq6yxyf940he2j')) : (null),
 				'senha' => ContasFixasDados::senhaHash(),

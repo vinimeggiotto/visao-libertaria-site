@@ -437,23 +437,29 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 ?>
 (function () {
 	var vlImgDefaultPauta = <?= json_encode(base_url('public/assets/imagem-default.webp')); ?>;
+	var vlImgPlaceholder = <?= json_encode(cria_url_placeholder()); ?>;
+	var vlImgPlaceholderFallback = <?= json_encode(cria_url_placeholder_fallback()); ?>;
 
 	function vlPautaPreviewEhDefault(src) {
 		if (src == null || src === '') {
 			return true;
 		}
 		var s = String(src);
-		return s === vlImgDefaultPauta || s.indexOf('imagem-default.webp') !== -1 || s.indexOf('imagem-default.png') !== -1;
+		return s === vlImgDefaultPauta || s.indexOf('imagem-default.webp') !== -1 || s.indexOf('imagem-default.png') !== -1 || s.indexOf('via.placeholder.com') !== -1;
 	}
 
 	function vlSetPautaPreview(src) {
 		var $img = $('#preview_imagem');
 		var $ph = $('#preview_imagem_placeholder');
+		$ph.addClass('d-none');
+		$img.off('error.vlph');
 		if (vlPautaPreviewEhDefault(src)) {
-			$img.addClass('d-none').attr('src', '');
-			$ph.removeClass('d-none');
+			$img.on('error.vlph', function () {
+				$img.off('error.vlph');
+				this.src = vlImgPlaceholderFallback;
+			});
+			$img.removeClass('d-none').attr('src', vlImgPlaceholder);
 		} else {
-			$ph.addClass('d-none');
 			$img.removeClass('d-none').attr('src', src);
 		}
 	}

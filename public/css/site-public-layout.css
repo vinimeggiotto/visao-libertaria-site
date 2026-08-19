@@ -964,6 +964,12 @@
 	object-fit: cover;
 }
 
+.vl-site-noticias .pautas-list .card-img-top.vl-thumb-placeholder {
+	width: 100%;
+	height: 13rem;
+	aspect-ratio: auto;
+}
+
 /* Cards da listagem: tema escuro + respiro (Masonry usa gutter no JS; margem reforça vertical) */
 .vl-site-noticias .pautas-list > .card {
 	background-color: var(--vl-noticias-card-bg) !important;

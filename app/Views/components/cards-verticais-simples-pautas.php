@@ -2,9 +2,12 @@
 
 use CodeIgniter\I18n\Time;
 
+$imagemBruta = trim((string) ($dados['imagem'] ?? ''));
+$ehVazia = imagem_publica_eh_vazia($imagemBruta);
+$imagemSrc = $ehVazia ? cria_url_placeholder(480, 270) : $imagemBruta;
 ?>
 <div class="card col-lg-3 mb-4 shadow-0 p-1">
-	<img src="<?= $dados['imagem']; ?>" alt="" class="card-img-top rounded-6 object-fit-cover">
+	<img src="<?= esc($imagemSrc, 'attr'); ?>" alt="" class="card-img-top rounded-6 object-fit-cover" width="480" height="270" loading="lazy"<?php if ($ehVazia): ?> onerror="<?= esc(attr_onerror_placeholder(), 'attr'); ?>"<?php endif; ?>>
 	<div class="card-body p-2">
 		<h5 class="card-title fw-bold">
 			<?php if ($dados['pauta_antiga'] == 'S'): ?>

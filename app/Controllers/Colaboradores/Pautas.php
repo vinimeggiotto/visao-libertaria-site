@@ -588,6 +588,10 @@ class Pautas extends BaseController
 			return false;
 		}
 
+		if (str_contains($url, 'via.placeholder.com')) {
+			return false;
+		}
+
 		$caminho = parse_url($url, PHP_URL_PATH);
 		$extensao = strtolower((string) pathinfo((string) $caminho, PATHINFO_EXTENSION));
 		if (! in_array($extensao, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)) {

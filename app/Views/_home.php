@@ -81,7 +81,8 @@
                      <img src="<?= esc(cria_url_thumb($ytUa), 'attr') ?>"
                         alt="<?= esc($ua['titulo']) ?>" loading="lazy" width="480" height="270">
                      <?php else: ?>
-                     <span class="vl-thumb-placeholder" aria-hidden="true"></span>
+                     <img src="<?= esc(cria_url_placeholder(), 'attr') ?>"
+                        alt="" loading="lazy" width="480" height="270" onerror="<?= esc(attr_onerror_placeholder(), 'attr') ?>">
                      <?php endif; ?>
                         <div class="movie-card-overlay">
                            <i class="bi bi-play-circle-fill play-icon"></i>
@@ -170,7 +171,8 @@
                         <img src="<?= esc(cria_url_thumb($ytV), 'attr') ?>"
                            alt="<?= esc($v['titulo']) ?>" loading="lazy" width="480" height="270">
                         <?php else: ?>
-                        <span class="vl-thumb-placeholder" aria-hidden="true"></span>
+                        <img src="<?= esc(cria_url_placeholder(), 'attr') ?>"
+                           alt="" loading="lazy" width="480" height="270" onerror="<?= esc(attr_onerror_placeholder(), 'attr') ?>">
                         <?php endif; ?>
                         <div class="movie-card-overlay">
                            <i class="bi bi-play-circle-fill play-icon"></i>

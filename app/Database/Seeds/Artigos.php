@@ -94,7 +94,7 @@ class Artigos extends Seeder
 				'gancho' => $faker->sentence(),
 				'texto' => $texto,
 				'referencias' => $referencias,
-				'imagem' => $faker->imageUrl(1920,1080, true),
+				'imagem' => '',
 				'escrito_colaboradores_id' => $faker->numberBetween(1,1000),
 				'revisado_colaboradores_id' => $revisado,
 				'arquivo_audio' => $arquivo_audio,

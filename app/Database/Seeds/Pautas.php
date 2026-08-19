@@ -24,7 +24,7 @@ class Pautas extends Seeder
 				'link' => $faker->url(),
 				'titulo' => $faker->sentence(10),
 				'texto' => $faker->paragraph(1),
-				'imagem' => $faker->imageUrl(500,500, true),
+				'imagem' => '',
 				'reservado' => $data_reservado,
 				'criado' => $data_criado,
 				'atualizado' => $data_maior,
