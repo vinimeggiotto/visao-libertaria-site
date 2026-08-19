@@ -2,7 +2,7 @@
 
 ## Assets públicos
 
-CSS do rosto do site: `site-theme.css` (tokens, Jost self-host, header/botões) + `site-public-layout.css`. Não carregar o StreamLab (`style.css`). URLs locais usam `asset_url()` (`?v=` + mtime).
+CSS do rosto do site: Bootstrap/ícones/toaster locais em `public/css/vendor/` + `site-theme.css` + `site-public-layout.css`. Home ainda junta Owl+Magnific em `vendor-home.css` / `vendor-home.js`. Não carregar o StreamLab (`style.css`). URLs locais usam `asset_url()` (`?v=` + mtime). Sem Google Fonts, sem Unsplash, sem CDN no layout público.
 
 Fonte **Jost** (400/600/700) em `public/fonts/`. Sem Google Fonts no layout público.
 
@@ -22,7 +22,7 @@ Quando a página **não** tem `.banner-section`, o header passa a `position: rel
 
 ## Marca (logo / favicon / rodapé)
 
-URLs de favicon e rodapé vêm de `site_config.marca_favicon` e `site_config.marca_rodape` (resolvidas uma vez no `BaseController`). Prioridade: arquivo enviado no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`); senão `public/assets/logo.jpg`. Views não chamam `file_exists` para marca. Não usar URL externa do YouTube como marca.
+URLs de favicon e rodapé vêm de `site_config.marca_favicon` e `site_config.marca_rodape` (resolvidas uma vez no `BaseController`). Prioridade: arquivo enviado no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`); senão `public/assets/logo.webp`. Placeholder de card: `public/assets/imagem-default.webp`. Views não chamam `file_exists` para marca. Não usar URL externa do YouTube nem Unsplash.
 
 ## Avatar de colaborador
 

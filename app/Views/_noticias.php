@@ -576,8 +576,8 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 				if (retorno.status) {
 					$('#preview_imagem').attr('src', $('#imagem').val());
 				} else {
-					$('#preview_imagem').attr('src', '<?= base_url('public/assets/imagem-default.png'); ?>');
-					$('#imagem').val('<?= base_url('public/assets/imagem-default.png'); ?>');
+					$('#preview_imagem').attr('src', '<?= base_url('public/assets/imagem-default.webp'); ?>');
+					$('#imagem').val('<?= base_url('public/assets/imagem-default.webp'); ?>');
 					popMessage('ATENÇÃO', retorno.mensagem, TOAST_STATUS.DANGER);
 				}
 			}
@@ -632,7 +632,7 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 		});
 	});
 
-	var vlImgDefaultPauta = <?= json_encode(base_url('public/assets/imagem-default.png')); ?>;
+	var vlImgDefaultPauta = <?= json_encode(base_url('public/assets/imagem-default.webp')); ?>;
 
 	function vlClearPautaCamposDependentes() {
 		var $m = $('#modalSugerirPauta');

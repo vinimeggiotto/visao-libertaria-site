@@ -20,7 +20,7 @@ $href = $tipo === 'artigo'
 	: base_url('colaboradores/pautas/detalhamento/' . ($dados['id'] ?? ''));
 
 $imagemBruta = trim((string) ($dados['imagem'] ?? ''));
-$imagemSrc = $imagemBruta !== '' ? $imagemBruta : base_url('public/assets/imagem-default.png');
+$imagemSrc = $imagemBruta !== '' ? $imagemBruta : base_url('public/assets/imagem-default.webp');
 
 if ($tipo === 'artigo') {
 	$ytIdLista = extrair_id_video_youtube($dados['link_video_youtube'] ?? null);

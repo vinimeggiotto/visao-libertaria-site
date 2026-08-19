@@ -3,7 +3,7 @@
 namespace App\Libraries;
 
 /**
- * Grava a thumb hqdefault do YouTube em public/assets/thumbs/{id}.jpg.
+ * Grava a thumb hqdefault do YouTube em public/assets/thumbs/{id}.webp.
  */
 class ThumbYoutube
 {
@@ -11,7 +11,7 @@ class ThumbYoutube
 
 	public function caminhoAbsoluto(string $idVideo): string
 	{
-		return ROOTPATH . self::PASTA . DIRECTORY_SEPARATOR . $idVideo . '.jpg';
+		return ROOTPATH . self::PASTA . DIRECTORY_SEPARATOR . $idVideo . '.webp';
 	}
 
 	public function existe(string $idVideo): bool
@@ -34,6 +34,12 @@ class ThumbYoutube
 			mkdir($pasta, 0775, true);
 		}
 
+		$destino = $this->caminhoAbsoluto($idVideo);
+		$jpgLocal = ROOTPATH . self::PASTA . DIRECTORY_SEPARATOR . $idVideo . '.jpg';
+		if (is_file($jpgLocal)) {
+			return $this->gravarWebpDeBinario((string) file_get_contents($jpgLocal), $destino);
+		}
+
 		$url = 'https://img.youtube.com/vi/' . $idVideo . '/hqdefault.jpg';
 		$contexto = stream_context_create([
 			'http' => ['timeout' => 8, 'follow_location' => 1],
@@ -44,6 +50,19 @@ class ThumbYoutube
 			return false;
 		}
 
-		return file_put_contents($this->caminhoAbsoluto($idVideo), $binario) !== false;
+		return $this->gravarWebpDeBinario($binario, $destino);
+	}
+
+	private function gravarWebpDeBinario(string $binario, string $destino): bool
+	{
+		$imagem = @imagecreatefromstring($binario);
+		if ($imagem === false) {
+			return false;
+		}
+
+		$ok = imagewebp($imagem, $destino, 80);
+		imagedestroy($imagem);
+
+		return $ok !== false;
 	}
 }

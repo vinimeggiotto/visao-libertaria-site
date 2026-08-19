@@ -1,16 +1,14 @@
 <?= $this->extend('layouts/_main'); ?>
 
 <?= $this->section('head_assets') ?>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.2.0/magnific-popup.css" />
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor-home.css'); ?>">
 	<?php if (!empty($videos_destaque[0]['video_id'])): ?>
 		<link rel="preload" as="image" href="<?= esc(cria_url_thumb($videos_destaque[0]['video_id']), 'attr'); ?>" fetchpriority="high">
 	<?php endif; ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('body_scripts') ?>
-	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.2.0/jquery.magnific-popup.min.js"></script>
+	<script defer src="<?= asset_url('public/js/vendor-home.js'); ?>"></script>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
@@ -19,9 +17,17 @@
       <section class="banner-section">
          <div class="owl-carousel" data-dots="false" data-nav="true" data-desk_num="1" data-lap_num="1" data-tab_num="1"
             data-mob_num="1" data-mob_sm="1" data-autoplay="true" data-loop="true" data-margin="0">
-            <?php foreach ($videos_destaque as $video_destaque): ?>
-               <div class="item vh-100 d-flex align-items-center"
-                  style="background-image: url('<?= cria_url_thumb($video_destaque['video_id']); ?>'); background-size: cover; background-position: center;">
+            <?php foreach ($videos_destaque as $iDestaque => $video_destaque): ?>
+               <div class="item vh-100 d-flex align-items-center">
+                  <img class="banner-hero-img"
+                     src="<?= esc(cria_url_thumb($video_destaque['video_id']), 'attr'); ?>"
+                     alt="<?= esc($video_destaque['titulo'] ?? $video_destaque['nome'] ?? ''); ?>"
+                     width="1280" height="720"
+                     <?php if ((int) $iDestaque === 0): ?>
+                     fetchpriority="high"
+                     <?php else: ?>
+                     loading="lazy"
+                     <?php endif; ?>>
                   <div class="container">
                      <div class="row align-items-center">
                         <div class="col-lg-6 text-white">
@@ -70,7 +76,7 @@
                      <div class="movie-card-img-container">
                      <?php
 						$ytUa = extrair_id_video_youtube($ua['link_video_youtube'] ?? null);
-						$ytUaThumb = $ytUa !== null ? cria_url_thumb($ytUa) : base_url('public/assets/imagem-default.png');
+						$ytUaThumb = $ytUa !== null ? cria_url_thumb($ytUa) : base_url('public/assets/imagem-default.webp');
 						?>
                      <img src="<?= esc($ytUaThumb, 'attr') ?>"
                         alt="<?= esc($ua['titulo']) ?>" loading="lazy" width="480" height="270">
@@ -101,7 +107,7 @@
          style="background: #161616; border-left: 3px solid var(--primary-color); border-radius: 4px; overflow: hidden; position: relative;">
          <!-- Slide 1 -->
          <div class="row align-items-center" style="min-height: 400px;">
-            <div class="col-lg-7 p-5">
+            <div class="col-12 p-5">
                <h2 class="fw-bold text-white" style="font-size: 3rem;">ESCREVA E GANHE SATOSHINHOS</h2>
                <p class="text-white-50 mb-4 mt-4" style="max-width: 700px;">Transforme seus artigos em vídeos no Visão
                   Libertária e ganhe satoshinhos por isso!</p>
@@ -109,15 +115,10 @@
                   style="background: var(--primary-color); color: #fff; padding: 16px 32px; font-weight: bold; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; display: inline-block; transition: background 0.2s;">CADASTRE-SE
                   AGORA</a>
             </div>
-            <div class="col-lg-5 d-none d-lg-block" style="position: relative; min-height: 400px;">
-               <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
-                  alt="Stories of the Dark" loading="lazy"
-                  style="width: 100%; height: 100%; object-fit: cover; opacity: 0.5; border-radius: 0 4px 4px 0; position: absolute; top: 0; left: 0;">
-            </div>
          </div>
          <!-- Slide 2 -->
          <div class="row align-items-center" style="min-height: 400px;">
-            <div class="col-lg-7 p-5">
+            <div class="col-12 p-5">
                <h2 class="fw-bold text-white" style="font-size: 3rem;">SUGIRA PAUTAS</h2>
                <p class="text-white-50 mb-4 mt-4" style="max-width: 600px;">Faça seu cadastro e veja seu apelido sendo
                   falado nos vídeos do Peter</p>
@@ -125,26 +126,16 @@
                   style="background: var(--primary-color); color: #fff; padding: 16px 32px; font-weight: bold; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; display: inline-block; transition: background 0.2s;">FAZER
                   CADASTRO</a>
             </div>
-            <div class="col-lg-5 d-none d-lg-block" style="position: relative; min-height: 400px;">
-               <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
-                  alt="Usuário no computador" loading="lazy"
-                  style="width: 100%; height: 100%; object-fit: cover; opacity: 0.5; border-radius: 0 4px 4px 0; position: absolute; top: 0; left: 0;">
-            </div>
          </div>
-         <!-- Slide 2 -->
+         <!-- Slide 3 -->
          <div class="row align-items-center" style="min-height: 400px;">
-            <div class="col-lg-7 p-5">
+            <div class="col-12 p-5">
                <h2 class="fw-bold text-white" style="font-size: 3rem;">COLABORE COM O PROJETO</h2>
                <p class="text-white-50 mb-4 mt-4" style="max-width: 600px;">Sabe narrar e produzir vídeos? Colabore com
                   o projeto e ganhe satoshinhos</p>
             <a href="<?= site_url('colaboradores/artigos/dashboard'); ?>" class="custom-slider-btn"
                   style="background: var(--primary-color); color: #fff; padding: 16px 32px; font-weight: bold; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; display: inline-block; transition: background 0.2s;">COLABORE
                   AGORA</a>
-            </div>
-            <div class="col-lg-5 d-none d-lg-block" style="position: relative; min-height: 400px;">
-               <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
-                  alt="Usuário no computador" loading="lazy"
-                  style="width: 100%; height: 100%; object-fit: cover; opacity: 0.5; border-radius: 0 4px 4px 0; position: absolute; top: 0; left: 0;">
             </div>
          </div>
       </div>
@@ -171,7 +162,7 @@
                      <div class="movie-card-img-container">
                         <?php
 						$ytV = extrair_id_video_youtube($v['video_id'] ?? null);
-						$thumbV = $ytV !== null ? cria_url_thumb($ytV) : base_url('public/assets/imagem-default.png');
+						$thumbV = $ytV !== null ? cria_url_thumb($ytV) : base_url('public/assets/imagem-default.webp');
 						?>
                         <img src="<?= esc($thumbV, 'attr') ?>"
                            alt="<?= esc($v['titulo']) ?>" loading="lazy" width="480" height="270">

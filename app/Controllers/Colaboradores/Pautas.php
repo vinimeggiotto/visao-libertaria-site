@@ -111,7 +111,7 @@ class Pautas extends BaseController
 			$valida = $validaFormularios->validaFormularioPauta($post);
 			if (empty($valida->getErrors())) {
 				if (! $this->urlImagemValida($post['imagem'] ?? '')) {
-					$post['imagem'] = base_url('public/assets/imagem-default.png');
+					$post['imagem'] = base_url('public/assets/imagem-default.webp');
 				}
 				if (!$isAdmin && ($gerenciadorTextos->contaPalavras($post['texto']) > $data['config']['pauta_tamanho_maximo'] || $gerenciadorTextos->contaPalavras($post['texto']) < $data['config']['pauta_tamanho_minimo'])) {
 					return $retorno->retorno(false, 'O tamanho do texto está fora dos limites.', true);

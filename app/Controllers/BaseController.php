@@ -279,10 +279,10 @@ abstract class BaseController extends Controller
 	{
 		$favicon = is_file(ROOTPATH . 'public/assets/favicon.ico')
 			? site_url('public/assets/favicon.ico')
-			: site_url('public/assets/logo.jpg');
+			: site_url('public/assets/logo.webp');
 		$rodape = is_file(ROOTPATH . 'public/assets/rodape.png')
 			? site_url('public/assets/rodape.png')
-			: site_url('public/assets/logo.jpg');
+			: site_url('public/assets/logo.webp');
 
 		return [
 			'favicon' => $favicon,

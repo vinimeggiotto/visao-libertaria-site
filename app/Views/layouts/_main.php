@@ -6,14 +6,13 @@
 
 	<title><?= $_SESSION['site_config']['texto_nome']; ?></title>
 	<link rel="icon" type="image/x-icon"
-		href="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+		href="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor/bootstrap.min.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor/bootstrap-icons.min.css'); ?>">
 	<?= $this->renderSection('head_assets') ?>
 	<link rel="stylesheet" href="<?= asset_url('public/css/site-theme.css'); ?>">
 	<link rel="stylesheet" href="<?= asset_url('public/css/site-public-layout.css'); ?>">
-	<link rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/css/bootstrap-toaster.min.css">
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor/bootstrap-toaster.min.css'); ?>">
 	<style>
 		body,
 		p,
@@ -172,11 +171,11 @@
 		<meta name="twitter:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>">
 		<meta name="twitter:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>">
 		<meta name="twitter:image"
-			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>">
 
 		<meta property="og:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>" />
 		<meta property="og:image"
-			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>" />
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>" />
 		<meta property="og:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>" />
 	<?php endif; ?>
 </head>
@@ -192,7 +191,7 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<a class="navbar-brand" href="<?= site_url('site'); ?>">
 								<img class="img-fluid logo"
-									src="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
+									src="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>"
 									alt="<?= $_SESSION['site_config']['texto_nome']; ?>"
 									width="50" height="50">
 								<div><?= $_SESSION['site_config']['texto_nome']; ?></div>
@@ -349,7 +348,7 @@
 				<!-- Footer Widget -->
 				<div class="col-md-6 col-lg-4 mb-4">
 					<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;" loading="lazy" width="48" height="48"
-						src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
+						src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>"
 						alt="">
 					<span class="lead"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					<p class="mt-2 lh-sm fw-light"><?= $_SESSION['site_config']['texto_rodape']; ?></p>
@@ -475,12 +474,11 @@
 		<i class="bi bi-arrow-up" aria-hidden="true"></i>
 	</button>
 
-	<script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script defer src="<?= asset_url('public/js/vendor/jquery-3.7.1.min.js'); ?>"></script>
+	<script defer src="<?= asset_url('public/js/vendor/bootstrap.bundle.min.js'); ?>"></script>
 	<?= $this->renderSection('body_scripts') ?>
 	<script defer src="<?= asset_url('public/js/functions.js'); ?>"></script>
-	<script defer
-		src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
+	<script defer src="<?= asset_url('public/js/vendor/bootstrap-toaster.min.js'); ?>"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
 			var toast = {

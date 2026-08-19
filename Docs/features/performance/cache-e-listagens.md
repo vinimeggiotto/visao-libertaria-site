@@ -19,7 +19,7 @@ Sem `Cache-Control` longo no HTML (o header muda se a pessoa logar). Se o cache 
 
 ## Thumbs do YouTube
 
-`cria_url_thumb` aponta só para `public/assets/thumbs/{id}.jpg`. O cron baixa `hqdefault` ao cadastrar vídeo. Backfill: `php spark thumbs:backfill`.
+`cria_url_thumb` aponta só para `public/assets/thumbs/{id}.webp`. O cron baixa `hqdefault` e grava WebP. Backfill: `php spark thumbs:backfill`.
 
 Thumb que falhar no download fica 404 — não volta para `img.youtube.com`.
 

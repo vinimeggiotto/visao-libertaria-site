@@ -10,7 +10,7 @@ class BackfillThumbs extends BaseCommand
 {
 	protected $group = 'Performance';
 	protected $name = 'thumbs:backfill';
-	protected $description = 'Baixa thumbs hqdefault do YouTube para public/assets/thumbs.';
+	protected $description = 'Baixa thumbs hqdefault do YouTube e grava WebP em public/assets/thumbs.';
 
 	public function run(array $params)
 	{

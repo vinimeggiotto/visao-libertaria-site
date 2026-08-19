@@ -45,14 +45,14 @@ if (!function_exists('extrair_id_video_youtube')) {
 
 if (!function_exists('cria_url_thumb')) {
 	/**
-	 * URL da thumb local (`public/assets/thumbs/{id}.jpg`). Sem fallback para o YouTube.
+	 * URL da thumb local (`public/assets/thumbs/{id}.webp`). Sem fallback para o YouTube.
 	 *
 	 * @param string $id_video O ID do vídeo do YouTube.
 	 * @return string A URL da imagem da thumbnail.
 	 */
 	function cria_url_thumb(string $id_video): string
 	{
-		return site_url('public/assets/thumbs/' . $id_video . '.jpg');
+		return site_url('public/assets/thumbs/' . $id_video . '.webp');
 	}
 }
 

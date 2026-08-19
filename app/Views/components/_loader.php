@@ -53,7 +53,7 @@
 <div id="gen-loading">
    <div id="gen-loading-center">
       <img
-         src="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
+         src="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>"
          alt="loading" width="150" height="150">
       <div><?= $_SESSION['site_config']['texto_nome']; ?></div>
    </div>
