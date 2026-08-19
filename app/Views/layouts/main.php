@@ -46,6 +46,7 @@
 	<link rel="stylesheet" href="<?= asset_url('public/css/theme-tokens.css'); ?>">
 	<link rel="stylesheet" href="<?= asset_url('public/css/theme-dark.css'); ?>">
 	<link rel="stylesheet" href="<?= asset_url('public/css/layout-shared.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/site-public-layout.css'); ?>">
 
 	<style type="text/css">
 		/* Cards verticais: thumb 16:9 (padrão YouTube) + zoom no hover */
@@ -182,7 +183,33 @@
 
 </head>
 
-<body>
+<?php
+$vlLogado = isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null;
+$vlPermissoes = $vlLogado ? ($_SESSION['colaboradores']['permissoes'] ?? []) : [];
+$vlPodeAdmin = $vlLogado && (
+	in_array('7', $vlPermissoes) || in_array('8', $vlPermissoes) || in_array('9', $vlPermissoes) || in_array('10', $vlPermissoes)
+);
+$vlUri = trim((string) uri_string(), '/');
+$vlActive = $active_menu ?? '';
+if ($vlActive === '') {
+	if ($vlUri === '' || $vlUri === 'site') {
+		$vlActive = 'home';
+	} elseif (str_starts_with($vlUri, 'site/noticias') || str_starts_with($vlUri, 'site/pauta')) {
+		$vlActive = 'noticias';
+	} elseif (str_starts_with($vlUri, 'site/videos')) {
+		$vlActive = 'videos';
+	} elseif (str_starts_with($vlUri, 'site/artigos') || str_starts_with($vlUri, 'site/artigo')) {
+		$vlActive = 'artigos';
+	} elseif (str_starts_with($vlUri, 'site/contato')) {
+		$vlActive = 'contato';
+	}
+}
+$vlNomeSite = $_SESSION['site_config']['texto_nome'];
+$vlLogoHeader = esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr');
+$vlLogoRodape = esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.webp'), 'attr');
+?>
+
+<body data-mdb-theme="dark">
 	<script defer src="<?= asset_url('public/js/vendor/bootstrap-toaster.min.js'); ?>"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
@@ -190,9 +217,9 @@
 			title: "",
 			message: "",
 			status: TOAST_STATUS.SUCCESS,
-			timeout: 3000
+			timeout: 3500
 		}
-		Toast.setTheme(TOAST_THEME.LIGHT);
+		Toast.setTheme(TOAST_THEME.DARK);
 		Toast.enableTimers(TOAST_TIMERS.DISABLED);
 		Toast.setMaxCount(10);
 		Toast.enableQueue(true);
@@ -215,264 +242,213 @@
 		</div>
 	</div>
 
-	<header>
-		<div class="navbar-top d-lg-block navbar-expand-lg small">
-			<div class="container">
-				<div class="d-flex justify-content-between align-items-center my-2">
-					<!-- Top bar left -->
-					<ul class="nav">
-						<?php if (!isset($_SESSION['colaboradores']) || $_SESSION['colaboradores']['id'] === null): ?>
-							<li class="nav-item">
-								<a class="nav-link ps-0" href="<?= site_url('site/cadastre-se'); ?>">Cadastre-se</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="<?= esc(url_home_com_login(), 'attr'); ?>">Acessar</a>
-							</li>
-						<?php endif; ?>
-						<?php if (isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null): ?>
-							<li class="nav-item">
-								<a class="nav-link ps-0" href="<?= site_url('colaboradores/perfil'); ?>">Área do
-									colaborador</a>
-							</li>
-							<?php if (in_array('7', $_SESSION['colaboradores']['permissoes']) || in_array('8', $_SESSION['colaboradores']['permissoes']) || in_array('9', $_SESSION['colaboradores']['permissoes']) || in_array('10', $_SESSION['colaboradores']['permissoes'])): ?>
-								<li class="nav-item">
-									<a class="nav-link ps-0 js-requer-permissao"
-										href="<?= site_url('colaboradores/admin/dashboard'); ?>"
-										data-permissoes="7" data-permissao-nome="<?= esc(nome_atribuicao('7'), 'attr'); ?>">Administração</a>
-								</li>
-							<?php endif; ?>
-						<?php endif; ?>
-					</ul>
-					<!-- Top bar right -->
-					<div class="d-flex align-items-center">
-						<!-- Dark mode options START -->
-						<div class="nav-item dropdown mx-2">
-							<!-- Switch button -->
-							<span class="modeswitch dark-button btn-tertiary" aria-expanded="false"
-								data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="bi bi-moon-fill fs-2"></i>
-							</span>
-							<span class="modeswitch light-button btn-tertiary" aria-expanded="false"
-								data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="bi bi-moon fs-2"></i>
-							</span>
-						</div>
-						<!-- Dark mode options END -->
-					</div>
-				</div>
+	<header id="gen-header" class="vl-header gen-header-style-1 gen-has-sticky">
+		<div class="vl-header-inner gen-bottom-header">
+			<div class="d-flex align-items-center" style="gap: 20px; min-width: 0;">
+				<a class="navbar-brand" href="<?= site_url('site'); ?>" style="gap: 10px; margin: 0;">
+					<img class="img-fluid logo"
+						src="<?= $vlLogoHeader; ?>"
+						alt="<?= esc($vlNomeSite, 'attr'); ?>"
+						width="30" height="30">
+					<span style="font-family: var(--vl-font-title); font-weight: 700; font-size: 15px; letter-spacing: 0.03em; color: var(--vl-text); white-space: nowrap;">
+						<?= $vlNomeSite; ?>
+					</span>
+				</a>
+				<nav class="vl-nav-pills d-none d-lg-flex" aria-label="Navegação principal">
+					<a class="vl-nav-pill<?= $vlActive === 'home' ? ' is-active' : ''; ?>" href="<?= site_url('/'); ?>">Home</a>
+					<a class="vl-nav-pill<?= $vlActive === 'noticias' ? ' is-active' : ''; ?>" href="<?= site_url('site/noticias'); ?>">Notícias</a>
+					<a class="vl-nav-pill<?= $vlActive === 'videos' ? ' is-active' : ''; ?>" href="<?= site_url('site/videos'); ?>">Vídeos</a>
+					<a class="vl-nav-pill<?= $vlActive === 'artigos' ? ' is-active' : ''; ?>" href="<?= site_url('site/artigos'); ?>">Artigos</a>
+					<a class="vl-nav-pill<?= $vlActive === 'contato' ? ' is-active' : ''; ?>" href="<?= site_url('site/contato'); ?>">Contato</a>
+				</nav>
 			</div>
-		</div>
-		<nav class="navbar navbar-expand-lg bg-primary shadow-0" id="barra-navegacao">
-			<div class="container">
-				<div>
-					<a class="navbar-brand mt-2 mt-lg-0" href="<?= site_url('site'); ?>">
-						<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-							src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>"
-							alt="MDB Logo" loading="lazy">
-						<span class="lead fw-bold"><?= $_SESSION['site_config']['texto_nome']; ?></span>
-					</a>
-				</div>
-				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-bs-toggle="collapse"
-					data-bs-target="#menuPrincipal" data-target="#menuPrincipal" aria-controls="menuPrincipal"
-					aria-expanded="false" aria-label="Toggle navigation">
-					<i class="bi bi-list"></i>
-				</button>
-
-				<div class="collapse navbar-collapse" id="menuPrincipal">
-					<ul class="navbar-nav h6">
-						<li class="nav-item active">
-							<a class="nav-link" href="<?= site_url('site'); ?>">Home</a>
-						</li>
-						<!-- <li class="nav-item">
-							<a class="nav-link" href="<?= site_url('site/artigos'); ?>">Artigos dos colaboradores</a>
-						</li> -->
-						<li class="nav-item dropdown">
-							<a class="nav-link" href="<?= site_url('site/noticias'); ?>" role="button"
-								aria-expanded="false">Notícias</a>
-						</li>
-						<?php if (isset($_SESSION) && isset($_SESSION['site_config']['paginas']['menu_site'])): ?>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#">
-									Páginas</a>
-								<ul class="dropdown-menu bg-primary" aria-labelledby="menuArtigosColaboradores">
-									<?php foreach ($_SESSION['site_config']['paginas']['menu_site'] as $pagina): ?>
-										<li> <a class="dropdown-item"
-												href="<?= site_url('site/pagina/' . $pagina['link']); ?>"><?= $pagina['titulo']; ?></a>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-							</li>
-						<?php endif; ?>
-						<li class="nav-item dropdown">
-							<a class="nav-link" href="<?= site_url('site/contato'); ?>" role="button"
-								aria-expanded="false">Contato</a>
-						</li>
-					</ul>
-					<div class="navbar-nav align-items-center ms-auto menu-direita">
-						<?php if (isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null): ?>
-							<?php $temRecados = isset($_SESSION['colaboradores']['notificacoes']) && (int) $_SESSION['colaboradores']['notificacoes'] > 0; ?>
-							<ul class="navbar-nav">
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="<?= site_url('colaboradores/perfil'); ?>" id="navbarDropdownMenuLink" role="button"
-										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span class="position-relative d-inline-block">
-											<?= avatar_slot_html(
-												'avatar_menu',
-												$_SESSION['colaboradores']['avatar'] ?? null,
-												'Avatar',
-												'rounded-circle',
-												'width:30px;height:30px;object-fit:cover;'
-											); ?>
-											<span class="avatar-recados-indicator position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle<?= $temRecados ? '' : ' d-none'; ?>">
-												<span class="visually-hidden">Novos recados</span>
-											</span>
-										</span>
-										<span class="apelido_colaborador">
-											<?= $_SESSION['colaboradores']['nome']; ?>
-										</span>
-									</a>
-									<div class="dropdown-menu rounded-3 bg-primary" aria-labelledby="navbarDropdownMenuLink">
-										<a class="dropdown-item rounded-top-3"
-											href="<?= site_url('colaboradores/perfil'); ?>">Meu
-											Perfil</a>
-										<a class="dropdown-item rounded-bottom-3"
-											href="<?= site_url('site/logout'); ?>">Sair</a>
-									</div>
+			<div class="d-flex align-items-center" style="gap: 8px; margin: 0;">
+				<?php if (!$vlLogado): ?>
+					<a href="<?= site_url('site/cadastre-se'); ?>" class="d-none d-md-inline-block"
+						style="background: none; border: none; color: var(--vl-muted); font-weight: 600; font-size: 14px; padding: 8px 10px; text-decoration: none; font-family: var(--vl-font-body);">Cadastre-se</a>
+					<a href="javascript:void(0)" id="gen-user-btn-login" data-bs-toggle="modal"
+						data-bs-target="#header-login-modal"
+						style="background: var(--vl-brand); color: var(--vl-brand-text); border: none; font-weight: 700; font-size: 14px; padding: 9px 18px; border-radius: var(--vl-radius); text-decoration: none; font-family: var(--vl-font-body);">Acessar</a>
+				<?php else: ?>
+					<?php $temRecados = isset($_SESSION['colaboradores']['notificacoes']) && (int) $_SESSION['colaboradores']['notificacoes'] > 0; ?>
+					<div class="gen-account-holder">
+						<a href="<?= site_url('colaboradores/perfil'); ?>" id="gen-user-btn" class="d-inline-flex align-items-center"
+							title="Meu perfil"
+							style="gap: 8px; background: none; border: none; color: var(--vl-text); font-size: 14px; font-weight: 600; padding: 6px 8px; border-radius: var(--vl-radius); text-decoration: none; height: auto; width: auto;">
+							<span class="position-relative d-inline-block">
+								<?= avatar_slot_html(
+									'avatar_menu',
+									$_SESSION['colaboradores']['avatar'] ?? null,
+									'Meu perfil',
+									'rounded-circle',
+									'width:30px;height:30px;object-fit:cover;'
+								); ?>
+								<span class="avatar-recados-indicator position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle<?= $temRecados ? '' : ' d-none'; ?>">
+									<span class="visually-hidden">Novos recados</span>
+								</span>
+							</span>
+							<span class="d-none d-md-inline apelido_colaborador"><?= esc($_SESSION['colaboradores']['nome']); ?></span>
+							<i class="bi bi-chevron-down" aria-hidden="true" style="font-size: 10px; color: var(--vl-muted-2);"></i>
+						</a>
+						<div class="gen-account-menu">
+							<ul>
+								<li>
+									<a href="<?= site_url('colaboradores/perfil'); ?>">Meu perfil</a>
+								</li>
+								<li>
+									<a class="js-requer-permissao" href="<?= site_url('colaboradores/artigos/meusArtigos'); ?>"
+										data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">Meus artigos</a>
+								</li>
+								<li>
+									<a class="js-requer-permissao" href="<?= site_url('colaboradores/artigos/artigosColaborar'); ?>"
+										data-permissoes="3,4,5,6" data-permissao-nome="<?= esc(nome_atribuicao(['3', '4', '5', '6']), 'attr'); ?>">Colaborar</a>
+								</li>
+								<li>
+									<a class="js-requer-permissao" href="<?= site_url('colaboradores/pautas/fechar'); ?>"
+										data-permissoes="10" data-permissao-nome="<?= esc(nome_atribuicao('10'), 'attr'); ?>">Pautas</a>
+								</li>
+								<?php if ($vlPodeAdmin): ?>
+									<li aria-hidden="true" style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0; padding: 0;"></li>
+									<li>
+										<a class="js-requer-permissao" href="<?= site_url('colaboradores/admin/dashboard'); ?>"
+											data-permissoes="7" data-permissao-nome="<?= esc(nome_atribuicao('7'), 'attr'); ?>"
+											style="color: var(--vl-muted-2); font-size: 13px;">Administração</a>
+									</li>
+								<?php endif; ?>
+								<li aria-hidden="true" style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0; padding: 0;"></li>
+								<li>
+									<a href="<?= site_url('site/logout'); ?>" style="color: #e5787c;">Sair</a>
 								</li>
 							</ul>
-						<?php endif; ?>
+						</div>
 					</div>
-				</div>
+				<?php endif; ?>
+				<button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Abrir menu"
+					style="width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.14); border-radius: var(--vl-radius); background: none; color: var(--vl-text); padding: 0;">
+					<i class="bi bi-list" aria-hidden="true"></i>
+				</button>
 			</div>
-		</nav>
+		</div>
+		<div class="collapse d-lg-none" id="navbarSupportedContent" style="border-top: 1px solid var(--vl-border);">
+			<ul id="gen-main-menu" class="vl-nav-pills flex-column" style="padding: 8px 16px 16px; gap: 2px;">
+				<li class="menu-item<?= $vlActive === 'home' ? ' active' : ''; ?>">
+					<a class="vl-nav-pill<?= $vlActive === 'home' ? ' is-active' : ''; ?>" href="<?= site_url('/'); ?>">Home</a>
+				</li>
+				<li class="menu-item<?= $vlActive === 'noticias' ? ' active' : ''; ?>">
+					<a class="vl-nav-pill<?= $vlActive === 'noticias' ? ' is-active' : ''; ?>" href="<?= site_url('site/noticias'); ?>">Notícias</a>
+				</li>
+				<li class="menu-item<?= $vlActive === 'videos' ? ' active' : ''; ?>">
+					<a class="vl-nav-pill<?= $vlActive === 'videos' ? ' is-active' : ''; ?>" href="<?= site_url('site/videos'); ?>">Vídeos</a>
+				</li>
+				<li class="menu-item<?= $vlActive === 'artigos' ? ' active' : ''; ?>">
+					<a class="vl-nav-pill<?= $vlActive === 'artigos' ? ' is-active' : ''; ?>" href="<?= site_url('site/artigos'); ?>">Artigos</a>
+				</li>
+				<li class="menu-item<?= $vlActive === 'contato' ? ' active' : ''; ?>">
+					<a class="vl-nav-pill<?= $vlActive === 'contato' ? ' is-active' : ''; ?>" href="<?= site_url('site/contato'); ?>">Contato</a>
+				</li>
+				<?php if (!$vlLogado): ?>
+					<li class="menu-item menu-item-mobile-auth">
+						<a class="vl-nav-pill" href="javascript:void(0)" data-bs-toggle="modal"
+							data-bs-target="#header-login-modal">Acessar</a>
+					</li>
+					<li class="menu-item menu-item-mobile-auth">
+						<a class="vl-nav-pill" href="<?= site_url('site/cadastre-se'); ?>">Cadastre-se</a>
+					</li>
+				<?php endif; ?>
+			</ul>
+		</div>
 	</header>
 
 	<?= $this->renderSection('content'); ?>
 
-	<footer class="pb-0">
-		<div class="container">
-			<hr>
-			<!-- Widgets START -->
-			<div class="row pt-5">
-				<!-- Footer Widget -->
-				<div class="col-md-6 col-lg-4 mb-4">
-					<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-						src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>" />
-					<span class="lead"><?= $_SESSION['site_config']['texto_nome']; ?></span>
-					<p class="mt-2 lh-sm fw-light"><?= $_SESSION['site_config']['texto_rodape']; ?></p>
-				</div>
-
-				<!-- Footer Widget -->
-				<div class="col-md-6 col-lg-3 mb-4">
-					<h5 class="mb-4">Navegação</h5>
-					<div class="row">
-						<div class="col-6">
-							<ul class="nav flex-column">
-								<li class="nav-item"><a class="mb-2" href="<?= site_url('site/artigos'); ?>">Artigos</a>
-								</li>
-							</ul>
-						</div>
-						<div class="col-6">
-							<ul class="nav flex-column">
-								<li class="nav-item"><a class="mb-2" href="<?= site_url('site/contato'); ?>">Contato</a>
-								</li>
-							</ul>
-						</div>
-						<div class="col-6">
-							<ul class="nav flex-column">
-								<li class="nav-item"><a class="mb-2" href="<?= site_url('links'); ?>">Todos os
-										projetos</a>
-								</li>
-							</ul>
-						</div>
-						<?php if (isset($_SESSION) && isset($_SESSION['site_config']['paginas']['rodape_site'])): ?>
-							<?php foreach ($_SESSION['site_config']['paginas']['rodape_site'] as $pagina): ?>
-								<div class="col-6">
-									<ul class="nav flex-column">
-										<li class="nav-item"><a class="mb-2"
-												href="<?= site_url('site/pagina/' . $pagina['link']); ?>"><?= $pagina['titulo']; ?></a>
-										</li>
-									</ul>
-								</div>
-							<?php endforeach; ?>
-						<?php endif; ?>
+	<?php if (!$vlLogado): ?>
+		<div class="modal fade" id="header-login-modal" tabindex="-1" aria-labelledby="header-login-modal-label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header border-0 pb-0">
+						<h5 class="modal-title" id="header-login-modal-label" style="font-family: var(--vl-font-title); font-weight: 700; font-size: 20px;">Acessar minha conta</h5>
+						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
 					</div>
-				</div>
-
-				<!-- 
-				<div class="col-sm-6 col-lg-3 mb-4">
-					<h5 class="mb-4">Browse by Tag</h5>
-					<ul class="list-inline">
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-primary-soft">Travel</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-warning-soft">Business</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-success-soft">Tech</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-danger-soft">Gadgets</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-info-soft">Lifestyle</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-primary-soft">Vaccine</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-warning-soft">Marketing</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-success-soft">Sports</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-danger-soft">Covid-19</a></li>
-						<li class="list-inline-item"><a href="#" class="btn btn-sm btn-info-soft">Politics</a></li>
-					</ul>
-				</div> -->
-
-				<!-- Footer Widget -->
-				<div class="col-sm-12 col-lg-5 mb-4">
-					<h5 class="mb-4">Nossas redes sociais</h5>
-					<div class="row">
-						<div class="col-6">
-							<ul class="nav flex-column">
-								<li class="nav-item text-uppercase">Ancapsu</li>
-								<li class="nav-item"><a class="" href="https://www.youtube.com/@ancap_su"><i
-											class="bi bi-youtube me-2"
-											style="color:#ff0000;"></i>YouTube</a></li>
-								<li class="nav-item"><a class="" href="https://www.instagram.com/ancap.su"><i
-											class="bi bi-instagram me-2 text-youtube"></i>Instagram</a>
-								</li>
-								<li class="nav-item"><a class="" href="https://twitter.com/ancapsu"><i
-											style="color: #40bff5;"
-											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
-								<li class="nav-item text-uppercase mt-2">Safe source</li>
-								<li class="nav-item"><a class="" href="https://www.youtube.com/@safesrc"><i
-											class="bi bi-youtube me-2"
-											style="color:#ff0000;"></i>YouTube</a></li>
-								<li class="nav-item"><a class="" href="https://twitter.com/safesrc1"><i
-											style="color: #40bff5;"
-											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
-							</ul>
-						</div>
-						<div class="col-6">
-							<ul class="nav flex-column">
-								<li class="nav-item text-uppercase">VISÃO LIBERTÁRIA</li>
-								<li class="nav-item"><a class="" href="https://www.youtube.com/@Visao_Libertaria"><i
-											class="bi bi-youtube me-2"
-											style="color:#ff0000;"></i>YouTube</a></li>
-								</li>
-								<li class="nav-item"><a class="" href="https://twitter.com/visaolibertaria"><i
-											style="color: #40bff5;"
-											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
-								<li class="nav-item">&nbsp;</li>
-								<li class="nav-item text-uppercase mt-2">mundo em revolução</li>
-								<li class="nav-item"><a class="" href="https://www.youtube.com/@wrevolving"><i
-											class="bi bi-youtube me-2"
-											style="color:#ff0000;"></i>YouTube</a></li>
-								</li>
-								<li class="nav-item"><a class="" href="https://twitter.com/MundoEmRevo"><i
-											style="color: #40bff5;"
-											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
-							</ul>
-						</div>
+					<div class="modal-body">
+						<form id="header-login-form" method="post" autocomplete="on">
+							<div>
+								<label for="header-login-email" style="display: block; font-size: 12px; color: var(--vl-muted); margin-bottom: 6px;">E-mail</label>
+								<input type="email" id="header-login-email" name="email" class="form-control" placeholder="E-mail" required>
+							</div>
+							<div>
+								<label for="header-login-senha" style="display: block; font-size: 12px; color: var(--vl-muted); margin-bottom: 6px;">Senha</label>
+								<input type="password" id="header-login-senha" name="senha" class="form-control" placeholder="Senha" required>
+							</div>
+							<?php
+							$hcSiteKey = config('Hcaptcha')->siteKey ?? '';
+							if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
+								<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+								<div class="d-flex justify-content-center">
+									<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
+								</div>
+							<?php endif; ?>
+							<div class="form-check">
+								<input type="checkbox" id="header-login-lembrar" name="lembrar" class="form-check-input" value="lembrar">
+								<label class="form-check-label" for="header-login-lembrar">Lembre-se de mim</label>
+							</div>
+							<div class="d-grid">
+								<button class="btn btn-primary" type="submit">Entrar</button>
+							</div>
+							<div class="d-flex justify-content-between gen-login-links" style="margin-top: 4px;">
+								<a href="<?= site_url('site/esqueci-senha'); ?>" style="color: var(--vl-muted); text-decoration: underline; font-size: 13px;">Esqueci a senha</a>
+								<a href="<?= site_url('site/cadastre-se'); ?>" style="color: var(--vl-brand); font-weight: 600; font-size: 13px;">Cadastre-se</a>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-			<!-- Widgets END -->
 		</div>
-		<div class="container container-fluid py-2 px-sm-3 px-md-5">
-			<p class="m-0 text-center">
-				Desenvolvido e mantido por
-				<a class="text-reset btn-link font-light" href="https://github.com/KoreaComK/">KoreacomK</a> e a
-				comunidade.
-			</p>
+	<?php endif; ?>
+
+	<footer class="vl-footer">
+		<div class="vl-footer-grid">
+			<div>
+				<div class="d-flex align-items-center" style="gap: 10px; margin-bottom: 10px;">
+					<img src="<?= $vlLogoRodape; ?>" alt="" width="24" height="24" style="object-fit: contain;">
+					<span style="font-family: var(--vl-font-title); font-weight: 700; font-size: 14px; color: var(--vl-text);"><?= $vlNomeSite; ?></span>
+				</div>
+				<p><?= $_SESSION['site_config']['texto_rodape']; ?></p>
+			</div>
+			<div>
+				<h5>Navegação</h5>
+				<div class="d-flex flex-column" style="gap: 8px;">
+					<a href="<?= site_url('site/artigos'); ?>">Artigos</a>
+					<a href="<?= site_url('site/contato'); ?>">Contato</a>
+					<a href="<?= site_url('site/pagina/faq'); ?>">FAQ</a>
+					<a href="<?= site_url('links'); ?>">Todos os projetos</a>
+					<a href="<?= site_url('site/calculadoras'); ?>">Calculadoras</a>
+					<?php if (isset($_SESSION['site_config']['paginas']['rodape_site'])): ?>
+						<?php foreach ($_SESSION['site_config']['paginas']['rodape_site'] as $pagina): ?>
+							<a href="<?= site_url('site/pagina/' . $pagina['link']); ?>"><?= $pagina['titulo']; ?></a>
+						<?php endforeach; ?>
+					<?php endif; ?>
+				</div>
+			</div>
+			<div>
+				<h5>Ancapsu</h5>
+				<div class="d-flex flex-column" style="gap: 8px;">
+					<a href="https://www.youtube.com/@ancap_su"><i class="bi bi-youtube me-2" aria-hidden="true"></i>YouTube</a>
+					<a href="https://www.instagram.com/ancap.su"><i class="bi bi-instagram me-2" aria-hidden="true"></i>Instagram</a>
+					<a href="https://twitter.com/ancapsu"><i class="bi bi-twitter-x me-2" aria-hidden="true"></i>X (Twitter)</a>
+				</div>
+			</div>
+			<div>
+				<h5>Visão Libertária</h5>
+				<div class="d-flex flex-column" style="gap: 8px;">
+					<a href="https://www.youtube.com/@Visao_Libertaria"><i class="bi bi-youtube me-2" aria-hidden="true"></i>YouTube</a>
+					<a href="https://twitter.com/visaolibertaria"><i class="bi bi-twitter-x me-2" aria-hidden="true"></i>X (Twitter)</a>
+				</div>
+			</div>
+		</div>
+		<div class="vl-footer-legal">
+			<p class="m-0">Desenvolvido e mantido pela comunidade.</p>
 		</div>
 	</footer>
 	<?= view('components/_aviso_permissao'); ?>
@@ -521,46 +497,57 @@
 		localStorage.setItem('dark-mode', 'light');
 	});
 
-	$(document).ready(function () {
+	$(function () {
+			var qs = new URLSearchParams(window.location.search);
+			var deveAbrirLogin = qs.get('openLogin') === '1' || qs.has('next');
+			if (deveAbrirLogin) {
+				var loginModalEl = document.getElementById('header-login-modal');
+				if (loginModalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+					bootstrap.Modal.getOrCreateInstance(loginModalEl).show();
+				}
 
-		el_autohide = $('#barra-navegacao');
+				if (qs.has('openLogin')) {
+					qs.delete('openLogin');
+					var novaQuery = qs.toString();
+					var novaUrl = window.location.pathname + (novaQuery ? ('?' + novaQuery) : '') + window.location.hash;
+					window.history.replaceState({}, '', novaUrl);
+				}
+			}
 
-		if (el_autohide) {
-			var last_scroll_top = 0;
-			window.addEventListener('scroll', function () {
-				if (screen.availWidth > 992) {
-
-					if (window.scrollY > 50) {
-						el_autohide.addClass('fixed-top');
-						// add padding top to show content behind navbar
-						navbar_height = document.querySelector('.navbar').offsetHeight;
-						document.body.style.paddingTop = navbar_height + 'px';
-					} else {
-						el_autohide.removeClass('fixed-top');
-						// remove padding top from body
-						document.body.style.paddingTop = '0';
-					}
-
-					if (window.scrollY > 500) {
-						let scroll_top = window.scrollY;
-						if (scroll_top < last_scroll_top) {
-							el_autohide.removeClass('scrolled-down');
-							el_autohide.addClass('scrolled-up');
-						}
-						else {
-							el_autohide.removeClass('scrolled-up');
-							el_autohide.addClass('scrolled-down');
-						}
-						last_scroll_top = scroll_top;
-					}
-				} else {
-					el_autohide.removeClass('fixed-top');
-					el_autohide.removeClass('scrolled-up');
-					el_autohide.removeClass('scrolled-down');
+			$(document).on('click', '#gen-main-menu .menu-item-mobile-auth a, #gen-user-btn-login', function () {
+				var navCollapse = document.getElementById('navbarSupportedContent');
+				if (navCollapse && navCollapse.classList.contains('show') && typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+					bootstrap.Collapse.getOrCreateInstance(navCollapse).hide();
 				}
 			});
-		}
+
+			$(document).on('submit', '#header-login-form', function (e) {
+				e.preventDefault();
+				$.ajax({
+					type: 'POST',
+					async: true,
+					url: '<?= base_url() . 'site/login'; ?>',
+					data: $(this).serialize(),
+					dataType: 'json',
+					success: function (retorno) {
+						if (retorno.status === true) {
+							popMessage('Sucesso!', retorno.mensagem, TOAST_STATUS.SUCCESS);
+							setTimeout(function () {
+								var next = qs.get('next');
+								if (next && next.charAt(0) === '/' && next.charAt(1) !== '/') {
+									window.location.href = next;
+									return;
+								}
+								window.location.href = '<?= base_url('colaboradores/perfil'); ?>';
+							}, 1000);
+						} else {
+							popMessage('ATENCAO', retorno.mensagem, TOAST_STATUS.DANGER);
+						}
+					}
+				});
+			});
 	});
+
 	});
 	</script>
 </body>
