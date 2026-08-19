@@ -12,39 +12,107 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   body { margin: 0; background: #171512; }
-  a { color: #f3c921; }
+  a { color: #f3c921; text-decoration: none; }
   a:hover { color: #ffd94d; }
 </style>
 </helmet>
 
-<div style="font-family:'Public Sans',sans-serif;background:#171512;color:#f2f0ee;min-height:100vh;">
+<div style="font-family:'Public Sans',sans-serif;background:#171512;color:#f2f0ee;min-height:100vh;position:relative;">
 
   <div style="position:sticky;top:0;z-index:50;background:#211f1b;border-bottom:1px solid rgba(255,255,255,0.08);">
-    <div style="max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#f3c921;flex-shrink:0;"></div>
-        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#f2f0ee;letter-spacing:0.03em;">VISÃO LIBERTÁRIA</span>
+    <div style="max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <div style="display:flex;align-items:center;gap:20px;">
+        <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:0;">
+          <div style="width:30px;height:30px;border-radius:50%;background:#f3c921;flex-shrink:0;"></div>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#f2f0ee;letter-spacing:0.03em;">VISÃO LIBERTÁRIA</span>
+        </button>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+            <button onClick="{{ item.onClick }}" style="{{ item.style }}">{{ item.label }}</button>
+          </sc-for>
+        </div>
       </div>
-      <div style="display:flex;gap:4px;flex-wrap:wrap;">
-        <button onClick="{{ goHome }}" style="{{ homeTabStyle }}">Home</button>
-        <button onClick="{{ goNoticias }}" style="{{ noticiasTabStyle }}">Notícias</button>
-        <button onClick="{{ goVideos }}" style="{{ videosTabStyle }}">Vídeos</button>
-        <button onClick="{{ goPerfil }}" style="{{ perfilTabStyle }}">Perfil</button>
-        <button onClick="{{ goContato }}" style="{{ contatoTabStyle }}">Contato / Cadastro</button>
-        <button onClick="{{ goPainel }}" style="{{ painelTabStyle }}">Painel do colaborador</button>
+
+      <div style="display:flex;align-items:center;gap:8px;">
+        <sc-if value="{{ isLoggedIn }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;">
+            <button onClick="{{ toggleUserMenu }}" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:#f2f0ee;font-size:14px;font-weight:600;padding:6px 8px;border-radius:8px;">
+              <span style="position:relative;width:28px;height:28px;border-radius:50%;background:repeating-linear-gradient(135deg,#3a3730,#3a3730 6px,#2e2b25 6px,#2e2b25 12px);display:inline-block;">
+                <span style="position:absolute;top:-2px;right:-2px;width:9px;height:9px;border-radius:50%;background:#e5484d;border:2px solid #211f1b;"></span>
+              </span>
+              <span data-hide-mobile="true">Marina Costa</span>
+              <span style="font-size:10px;color:#847e72;">▾</span>
+            </button>
+            <sc-if value="{{ userMenuOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:calc(100% + 8px);right:0;background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:6px;min-width:180px;box-shadow:0 12px 24px rgba(0,0,0,0.4);">
+                <button onClick="{{ goPainelPerfil }}" style="width:100%;text-align:left;background:none;border:none;color:#f2f0ee;font-size:14px;padding:10px 12px;border-radius:6px;cursor:pointer;font-family:'Public Sans',sans-serif;">Meu perfil</button>
+                <button onClick="{{ goPainelArtigos }}" style="width:100%;text-align:left;background:none;border:none;color:#f2f0ee;font-size:14px;padding:10px 12px;border-radius:6px;cursor:pointer;font-family:'Public Sans',sans-serif;">Meus artigos</button>
+                <button onClick="{{ goColaborar }}" style="width:100%;text-align:left;background:none;border:none;color:#f2f0ee;font-size:14px;padding:10px 12px;border-radius:6px;cursor:pointer;font-family:'Public Sans',sans-serif;">Colaborar em artigos</button>
+                <button onClick="{{ goPautasFechar }}" style="width:100%;text-align:left;background:none;border:none;color:#f2f0ee;font-size:14px;padding:10px 12px;border-radius:6px;cursor:pointer;font-family:'Public Sans',sans-serif;">Pautas</button>
+                <div style="height:1px;background:rgba(255,255,255,0.08);margin:4px 0;"></div>
+                <button onClick="{{ goAdminDashboard }}" style="width:100%;text-align:left;background:none;border:none;color:#847e72;font-size:13px;padding:10px 12px;border-radius:6px;cursor:pointer;font-family:'Public Sans',sans-serif;">Administração</button>
+                <div style="height:1px;background:rgba(255,255,255,0.08);margin:4px 0;"></div>
+                <button onClick="{{ logout }}" style="width:100%;text-align:left;background:none;border:none;color:#e5787c;font-size:14px;padding:10px 12px;border-radius:6px;cursor:pointer;font-family:'Public Sans',sans-serif;">Sair</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isLoggedOut }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ goCadastro }}" data-hide-mobile="true" style="background:none;border:none;color:#ada89f;font-weight:600;font-size:14px;cursor:pointer;padding:8px 10px;font-family:'Public Sans',sans-serif;">Cadastre-se</button>
+          <button onClick="{{ openLogin }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:9px 18px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Acessar</button>
+        </sc-if>
+        <button onClick="{{ toggleMobileMenu }}" style="background:none;border:1px solid rgba(255,255,255,0.14);color:#f2f0ee;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:16px;">☰</button>
       </div>
     </div>
+    <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:8px 16px 16px;display:flex;flex-direction:column;gap:2px;border-top:1px solid rgba(255,255,255,0.08);">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+          <button onClick="{{ item.onClick }}" style="{{ item.style }}">{{ item.label }}</button>
+        </sc-for>
+      </div>
+    </sc-if>
   </div>
+
+  <sc-if value="{{ showLoginModal }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(10,9,7,0.7);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:32px;width:100%;max-width:380px;position:relative;">
+        <button onClick="{{ closeLogin }}" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#847e72;font-size:18px;cursor:pointer;">✕</button>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin:0 0 20px;">Acessar minha conta</h2>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <label style="display:block;font-size:12px;color:#ada89f;margin-bottom:6px;">E-mail</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:14px;">voce@email.com</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:12px;color:#ada89f;margin-bottom:6px;">Senha</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:14px;">••••••••</div>
+          </div>
+          <button onClick="{{ doLogin }}" style="margin-top:4px;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:13px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Entrar</button>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-top:4px;">
+            <button onClick="{{ goEsqueciSenha }}" style="background:none;border:none;color:#ada89f;cursor:pointer;padding:0;text-decoration:underline;font-family:'Public Sans',sans-serif;">Esqueci a senha</button>
+            <button onClick="{{ goCadastro }}" style="background:none;border:none;color:#f3c921;cursor:pointer;padding:0;font-weight:600;font-family:'Public Sans',sans-serif;">Cadastre-se</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast.visible }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:24px;right:24px;z-index:200;background:#211f1b;border:1px solid rgba(255,255,255,0.14);border-left:3px solid #4ade80;border-radius:10px;padding:16px 20px;max-width:320px;box-shadow:0 12px 24px rgba(0,0,0,0.4);">
+      <div style="font-weight:700;font-size:14px;margin-bottom:4px;">{{ toast.title }}</div>
+      <div style="font-size:13px;color:#ada89f;">{{ toast.message }}</div>
+    </div>
+  </sc-if>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <div>
-      <section style="max-width:1280px;margin:0 auto;padding:64px 24px 40px;display:grid;grid-template-columns:minmax(300px,1.1fr) minmax(280px,0.9fr);gap:48px;align-items:center;">
+      <section style="max-width:1280px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:minmax(300px,1.1fr) minmax(280px,0.9fr);gap:48px;align-items:center;">
         <div>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:0.08em;color:#f3c921;text-transform:uppercase;margin-bottom:16px;">Vídeos e artigos sobre liberdade individual</div>
           <h1 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,52px);line-height:1.08;font-weight:700;margin:0 0 20px;">Ideias que desafiam o poder.</h1>
           <p style="font-size:17px;line-height:1.6;color:#ada89f;max-width:480px;margin:0 0 28px;">Visão Libertária é um projeto de vídeos e notícias sobre livre mercado, anarcocapitalismo e crítica ao estado — feito por uma comunidade de escritores e narradores voluntários.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Assistir ao último vídeo</button>
+            <button onClick="{{ goVideos }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Assistir ao último vídeo</button>
             <button onClick="{{ goNoticias }}" style="background:transparent;color:#f2f0ee;border:1px solid rgba(255,255,255,0.18);font-weight:600;font-size:15px;padding:14px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Ler notícias</button>
           </div>
         </div>
@@ -64,7 +132,7 @@
         </div>
         <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;">
           <h2 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin:0;">Últimos vídeos</h2>
-          <a href="#" style="font-size:14px;font-weight:600;text-decoration:none;">Ver todos →</a>
+          <button onClick="{{ goVideos }}" style="background:none;border:none;color:#f3c921;font-size:14px;font-weight:600;cursor:pointer;font-family:'Public Sans',sans-serif;">Ver todos →</button>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
           <sc-for list="{{ videosHome }}" as="v" hint-placeholder-count="4">
@@ -90,67 +158,126 @@
             <h3 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin:0 0 8px;">Escreva e ganhe satoshis</h3>
             <p style="color:#ada89f;font-size:15px;margin:0;max-width:520px;">Transforme uma pauta em artigo e ele pode virar vídeo no canal. Cada publicação paga em sats.</p>
           </div>
-          <button onClick="{{ goContato }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:13px 22px;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:'Public Sans',sans-serif;">Cadastre-se agora</button>
+          <button onClick="{{ goCadastro }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:13px 22px;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:'Public Sans',sans-serif;">Cadastre-se agora</button>
         </div>
       </section>
     </div>
   </sc-if>
 
   <sc-if value="{{ isNoticias }}" hint-placeholder-val="{{ false }}">
-    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 64px;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,300px);gap:40px;">
-      <div>
-        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin:0 0 8px;">Notícias</h1>
-        <p style="color:#ada89f;font-size:15px;margin:0 0 28px;">Pautas sugeridas pela comunidade e selecionadas pela equipe editorial.</p>
-        <div style="display:flex;gap:10px;margin-bottom:16px;">
-          <div style="flex:1;display:flex;align-items:center;gap:8px;background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;">
-            <span style="color:#847e72;">⌕</span>
-            <span style="color:#847e72;font-size:14px;">Buscar por título, texto ou link…</span>
+    <div style="max-width:1280px;margin:0 auto;padding:40px 24px 64px;">
+      <nav style="font-size:13px;color:#847e72;margin-bottom:20px;">
+        <button onClick="{{ goHome }}" style="background:none;border:none;color:#847e72;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Home</button> / <span style="color:#f2f0ee;">Notícias</span>
+      </nav>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,300px);gap:40px;">
+        <div>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin:0 0 8px;">Notícias</h1>
+          <p style="color:#ada89f;font-size:15px;margin:0 0 28px;">Pautas sugeridas pela comunidade e selecionadas pela equipe editorial.</p>
+          <div style="display:flex;gap:10px;margin-bottom:16px;">
+            <div style="flex:1;display:flex;align-items:center;gap:8px;background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:0 14px;">
+              <span style="color:#847e72;">⌕</span>
+              <input value="{{ noticiaSearch }}" onChange="{{ setNoticiaSearch }}" placeholder="Buscar por título…" style="flex:1;background:none;border:none;outline:none;color:#f2f0ee;font-size:14px;padding:12px 0;font-family:'Public Sans',sans-serif;" />
+            </div>
           </div>
-          <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:0 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Filtrar</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
+            <sc-for list="{{ categoriaChips }}" as="c" hint-placeholder-count="4">
+              <button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ hasNoticias }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <sc-for list="{{ noticiasVisiveis }}" as="n" hint-placeholder-count="5">
+                <button onClick="{{ n.onClick }}" style="text-align:left;display:grid;grid-template-columns:150px 1fr;gap:16px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;cursor:pointer;font-family:'Public Sans',sans-serif;">
+                  <div style="aspect-ratio:4/3;border-radius:8px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);"></div>
+                  <div>
+                    <div style="display:flex;gap:10px;align-items:center;font-size:12px;color:#847e72;margin-bottom:6px;">
+                      <span style="color:#f3c921;font-weight:600;">{{ n.categoria }}</span>
+                      <span>·</span>
+                      <span>{{ n.data }}</span>
+                    </div>
+                    <div style="font-size:16px;font-weight:700;line-height:1.35;margin-bottom:6px;color:#f2f0ee;">{{ n.titulo }}</div>
+                    <p style="font-size:14px;color:#ada89f;line-height:1.5;margin:0 0 8px;">{{ n.resumo }}</p>
+                    <span style="font-size:13px;color:#847e72;">sugerido por {{ n.autor }}</span>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ hasMoreNoticias }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;justify-content:center;margin-top:32px;">
+                <button onClick="{{ loadMoreNoticias }}" style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:14px;padding:12px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Carregar mais notícias</button>
+              </div>
+            </sc-if>
+          </sc-if>
+          <sc-if value="{{ hasNoticiasEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:48px 24px;border:1px dashed rgba(255,255,255,0.14);border-radius:12px;color:#847e72;font-size:14px;">Nenhuma notícia encontrada para "{{ noticiaSearch }}".</div>
+          </sc-if>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
-          <span style="background:#f3c921;color:#181818;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;">Todas</span>
-          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:12px;padding:6px 12px;border-radius:999px;">Economia</span>
-          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:12px;padding:6px 12px;border-radius:999px;">Política</span>
-          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:12px;padding:6px 12px;border-radius:999px;">Mundo</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:16px;">
-          <sc-for list="{{ noticias }}" as="n" hint-placeholder-count="5">
-            <div style="display:grid;grid-template-columns:150px 1fr;gap:16px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;">
-              <div style="aspect-ratio:4/3;border-radius:8px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);"></div>
+        <aside style="display:flex;flex-direction:column;gap:16px;">
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;">
+            <h4 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 8px;">Quer sugerir uma pauta?</h4>
+            <p style="color:#ada89f;font-size:13px;line-height:1.5;margin:0 0 14px;">Sugestões de pauta são feitas por colaboradores cadastrados, direto no comentário de cada notícia.</p>
+            <button onClick="{{ goCadastro }}" style="width:100%;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:11px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Cadastre-se para participar</button>
+          </div>
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;">
+            <h4 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 8px;">Como funciona</h4>
+            <p style="color:#ada89f;font-size:13px;line-height:1.6;margin:0;">1. Colaboradores sugerem notícias e comentam nelas.<br>2. A equipe fecha as mais relevantes.<br>3. Escritores transformam em artigo e vídeo.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPautaDetail }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:860px;margin:0 auto;padding:40px 24px 64px;">
+      <nav style="font-size:13px;color:#847e72;margin-bottom:20px;">
+        <button onClick="{{ goHome }}" style="background:none;border:none;color:#847e72;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Home</button> /
+        <button onClick="{{ goNoticias }}" style="background:none;border:none;color:#847e72;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;"> Notícias</button> / <span style="color:#f2f0ee;">{{ pautaAtual.titulo }}</span>
+      </nav>
+      <div style="aspect-ratio:16/8;border-radius:12px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);margin-bottom:24px;"></div>
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:#847e72;margin-bottom:12px;">
+        <span style="color:#f3c921;font-weight:700;">{{ pautaAtual.categoria }}</span>
+        <span>·</span>
+        <span>{{ pautaAtual.data }}</span>
+        <span>·</span>
+        <span>sugerido por <button onClick="{{ goColaborador }}" style="background:none;border:none;padding:0;cursor:pointer;font-size:13px;color:#f3c921;font-weight:600;font-family:'Public Sans',sans-serif;">{{ pautaAtual.autor }}</button></span>
+      </div>
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:0 0 20px;line-height:1.25;">{{ pautaAtual.titulo }}</h1>
+      <p style="font-size:16px;line-height:1.7;color:#d8d4cc;margin:0 0 16px;">{{ pautaAtual.resumo }}</p>
+      <p style="font-size:16px;line-height:1.7;color:#d8d4cc;margin:0 0 24px;">{{ pautaAtual.texto }}</p>
+      <a href="#" style="font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,0.18);padding:10px 18px;border-radius:8px;display:inline-block;color:#f2f0ee;">Ler notícia original ↗</a>
+
+      <div style="margin-top:48px;border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin:0 0 16px;">Comentários ({{ pautaAtual.comentarios.length }})</h3>
+        <sc-if value="{{ isLoggedIn }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:10px;margin-bottom:20px;">
+            <textarea placeholder="Escreva um comentário ou sugira essa pauta para virar artigo..." rows="3" style="flex:1;background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px;color:#f2f0ee;font-size:14px;font-family:'Public Sans',sans-serif;resize:vertical;"></textarea>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:24px;">
+            <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:10px 18px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Enviar comentário</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isLoggedOut }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;margin-bottom:24px;font-size:14px;color:#ada89f;">
+            <button onClick="{{ openLogin }}" style="background:none;border:none;color:#f3c921;font-weight:600;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Acesse sua conta</button> para comentar e sugerir esta pauta.
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <sc-for list="{{ pautaAtual.comentarios }}" as="c" hint-placeholder-count="2">
+            <div style="display:flex;gap:12px;">
+              <div style="width:34px;height:34px;border-radius:50%;background:repeating-linear-gradient(135deg,#3a3730,#3a3730 6px,#2e2b25 6px,#2e2b25 12px);flex-shrink:0;"></div>
               <div>
-                <div style="display:flex;gap:10px;align-items:center;font-size:12px;color:#847e72;margin-bottom:6px;">
-                  <span style="color:#f3c921;font-weight:600;">{{ n.categoria }}</span>
-                  <span>·</span>
-                  <span>{{ n.data }}</span>
-                </div>
-                <div style="font-size:16px;font-weight:700;line-height:1.35;margin-bottom:6px;">{{ n.titulo }}</div>
-                <p style="font-size:14px;color:#ada89f;line-height:1.5;margin:0 0 8px;">{{ n.resumo }}</p>
-                <span style="font-size:13px;color:#847e72;">por {{ n.autor }}</span>
+                <div style="font-size:13px;font-weight:700;margin-bottom:2px;">{{ c.autor }} <span style="color:#847e72;font-weight:400;">· {{ c.tempo }}</span></div>
+                <p style="font-size:14px;color:#d8d4cc;margin:0;line-height:1.5;">{{ c.texto }}</p>
               </div>
             </div>
           </sc-for>
         </div>
-        <div style="display:flex;justify-content:center;margin-top:32px;">
-          <button style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:14px;padding:12px 24px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Carregar mais notícias</button>
-        </div>
       </div>
-      <aside style="display:flex;flex-direction:column;gap:16px;">
-        <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;">
-          <h4 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 8px;">Sugerir uma pauta</h4>
-          <p style="color:#ada89f;font-size:13px;line-height:1.5;margin:0 0 14px;">Encontrou uma notícia relevante? Envie o link e a equipe avalia para virar artigo.</p>
-          <button onClick="{{ goContato }}" style="width:100%;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:11px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Sugerir pauta</button>
-        </div>
-        <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;">
-          <h4 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 8px;">Como funciona</h4>
-          <p style="color:#ada89f;font-size:13px;line-height:1.6;margin:0;">1. Você sugere ou vota em pautas.<br>2. A equipe fecha as mais relevantes.<br>3. Escritores transformam em artigo e vídeo.</p>
-        </div>
-      </aside>
     </div>
   </sc-if>
 
   <sc-if value="{{ isVideos }}" hint-placeholder-val="{{ false }}">
-    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 64px;">
+    <div style="max-width:1280px;margin:0 auto;padding:40px 24px 64px;">
       <h1 style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin:0 0 8px;">Vídeos</h1>
       <p style="color:#ada89f;font-size:15px;margin:0 0 24px;">Todos os vídeos publicados, organizados por projeto.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
@@ -178,22 +305,80 @@
     </div>
   </sc-if>
 
-  <sc-if value="{{ isPerfil }}" hint-placeholder-val="{{ false }}">
-    <div style="max-width:1000px;margin:0 auto;padding:48px 24px 64px;">
-      <div style="background:rgba(243,201,33,0.1);border-radius:16px;padding:36px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:28px;">
-        <div style="width:96px;height:96px;border-radius:50%;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 8px,#232019 8px,#232019 16px);flex-shrink:0;"></div>
-        <div>
-          <div style="font-size:12px;color:#f3c921;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Escritor</div>
-          <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 8px;">Marina Costa</h1>
-          <p style="color:#ada89f;font-size:14px;line-height:1.5;margin:0;max-width:520px;">Escreve sobre economia e política monetária desde 2023. Colaboradora do projeto Visão Libertária.</p>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;">
-        <sc-for list="{{ badges }}" as="b" hint-placeholder-count="3">
-          <span style="border:1px solid rgba(255,255,255,0.14);color:#f2f0ee;font-size:13px;padding:7px 14px;border-radius:999px;">🏅 {{ b }}</span>
+  <sc-if value="{{ isArtigos }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:40px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin:0 0 8px;">Artigos</h1>
+      <p style="color:#ada89f;font-size:15px;margin:0 0 28px;">Textos publicados pelos escritores da comunidade.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;">
+        <sc-for list="{{ artigosListagem }}" as="a" hint-placeholder-count="6">
+          <button onClick="{{ a.onClick }}" style="text-align:left;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">
+            <div style="aspect-ratio:16/9;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);"></div>
+            <div style="padding:16px;">
+              <div style="font-size:12px;color:#847e72;margin-bottom:6px;">{{ a.data }}</div>
+              <div style="font-size:16px;font-weight:700;line-height:1.35;margin-bottom:8px;color:#f2f0ee;">{{ a.titulo }}</div>
+              <div style="font-size:13px;color:#ada89f;">por {{ a.autor }}</div>
+            </div>
+          </button>
         </sc-for>
       </div>
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin:0 0 16px;">Artigos publicados</h2>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isArtigoDetail }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:760px;margin:0 auto;padding:40px 24px 64px;">
+      <nav style="font-size:13px;color:#847e72;margin-bottom:20px;">
+        <button onClick="{{ goHome }}" style="background:none;border:none;color:#847e72;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Home</button> /
+        <button onClick="{{ goArtigos }}" style="background:none;border:none;color:#847e72;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;"> Artigos</button>
+      </nav>
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin:0 0 16px;line-height:1.25;">{{ artigoAtual.titulo }}</h1>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:repeating-linear-gradient(135deg,#3a3730,#3a3730 6px,#2e2b25 6px,#2e2b25 12px);"></div>
+        <div>
+          <button onClick="{{ goEscritor }}" style="background:none;border:none;padding:0;cursor:pointer;font-size:14px;font-weight:600;color:#f2f0ee;font-family:'Public Sans',sans-serif;">{{ artigoAtual.autor }}</button>
+          <div style="font-size:12px;color:#847e72;">{{ artigoAtual.data }} · escritor</div>
+        </div>
+      </div>
+      <div style="aspect-ratio:16/9;border-radius:12px;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 12px,#232019 12px,#232019 24px);margin-bottom:24px;position:relative;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(24,22,18,0.6);display:flex;align-items:center;justify-content:center;">
+            <div style="width:0;height:0;border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #f2f0ee;margin-left:3px;"></div>
+          </div>
+        </div>
+        <span style="position:absolute;bottom:10px;left:10px;font-size:11px;color:#847e72;font-family:ui-monospace,monospace;">vídeo incorporado do canal {{ artigoAtual.projeto }}</span>
+      </div>
+      <p style="font-size:17px;line-height:1.75;color:#d8d4cc;margin:0 0 18px;">{{ artigoAtual.resumo }}</p>
+      <p style="font-size:17px;line-height:1.75;color:#d8d4cc;margin:0 0 18px;">{{ artigoAtual.corpo }}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;">
+        <sc-for list="{{ artigoAtual.tags }}" as="t" hint-placeholder-count="3">
+          <span style="border:1px solid rgba(255,255,255,0.14);color:#ada89f;font-size:12px;padding:6px 12px;border-radius:999px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isEscritor }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1000px;margin:0 auto;padding:40px 24px 64px;">
+      <div style="background:rgba(243,201,33,0.1);border-radius:16px;padding:36px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+        <div style="width:96px;height:96px;border-radius:50%;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 8px,#232019 8px,#232019 16px);flex-shrink:0;"></div>
+        <div>
+          <div style="font-size:12px;color:#f3c921;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Escritor · 12 artigos</div>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 8px;">Marina Costa</h1>
+          <p style="color:#ada89f;font-size:14px;line-height:1.5;margin:0;max-width:520px;">Cadastrou-se no site há 2 anos. Colaboradora do projeto Visão Libertária.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        <span style="background:#4ade8022;color:#4ade80;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;">Escritora</span>
+        <span style="background:#60a5fa22;color:#60a5fa;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;">Revisora</span>
+      </div>
+      <p style="color:#847e72;font-size:13px;margin:0 0 24px;">08 como escritor · 04 como revisor · 02 como narrador · 01 como produtor</p>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:space-between;">
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin:0;">Participação em artigos</h2>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <sc-for list="{{ escritorPapelOptions }}" as="op" hint-placeholder-count="5">
+            <button onClick="{{ op.onClick }}" style="{{ op.style }}">{{ op.label }}</button>
+          </sc-for>
+        </div>
+      </div>
       <div style="display:flex;flex-direction:column;gap:14px;">
         <sc-for list="{{ artigosPerfil }}" as="a" hint-placeholder-count="4">
           <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;">
@@ -206,35 +391,60 @@
     </div>
   </sc-if>
 
-  <sc-if value="{{ isContato }}" hint-placeholder-val="{{ false }}">
+  <sc-if value="{{ isColaborador }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1000px;margin:0 auto;padding:40px 24px 64px;">
+      <div style="background:rgba(243,201,33,0.1);border-radius:16px;padding:36px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+        <div style="width:96px;height:96px;border-radius:50%;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 8px,#232019 8px,#232019 16px);flex-shrink:0;"></div>
+        <div>
+          <div style="font-size:12px;color:#f3c921;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Colaborador · 07 pautas</div>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 8px;">Marina Costa</h1>
+          <p style="color:#ada89f;font-size:14px;line-height:1.5;margin:0;max-width:520px;">Cadastrou-se no site há 2 anos.</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;">
+        <sc-for list="{{ resumoPautasPeriodo }}" as="r" hint-placeholder-count="4">
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;text-align:center;">
+            <div style="font-size:22px;font-weight:700;font-family:'Space Grotesk',sans-serif;">{{ r.value }}</div>
+            <div style="font-size:12px;color:#847e72;">{{ r.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin:0 0 16px;">Pautas reservadas</h2>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <sc-for list="{{ pautasReservadas }}" as="p" hint-placeholder-count="3">
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;display:flex;justify-content:space-between;gap:12px;align-items:center;">
+            <div>
+              <div style="font-size:15px;font-weight:700;margin-bottom:4px;">{{ p.titulo }}</div>
+              <div style="font-size:13px;color:#847e72;">{{ p.data }}</div>
+            </div>
+            <span style="font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:rgba(74,222,128,0.14);color:#4ade80;white-space:nowrap;">{{ p.status }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCadastro }}" hint-placeholder-val="{{ false }}">
     <div style="max-width:1080px;margin:0 auto;padding:56px 24px 64px;display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1fr);gap:48px;align-items:start;">
       <div>
-        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:0 0 16px;">Faça parte do projeto</h1>
-        <p style="color:#ada89f;font-size:15px;line-height:1.6;margin:0 0 24px;">Cadastre-se para sugerir pautas, comentar notícias e, se quiser escrever, ganhar satoshis por cada artigo publicado.</p>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:0 0 16px;">Cadastre-se como colaborador</h1>
+        <p style="color:#ada89f;font-size:15px;line-height:1.6;margin:0 0 24px;">Use um nome público como preferir ser chamado — ele vai aparecer em artigos e vídeos. Seu e-mail fica visível só para a equipe interna e será confirmado na próxima etapa.</p>
         <div style="display:flex;flex-direction:column;gap:16px;">
           <div style="display:flex;gap:12px;align-items:flex-start;">
             <span style="color:#f3c921;font-size:18px;">✓</span>
-            <span style="font-size:14px;color:#f2f0ee;">Sugira pautas e acompanhe o que vira artigo</span>
+            <span style="font-size:14px;color:#f2f0ee;">Sugira pautas e comente nas notícias</span>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start;">
             <span style="color:#f3c921;font-size:18px;">✓</span>
-            <span style="font-size:14px;color:#f2f0ee;">Comente e vote nas notícias da comunidade</span>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <span style="color:#f3c921;font-size:18px;">✓</span>
-            <span style="font-size:14px;color:#f2f0ee;">Ganhe satoshis escrevendo artigos que viram vídeo</span>
+            <span style="font-size:14px;color:#f2f0ee;">Escreva artigos e ganhe satoshis por cada publicação</span>
           </div>
         </div>
       </div>
       <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px;">
-        <div style="display:flex;gap:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.1);">
-          <span style="padding-bottom:10px;font-size:14px;font-weight:700;color:#f2f0ee;border-bottom:2px solid #f3c921;">Cadastro</span>
-          <span style="padding-bottom:10px;font-size:14px;font-weight:600;color:#847e72;">Contato</span>
-        </div>
         <div style="display:flex;flex-direction:column;gap:14px;">
           <div>
-            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Nome</label>
-            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Seu nome</div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Nome público (apelido)</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Como quer ser chamado</div>
           </div>
           <div>
             <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">E-mail</label>
@@ -244,42 +454,373 @@
             <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Senha</label>
             <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">••••••••</div>
           </div>
-          <button style="margin-top:8px;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Criar minha conta</button>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Confirme a senha</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">••••••••</div>
+          </div>
+          <div style="font-size:12px;color:#847e72;text-align:center;border:1px dashed rgba(255,255,255,0.14);border-radius:8px;padding:14px;">captcha</div>
+          <button onClick="{{ submitCadastro }}" style="margin-top:4px;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Cadastrar</button>
         </div>
       </div>
     </div>
   </sc-if>
 
-  <sc-if value="{{ isPainel }}" hint-placeholder-val="{{ false }}">
-    <div style="max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:220px 1fr;gap:32px;">
-      <aside style="padding:32px 0;display:flex;flex-direction:column;gap:4px;">
-        <div style="font-size:11px;color:#847e72;text-transform:uppercase;letter-spacing:0.06em;padding:0 12px;margin-bottom:8px;">Painel</div>
-        <span style="background:rgba(243,201,33,0.14);color:#f3c921;font-weight:700;font-size:14px;padding:10px 12px;border-radius:8px;">Dashboard</span>
-        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Meus artigos</span>
-        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Pautas</span>
-        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Pagamentos</span>
-        <span style="color:#ada89f;font-size:14px;padding:10px 12px;border-radius:8px;">Meu perfil</span>
-      </aside>
-      <div style="padding:32px 0 56px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
-          <div>
-            <h1 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin:0 0 4px;">Olá, Marina</h1>
-            <p style="color:#847e72;font-size:14px;margin:0;">Aqui está um resumo da sua atividade</p>
+  <sc-if value="{{ isEsqueciSenha }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:480px;margin:0 auto;padding:56px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;text-align:center;margin:0 0 24px;">Recuperação de conta</h1>
+      <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px;">
+        <sc-if value="{{ isEsqueciSenhaEmail }}" hint-placeholder-val="{{ true }}">
+          <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">E-mail cadastrado na plataforma</label>
+          <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;margin-bottom:16px;">voce@email.com</div>
+          <button onClick="{{ submitEsqueciSenha }}" style="width:100%;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Enviar</button>
+          <p style="font-size:12px;color:#847e72;margin:12px 0 0;text-align:center;">Ao clicar, simulamos o link recebido por e-mail →</p>
+        </sc-if>
+        <sc-if value="{{ isEsqueciSenhaNova }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:13px;color:#ada89f;margin:0 0 16px;">Link de recuperação confirmado. Defina sua nova senha.</p>
+          <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Nova senha</label>
+          <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;margin-bottom:12px;">••••••••</div>
+          <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Confirme a nova senha</label>
+          <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;margin-bottom:16px;">••••••••</div>
+          <button onClick="{{ concluirRedefinirSenha }}" style="width:100%;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Salvar nova senha</button>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isEmailConfirmacao }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:480px;margin:0 auto;padding:80px 24px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">✓</div>
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin:0 0 12px;">E-mail confirmado</h1>
+      <p style="color:#ada89f;font-size:14px;line-height:1.6;margin:0 0 24px;">Sua conta está ativa. Você já pode acessar com seu e-mail e senha.</p>
+      <button onClick="{{ openLogin }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Acessar minha conta</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isLinks }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1000px;margin:0 auto;padding:56px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:0 0 28px;">Todos os projetos</h1>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;">
+        <sc-for list="{{ projetosLinks }}" as="pj" hint-placeholder-count="4">
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:22px;">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 12px;">{{ pj.nome }}</h3>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:14px;">
+              <a href="#">YouTube</a><a href="#">X (Twitter)</a>
+            </div>
           </div>
-          <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:12px 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Escrever novo artigo</button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCalculadoras }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:900px;margin:0 auto;padding:56px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:0 0 8px;">Calculadoras</h1>
+      <p style="color:#ada89f;font-size:15px;margin:0 0 28px;">Ferramentas rápidas para colaboradores e leitores.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+        <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:22px;">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 14px;">Sats por ponto</h3>
+          <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:14px;margin-bottom:10px;">Total pago (sats)</div>
+          <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:14px;margin-bottom:14px;">Pontuação total</div>
+          <div style="font-size:13px;color:#f3c921;font-weight:700;">Resultado: — sats/ponto</div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px;">
-          <sc-for list="{{ statsPainel }}" as="st" hint-placeholder-count="4">
-            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;">
-              <div style="font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:4px;">{{ st.value }}</div>
-              <div style="font-size:13px;color:#847e72;">{{ st.label }}</div>
+        <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:22px;">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 14px;">Conversão BTC / BRL</h3>
+          <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:14px;margin-bottom:14px;">Valor em BTC</div>
+          <div style="font-size:13px;color:#f3c921;font-weight:700;">Resultado: R$ —</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isNovoArtigo }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:820px;margin:0 auto;padding:40px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 24px;">Novo artigo</h1>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div>
+          <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Título</label>
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Título do artigo</div>
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Subtítulo / resumo</label>
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Resumo de uma linha</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Projeto / canal</label>
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Selecione o projeto</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Imagem de capa</label>
+            <div style="background:#211f1b;border:1px dashed rgba(255,255,255,0.2);border-radius:8px;padding:12px 14px;color:#847e72;font-size:13px;text-align:center;">arraste uma imagem</div>
+          </div>
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Texto do artigo</label>
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:14px;color:#847e72;font-size:13px;min-height:220px;">Editor de texto — formatação, links e imagens embutidas.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Revisor</label>
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:13px;">A definir</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Narrador</label>
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:13px;">A definir</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Produtor</label>
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:13px;">A definir</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+          <button style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:14px;padding:12px 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Salvar rascunho</button>
+          <button onClick="{{ submitNovoArtigo }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Enviar para revisão</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isArtigoProducao }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1100px;margin:0 auto;padding:40px 24px 64px;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:32px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:rgba(96,165,250,0.14);color:#60a5fa;">{{ producaoAtual.fase }}</span>
+        </div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 24px;">{{ producaoAtual.titulo }}</h1>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;">
+            <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.04em;color:#847e72;margin:0 0 10px;">Texto do escritor</h4>
+            <p style="font-size:14px;color:#d8d4cc;line-height:1.6;margin:0;">{{ producaoAtual.textoEscritor }}</p>
+          </div>
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;">
+            <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.04em;color:#847e72;margin:0 0 10px;">Comentários de revisão</h4>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:13px;min-height:80px;">Escreva sugestões de revisão…</div>
+          </div>
+          <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;">
+            <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.04em;color:#847e72;margin:0 0 10px;">Link do vídeo / narração</h4>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:13px;">https://…</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:24px;">
+          <button style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Avançar de fase</button>
+        </div>
+      </div>
+      <aside>
+        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.04em;color:#847e72;margin:0 0 12px;">Histórico</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <sc-for list="{{ producaoAtual.historico }}" as="h" hint-placeholder-count="3">
+            <div style="font-size:13px;color:#ada89f;border-left:2px solid rgba(255,255,255,0.14);padding-left:12px;">
+              <div style="color:#f2f0ee;">{{ h.texto }}</div>
+              <div style="color:#847e72;font-size:12px;">{{ h.tempo }}</div>
             </div>
           </sc-for>
         </div>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin:0 0 14px;">Atividade recente</h2>
+      </aside>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isColaborar }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:900px;margin:0 auto;padding:40px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 8px;">Colaborar em artigos</h1>
+      <p style="color:#ada89f;font-size:14px;margin:0 0 24px;">Artigos de outros escritores que precisam de revisor, narrador ou produtor.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <sc-for list="{{ colaborarList }}" as="c" hint-placeholder-count="3">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px 18px;">
+            <div>
+              <div style="font-size:15px;font-weight:700;margin-bottom:4px;">{{ c.titulo }}</div>
+              <div style="font-size:12px;color:#847e72;">de {{ c.autor }} · precisa de <span style="color:#f3c921;font-weight:600;">{{ c.papel }}</span></div>
+            </div>
+            <button onClick="{{ colaborarAceitar }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:13px;padding:10px 16px;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:'Public Sans',sans-serif;">Colaborar</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPautasFechar }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:900px;margin:0 auto;padding:40px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 24px;">Pautas</h1>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 12px;">Abertas para reserva</h2>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+        <sc-for list="{{ pautasAbertas }}" as="p" hint-placeholder-count="3">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 18px;">
+            <span style="font-size:14px;color:#f2f0ee;">{{ p.titulo }}</span>
+            <button onClick="{{ reservarPauta }}" style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:13px;padding:9px 14px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Reservar</button>
+          </div>
+        </sc-for>
+      </div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 12px;">Fechar novo grupo de pautas</h2>
+      <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px;">
+        <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:13px;">Nome do fechamento</div>
+        <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:11px 13px;color:#847e72;font-size:13px;">Tema (tag)</div>
+        <button onClick="{{ fecharPautas }}" style="align-self:flex-end;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Fechar pautas selecionadas</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isKanban }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:40px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 24px;">Quadro de produção</h1>
+      <div style="display:flex;gap:14px;overflow-x:auto;padding-bottom:8px;">
+        <sc-for list="{{ kanbanColunas }}" as="col" hint-placeholder-count="6">
+          <div style="min-width:220px;flex-shrink:0;">
+            <div style="font-size:12px;font-weight:700;color:#847e72;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px;">{{ col.nome }} ({{ col.itens.length }})</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <sc-for list="{{ col.itens }}" as="card" hint-placeholder-count="2">
+                <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px;font-size:13px;color:#f2f0ee;">{{ card }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAdminDashboard }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:200px 1fr;gap:32px;">
+      <aside style="padding:32px 0;display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ adminSidebarItems }}" as="it" hint-placeholder-count="3">
+          <button onClick="{{ it.onClick }}" style="{{ it.style }}">{{ it.label }}</button>
+        </sc-for>
+      </aside>
+      <div style="padding:32px 0 56px;">
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin:0 0 20px;">Administração</h1>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;">
+          <sc-for list="{{ adminStats }}" as="st" hint-placeholder-count="4">
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;">
+              <div style="font-size:24px;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:4px;">{{ st.value }}</div>
+              <div style="font-size:12px;color:#847e72;">{{ st.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAdminContatos }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:200px 1fr;gap:32px;">
+      <aside style="padding:32px 0;display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ adminSidebarItems }}" as="it" hint-placeholder-count="3">
+          <button onClick="{{ it.onClick }}" style="{{ it.style }}">{{ it.label }}</button>
+        </sc-for>
+      </aside>
+      <div style="padding:32px 0 56px;">
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin:0 0 20px;">Inbox de contatos</h1>
+        <div style="display:flex;flex-direction:column;gap:2px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;">
+          <sc-for list="{{ contatosInbox }}" as="ct" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:1fr 1fr 100px 90px;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);align-items:center;">
+              <span style="font-size:13px;color:#f2f0ee;">{{ ct.email }}</span>
+              <span style="font-size:13px;color:#ada89f;">{{ ct.assunto }}</span>
+              <span style="font-size:12px;color:#847e72;">{{ ct.data }}</span>
+              <span style="font-size:11px;font-weight:700;padding:4px 8px;border-radius:999px;background:{{ ct.statusBg }};color:{{ ct.statusCor }};text-align:center;">{{ ct.status }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAdminPermissoes }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:200px 1fr;gap:32px;">
+      <aside style="padding:32px 0;display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ adminSidebarItems }}" as="it" hint-placeholder-count="3">
+          <button onClick="{{ it.onClick }}" style="{{ it.style }}">{{ it.label }}</button>
+        </sc-for>
+      </aside>
+      <div style="padding:32px 0 56px;">
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin:0 0 20px;">Permissões de colaboradores</h1>
+        <div style="display:flex;flex-direction:column;gap:2px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;">
+          <sc-for list="{{ permissoesList }}" as="pm" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:14px;color:#f2f0ee;">{{ pm.nome }}</span>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <sc-for list="{{ pm.atribuicoes }}" as="at" hint-placeholder-count="2">
+                  <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:rgba(243,201,33,0.14);color:#f3c921;">{{ at }}</span>
+                </sc-for>
+              </div>
+              <button style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:12px;padding:7px 12px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Editar</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isContato }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1080px;margin:0 auto;padding:56px 24px 64px;display:grid;grid-template-columns:minmax(260px,0.85fr) minmax(320px,1.15fr);gap:32px;align-items:start;">
+      <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 10px;">⚠ Atenção</h3>
+        <p style="color:#ada89f;font-size:13px;line-height:1.6;margin:0 0 10px;">Este não é um local para sugerir pautas. Para isso, <button onClick="{{ goCadastro }}" style="background:none;border:none;color:#f3c921;padding:0;cursor:pointer;font-size:13px;text-decoration:underline;">cadastre-se na plataforma</button> ou acesse sua conta.</p>
+        <p style="color:#ada89f;font-size:13px;line-height:1.6;margin:0;">Contatos com esse fim não serão considerados e podem entrar em uma blacklist.</p>
+      </div>
+      <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px;">
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin:0 0 18px;">Entre em contato conosco</h2>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">E-mail</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Seu e-mail</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Assunto</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">Selecione um assunto</div>
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Mensagem</label>
+            <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;min-height:96px;">Digite sua mensagem aqui.</div>
+          </div>
+          <button onClick="{{ submitContato }}" style="margin-top:4px;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:15px;padding:14px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Enviar mensagem</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPagina }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:760px;margin:0 auto;padding:56px 24px 64px;">
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:0 0 20px;">Perguntas frequentes</h1>
+      <p style="font-size:15px;line-height:1.75;color:#d8d4cc;margin:0 0 16px;">Página estática de exemplo (site/pagina/faq) — texto simples definido pela equipe, sem estrutura de blocos ainda.</p>
+      <p style="font-size:15px;line-height:1.75;color:#d8d4cc;margin:0;">Como o projeto é mantido por voluntários, algumas respostas podem demorar. Use o formulário de contato para dúvidas específicas.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPainelArtigos }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:200px 1fr;gap:32px;">
+      <aside style="padding:32px 0;display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ painelSidebarItems }}" as="it" hint-placeholder-count="2">
+          <button onClick="{{ it.onClick }}" style="{{ it.style }}">{{ it.label }}</button>
+        </sc-for>
+      </aside>
+      <div style="padding:32px 0 56px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h1 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin:0 0 4px;">Meus artigos</h1>
+            <p style="color:#847e72;font-size:14px;margin:0;">Resumo da sua atividade como escritora</p>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button onClick="{{ goKanban }}" style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:14px;padding:12px 18px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Ver quadro de produção</button>
+            <button onClick="{{ goNovoArtigo }}" style="background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:12px 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Novo artigo</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:32px;">
+          <sc-for list="{{ statsPainel }}" as="st" hint-placeholder-count="4">
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;">
+              <div style="font-size:24px;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:4px;">{{ st.value }}</div>
+              <div style="font-size:12px;color:#847e72;">{{ st.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 12px;">Em produção</h2>
+        <div style="display:flex;flex-direction:column;gap:2px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;margin-bottom:28px;">
+          <sc-for list="{{ producaoPainel }}" as="pr" hint-placeholder-count="3">
+            <button onClick="{{ pr.onClick }}" style="display:flex;justify-content:space-between;gap:16px;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);background:none;border-left:none;border-right:none;border-top:none;cursor:pointer;text-align:left;width:100%;font-family:'Public Sans',sans-serif;">
+              <span style="font-size:14px;color:#f2f0ee;">{{ pr.titulo }}</span>
+              <span style="font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:rgba(96,165,250,0.14);color:#60a5fa;white-space:nowrap;">{{ pr.fase }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin:0 0 12px;">Publicados</h2>
         <div style="display:flex;flex-direction:column;gap:2px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;">
           <sc-for list="{{ atividadePainel }}" as="at" hint-placeholder-count="3">
-            <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);">
               <span style="font-size:14px;color:#f2f0ee;">{{ at.texto }}</span>
               <span style="font-size:13px;color:#847e72;white-space:nowrap;">{{ at.tempo }}</span>
             </div>
@@ -289,14 +830,151 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ isPainelPerfil }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:200px 1fr;gap:32px;">
+      <aside style="padding:32px 0;display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ painelSidebarItems }}" as="it" hint-placeholder-count="2">
+          <button onClick="{{ it.onClick }}" style="{{ it.style }}">{{ it.label }}</button>
+        </sc-for>
+      </aside>
+      <div style="padding:32px 0 56px;">
+        <div style="display:flex;gap:20px;align-items:center;margin-bottom:28px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 8px,#232019 8px,#232019 16px);"></div>
+          <div>
+            <h1 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin:0 0 4px;">Marina Costa</h1>
+            <p style="color:#847e72;font-size:13px;margin:0;">Colaboradora desde jan. 2024</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:24px;flex-wrap:wrap;">
+          <sc-for list="{{ perfilTabs }}" as="pt" hint-placeholder-count="5">
+            <button onClick="{{ pt.onClick }}" style="{{ pt.style }}">{{ pt.label }}</button>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ isTabRecados }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <sc-for list="{{ recados }}" as="r" hint-placeholder-count="3">
+              <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-left:3px solid {{ r.corBorda }};border-radius:10px;padding:16px;">
+                <div style="font-size:14px;color:#f2f0ee;margin-bottom:4px;">{{ r.texto }}</div>
+                <div style="font-size:12px;color:#847e72;">{{ r.tempo }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabContribuicoes }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-bottom:24px;">
+            <div style="font-size:13px;color:#ada89f;margin-bottom:8px;">Limite semanal de pautas — 4 de 6 usadas</div>
+            <div style="background:#211f1b;border-radius:999px;height:8px;overflow:hidden;">
+              <div style="width:66%;height:100%;background:#f3c921;"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;text-align:center;">
+              <div style="font-size:22px;font-weight:700;font-family:'Space Grotesk',sans-serif;">6</div>
+              <div style="font-size:12px;color:#847e72;">colaborações no mês</div>
+            </div>
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;text-align:center;">
+              <div style="font-size:22px;font-weight:700;font-family:'Space Grotesk',sans-serif;">340</div>
+              <div style="font-size:12px;color:#847e72;">pontos no mês</div>
+            </div>
+            <div style="background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;text-align:center;">
+              <div style="font-size:22px;font-weight:700;font-family:'Space Grotesk',sans-serif;">2.180</div>
+              <div style="font-size:12px;color:#847e72;">total histórico</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabPagamentos }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:2px;background:#211f1b;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;">
+            <sc-for list="{{ pagamentos }}" as="pg" hint-placeholder-count="3">
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);align-items:center;">
+                <span style="font-size:14px;color:#f2f0ee;">{{ pg.data }}</span>
+                <span style="font-size:13px;color:#847e72;">{{ pg.hash }}</span>
+                <span style="font-size:14px;font-weight:700;color:#f3c921;">{{ pg.sats }} sats</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabDados }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:420px;">
+            <div>
+              <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Nome público</label>
+              <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#f2f0ee;font-size:14px;">Marina Costa</div>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Foto de perfil</label>
+              <div style="display:flex;align-items:center;gap:14px;">
+                <div style="width:64px;height:64px;border-radius:50%;background:repeating-linear-gradient(135deg,#2a2722,#2a2722 8px,#232019 8px,#232019 16px);"></div>
+                <button style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:#f2f0ee;font-weight:600;font-size:13px;padding:9px 16px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Alterar avatar</button>
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Carteira Bitcoin</label>
+              <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">bc1q...</div>
+            </div>
+            <button style="align-self:flex-start;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Salvar</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabSeguranca }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:420px;margin-bottom:28px;">
+            <div>
+              <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Senha atual</label>
+              <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">••••••••</div>
+            </div>
+            <div>
+              <label style="display:block;font-size:13px;color:#ada89f;margin-bottom:6px;">Nova senha</label>
+              <div style="background:#171512;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:#847e72;font-size:14px;">mínimo 10 caracteres</div>
+            </div>
+            <button style="align-self:flex-start;background:#f3c921;color:#181818;border:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Trocar senha</button>
+          </div>
+          <div style="border:1px solid rgba(229,72,77,0.3);border-radius:10px;padding:18px;">
+            <h4 style="color:#e5484d;font-family:'Space Grotesk',sans-serif;font-size:15px;margin:0 0 8px;">Zona de risco</h4>
+            <p style="font-size:13px;color:#ada89f;margin:0 0 12px;line-height:1.5;">A exclusão só é concluída após confirmação por e-mail. Até lá, a conta continua ativa.</p>
+            <button style="background:none;border:1px solid #e5484d;color:#e5484d;font-weight:600;font-size:13px;padding:9px 16px;border-radius:8px;cursor:pointer;font-family:'Public Sans',sans-serif;">Solicitar exclusão da conta</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ true }}">
     <footer style="border-top:1px solid rgba(255,255,255,0.08);margin-top:24px;">
-      <div style="max-width:1280px;margin:0 auto;padding:40px 24px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:24px;height:24px;border-radius:50%;background:#f3c921;"></div>
-          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;">VISÃO LIBERTÁRIA</span>
+      <div style="max-width:1280px;margin:0 auto;padding:48px 24px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#f3c921;"></div>
+            <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;">VISÃO LIBERTÁRIA</span>
+          </div>
+          <p style="color:#847e72;font-size:13px;margin:0;line-height:1.5;">Vídeos e notícias sobre livre mercado e crítica ao estado, feitos pela comunidade.</p>
         </div>
-        <p style="color:#847e72;font-size:13px;margin:0;">Desenvolvido e mantido pela comunidade.</p>
+        <div>
+          <h5 style="font-size:13px;text-transform:uppercase;letter-spacing:0.05em;color:#847e72;margin:0 0 12px;">Navegação</h5>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button onClick="{{ goArtigos }}" style="background:none;border:none;color:#ada89f;font-size:14px;text-align:left;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Artigos</button>
+            <button onClick="{{ goContato }}" style="background:none;border:none;color:#ada89f;font-size:14px;text-align:left;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Contato</button>
+            <button onClick="{{ goPagina }}" style="background:none;border:none;color:#ada89f;font-size:14px;text-align:left;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">FAQ</button>
+            <button onClick="{{ goLinks }}" style="background:none;border:none;color:#ada89f;font-size:14px;text-align:left;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Todos os projetos</button>
+            <button onClick="{{ goCalculadoras }}" style="background:none;border:none;color:#ada89f;font-size:14px;text-align:left;cursor:pointer;padding:0;font-family:'Public Sans',sans-serif;">Calculadoras</button>
+          </div>
+        </div>
+        <div>
+          <h5 style="font-size:13px;text-transform:uppercase;letter-spacing:0.05em;color:#847e72;margin:0 0 12px;">Ancapsu</h5>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:#ada89f;">
+            <a href="#">YouTube</a><a href="#">Instagram</a><a href="#">X (Twitter)</a>
+          </div>
+        </div>
+        <div>
+          <h5 style="font-size:13px;text-transform:uppercase;letter-spacing:0.05em;color:#847e72;margin:0 0 12px;">Visão Libertária</h5>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:#ada89f;">
+            <a href="#">YouTube</a><a href="#">X (Twitter)</a>
+          </div>
+        </div>
+      </div>
+      <div style="max-width:1280px;margin:0 auto;padding:16px 24px 32px;border-top:1px solid rgba(255,255,255,0.06);">
+        <p style="color:#847e72;font-size:12px;margin:0;text-align:center;">Desenvolvido e mantido pela comunidade.</p>
       </div>
     </footer>
   </sc-if>
@@ -304,9 +982,27 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
 class Component extends DCLogic {
-  state = { activeScreen: 'home' };
+  state = {
+    activeScreen: 'home',
+    loggedIn: false,
+    mobileMenuOpen: false,
+    userMenuOpen: false,
+    showLoginModal: false,
+    toast: { visible: false, title: '', message: '' },
+    noticiaSearch: '',
+    noticiaCategoria: null,
+    noticiaVisibleCount: 3,
+    selectedNoticiaIdx: 0,
+    selectedArtigoIdx: 0,
+    escritorPapel: 'escrito',
+    painelPerfilTab: 'recados',
+    esqueciSenhaStep: 'email',
+    selectedProducaoIdx: 0
+  };
+
+  projetos = ['Ancapsu', 'Safe Source', 'Visão Libertária', 'Mundo em Revolução'];
 
   videosHome = [
     { titulo: 'Por que impostos são roubo institucionalizado', projeto: 'Visão Libertária', duracao: '12:34' },
@@ -326,14 +1022,21 @@ class Component extends DCLogic {
     { titulo: 'Regulação: quem realmente paga a conta', projeto: 'Ancapsu', duracao: '8:52' }
   ];
 
-  projetos = ['Ancapsu', 'Safe Source', 'Visão Libertária', 'Mundo em Revolução'];
-
   noticias = [
-    { titulo: 'Governo anuncia novo imposto sobre transações via Pix', resumo: 'Medida provisória amplia a base de arrecadação e preocupa especialistas em livre mercado.', autor: 'Marina Costa', data: '12 ago 2026', categoria: 'Economia' },
-    { titulo: 'Banco Central eleva juros pela quarta vez no ano', resumo: 'Decisão do Copom repete o ciclo histórico de resposta tardia à inflação.', autor: 'Diego Ramos', data: '10 ago 2026', categoria: 'Economia' },
-    { titulo: 'Cidade dos EUA elimina zoneamento e libera construção', resumo: 'Reforma reduz preço de aluguéis em bairros centrais após dois anos.', autor: 'Julia Prado', data: '08 ago 2026', categoria: 'Mundo' },
-    { titulo: 'STF julga caso sobre liberdade de expressão online', resumo: 'Decisão pode redefinir os limites da moderação de conteúdo no país.', autor: 'Rafael Nunes', data: '05 ago 2026', categoria: 'Política' },
-    { titulo: 'Novo estudo questiona eficácia de subsídios agrícolas', resumo: 'Pesquisa aponta distorções de mercado causadas por incentivos estatais.', autor: 'Marina Costa', data: '02 ago 2026', categoria: 'Economia' }
+    { titulo: 'Governo anuncia novo imposto sobre transações via Pix', resumo: 'Medida provisória amplia a base de arrecadação e preocupa especialistas em livre mercado.', texto: 'A proposta, enviada ao Congresso nesta semana, cria uma alíquota adicional sobre transferências acima de determinado valor. Economistas de linha liberal apontam que a medida pode reduzir a formalização de pequenos negócios que passaram a usar o Pix como principal meio de recebimento.', autor: 'Marina Costa', data: '12 ago 2026', categoria: 'Economia', comentarios: [{ autor: 'João P.', tempo: '2h', texto: 'Isso vai empurrar ainda mais gente para o informal.' }, { autor: 'Ana L.', tempo: '5h', texto: 'Daria um ótimo artigo sobre efeitos de tributação sobre meios de pagamento.' }] },
+    { titulo: 'Banco Central eleva juros pela quarta vez no ano', resumo: 'Decisão do Copom repete o ciclo histórico de resposta tardia à inflação.', texto: 'O comitê elevou a taxa básica em 0,5 ponto percentual, citando pressões de preços de alimentos e energia. Críticos da política monetária discricionária argumentam que o problema é estrutural e não se resolve apenas com juros.', autor: 'Diego Ramos', data: '10 ago 2026', categoria: 'Economia', comentarios: [{ autor: 'Rafael N.', tempo: '1d', texto: 'Sempre o mesmo ciclo, nunca aprendem.' }] },
+    { titulo: 'Cidade dos EUA elimina zoneamento e libera construção', resumo: 'Reforma reduz preço de aluguéis em bairros centrais após dois anos.', texto: 'A cidade removeu restrições de altura e uso misto em boa parte do centro. Dados preliminares mostram queda real nos aluguéis, atribuída ao aumento da oferta de moradia.', autor: 'Julia Prado', data: '08 ago 2026', categoria: 'Mundo', comentarios: [] },
+    { titulo: 'STF julga caso sobre liberdade de expressão online', resumo: 'Decisão pode redefinir os limites da moderação de conteúdo no país.', texto: 'O julgamento discute a responsabilidade de plataformas por conteúdo de terceiros. O caso é acompanhado de perto por juristas que defendem menor intervenção estatal na internet.', autor: 'Rafael Nunes', data: '05 ago 2026', categoria: 'Política', comentarios: [{ autor: 'Marina C.', tempo: '3d', texto: 'Precisamos cobrir isso com calma, tem muito nuance jurídico aqui.' }] },
+    { titulo: 'Novo estudo questiona eficácia de subsídios agrícolas', resumo: 'Pesquisa aponta distorções de mercado causadas por incentivos estatais.', texto: 'O levantamento comparou preços e produtividade entre regiões subsidiadas e não subsidiadas, encontrando pouca diferença em produtividade mas forte distorção de preços.', autor: 'Marina Costa', data: '02 ago 2026', categoria: 'Economia', comentarios: [] }
+  ];
+
+  artigos = [
+    { titulo: 'O mito do monopólio natural', data: '28 jul 2026', autor: 'Marina Costa', resumo: 'Como a concorrência resolve problemas que se atribui à regulação.', corpo: 'A ideia de monopólio natural costuma ser usada para justificar concessões estatais em setores como energia e água. Mas a história mostra diversos casos em que a concorrência surgiu justamente onde se dizia impossível, reduzindo preços e melhorando serviço.', projeto: 'Visão Libertária', tags: ['Economia', 'Regulação'] },
+    { titulo: 'Bitcoin como reserva de valor', data: '14 jul 2026', autor: 'Diego Ramos', resumo: 'Por que ativos com oferta fixa protegem contra a desvalorização monetária.', corpo: 'Diferente de moedas fiduciárias, o Bitcoin tem uma emissão previsível e limitada a 21 milhões de unidades. Isso o torna atrativo como reserva de valor em economias com histórico de inflação alta.', projeto: 'Safe Source', tags: ['Bitcoin', 'Economia'] },
+    { titulo: 'Propriedade privada e meio ambiente', data: '30 jun 2026', autor: 'Julia Prado', resumo: 'O paradoxo dos recursos comuns e como direitos de propriedade evitam a tragédia.', corpo: 'Quando ninguém é dono de um recurso, ninguém tem incentivo para preservá-lo. Direitos de propriedade bem definidos alinham os incentivos de quem usa a terra com sua conservação de longo prazo.', projeto: 'Mundo em Revolução', tags: ['Meio ambiente', 'Propriedade'] },
+    { titulo: 'Por que economistas austríacos rejeitam modelos matemáticos', data: '15 jun 2026', autor: 'Rafael Nunes', resumo: 'A diferença entre previsão qualitativa e quantitativa em economia.', corpo: 'A escola austríaca argumenta que a ação humana não pode ser reduzida a equações, já que envolve escolhas subjetivas e incerteza genuína, diferente de fenômenos físicos previsíveis.', projeto: 'Ancapsu', tags: ['Escola Austríaca'] },
+    { titulo: 'A falácia do salário mínimo', data: '02 jun 2026', autor: 'Marina Costa', resumo: 'Como um preço mínimo imposto por lei afeta quem mais precisa de emprego.', corpo: 'Salários mínimos acima do valor de mercado tendem a excluir justamente os trabalhadores menos qualificados, que perdem a chance de entrar no mercado de trabalho.', projeto: 'Ancapsu', tags: ['Economia', 'Trabalho'] },
+    { titulo: 'Descentralização e liberdade individual', data: '20 mai 2026', autor: 'Diego Ramos', resumo: 'Por que decisões locais tendem a respeitar mais a diversidade de preferências.', corpo: 'Quanto mais próxima do indivíduo está a decisão, maior a chance de refletir suas preferências reais. Centralização tende a impor uma solução única para problemas heterogêneos.', projeto: 'Visão Libertária', tags: ['Política', 'Descentralização'] }
   ];
 
   artigosPerfil = [
@@ -343,60 +1046,305 @@ class Component extends DCLogic {
     { titulo: 'Por que economistas austríacos rejeitam modelos matemáticos', data: '15 jun 2026', resumo: 'A diferença entre previsão qualitativa e quantitativa em economia.' }
   ];
 
-  badges = ['Primeira publicação', '10 artigos publicados', 'Colaborador do mês'];
+  pautasReservadas = [
+    { titulo: 'Reforma tributária e livre mercado', data: 'reservada em 10 ago 2026', status: 'em produção' },
+    { titulo: 'Impacto do open finance na inflação', data: 'reservada em 02 ago 2026', status: 'usada' },
+    { titulo: 'Regulação de criptoativos no Brasil', data: 'reservada em 20 jul 2026', status: 'usada' }
+  ];
+
+  resumoPautasPeriodo = [
+    { label: 'nesta semana', value: '02' },
+    { label: 'usadas na semana', value: '01' },
+    { label: 'usadas no mês', value: '04' },
+    { label: 'usadas no ano', value: '31' }
+  ];
 
   statsPainel = [
     { label: 'Artigos em produção', value: '3' },
-    { label: 'Pautas fechadas', value: '12' },
-    { label: 'Saldo em sats', value: '184.200' },
-    { label: 'Recados novos', value: '2' }
+    { label: 'Publicados (mês)', value: '2' },
+    { label: 'Palavras totais', value: '48.200' },
+    { label: 'Tempo médio p/ publicar', value: '6,4 dias' }
+  ];
+
+  producaoPainel = [
+    { titulo: 'Reforma tributária e livre mercado', fase: 'Revisando' },
+    { titulo: 'Open finance e concorrência bancária', fase: 'Narrando' },
+    { titulo: 'Criptoativos e regulação no Brasil', fase: 'Escrevendo' }
   ];
 
   atividadePainel = [
-    { texto: 'Artigo "O mito do monopólio natural" aprovado para publicação', tempo: 'há 2 horas' },
-    { texto: 'Nova pauta atribuída: "Reforma tributária e livre mercado"', tempo: 'há 1 dia' },
-    { texto: 'Pagamento de 42.000 sats confirmado', tempo: 'há 3 dias' }
+    { texto: 'O mito do monopólio natural', tempo: 'publicado há 3 sem.' },
+    { texto: 'Bitcoin como reserva de valor', tempo: 'publicado há 5 sem.' }
   ];
 
-  setScreen(name) {
-    this.setState({ activeScreen: name });
+  recados = [
+    { texto: 'Sua pauta "Reforma tributária" foi aprovada para produção.', tempo: 'há 2 horas', corBorda: '#4ade80' },
+    { texto: 'Novo comentário no seu artigo "O mito do monopólio natural".', tempo: 'há 1 dia', corBorda: '#60a5fa' },
+    { texto: 'Pagamento de 42.000 sats confirmado.', tempo: 'há 3 dias', corBorda: '#f3c921' }
+  ];
+
+  pagamentos = [
+    { data: '01 ago 2026', hash: '3af2b...c91d', sats: '42.000' },
+    { data: '01 jul 2026', hash: '9c81f...2a4e', sats: '38.500' },
+    { data: '01 jun 2026', hash: '15b3e...77f0', sats: '29.900' }
+  ];
+
+  producaoDetalhes = [
+    { titulo: 'Reforma tributária e livre mercado', fase: 'Revisando', textoEscritor: 'A proposta de reforma tributária amplia a base de arrecadação sobre transações digitais, atingindo principalmente pequenos negócios que migraram para o Pix como meio de recebimento...', historico: [{ texto: 'Enviado para revisão', tempo: 'há 1 dia' }, { texto: 'Criado por Marina Costa', tempo: 'há 4 dias' }] },
+    { titulo: 'Open finance e concorrência bancária', fase: 'Narrando', textoEscritor: 'O open finance promete reduzir barreiras de troca entre instituições financeiras, mas a adoção depende de como os bancos incumbentes reagem à nova regulação...', historico: [{ texto: 'Revisão concluída', tempo: 'há 2 dias' }, { texto: 'Criado por Marina Costa', tempo: 'há 6 dias' }] },
+    { titulo: 'Criptoativos e regulação no Brasil', fase: 'Escrevendo', textoEscritor: 'A regulamentação brasileira de criptoativos ainda trata o setor com instrumentos pensados para o sistema financeiro tradicional...', historico: [{ texto: 'Pauta reservada', tempo: 'há 8 dias' }] }
+  ];
+
+  colaborarList = [
+    { titulo: 'A crise habitacional e o excesso de zoneamento', autor: 'Diego Ramos', papel: 'Revisor' },
+    { titulo: 'Como bancos centrais decidem a taxa de juros', autor: 'Julia Prado', papel: 'Narrador' },
+    { titulo: 'Privatização de rodovias: o que os dados mostram', autor: 'Rafael Nunes', papel: 'Produtor' }
+  ];
+
+  pautasAbertas = [
+    { titulo: 'Impacto do imposto sobre transações no comércio informal' },
+    { titulo: 'Zoneamento urbano e o custo da moradia' },
+    { titulo: 'Regulação de stablecoins na América Latina' }
+  ];
+
+  kanbanColunas = [
+    { nome: 'Escrevendo', itens: ['Criptoativos e regulação no Brasil'] },
+    { nome: 'Revisando', itens: ['Reforma tributária e livre mercado'] },
+    { nome: 'Narrando', itens: ['Open finance e concorrência bancária'] },
+    { nome: 'Produzindo', itens: [] },
+    { nome: 'Publicando', itens: [] },
+    { nome: 'Pagando', itens: ['O mito do monopólio natural'] }
+  ];
+
+  adminStats = [
+    { label: 'Artigos publicados (mês)', value: '14' },
+    { label: 'Colaboradores ativos', value: '38' },
+    { label: 'Pagamentos pendentes', value: '6' },
+    { label: 'Contatos sem resposta', value: '3' }
+  ];
+
+  contatosInbox = [
+    { email: 'leitor1@email.com', assunto: 'Erro no site', data: '11 ago', status: 'novo', statusBg: 'rgba(229,72,77,0.14)', statusCor: '#e5787c' },
+    { email: 'parceiro@email.com', assunto: 'Parceria', data: '09 ago', status: 'novo', statusBg: 'rgba(229,72,77,0.14)', statusCor: '#e5787c' },
+    { email: 'leitor2@email.com', assunto: 'Dúvida', data: '05 ago', status: 'respondido', statusBg: 'rgba(74,222,128,0.14)', statusCor: '#4ade80' }
+  ];
+
+  permissoesList = [
+    { nome: 'Marina Costa', atribuicoes: ['Escritora', 'Revisora'] },
+    { nome: 'Diego Ramos', atribuicoes: ['Narrador'] },
+    { nome: 'Julia Prado', atribuicoes: ['Escritora', 'Administradora'] }
+  ];
+
+  screenMeta = {
+    home: {}, noticias: {}, pautaDetail: {}, videos: {}, artigos: {}, artigoDetail: {},
+    escritor: {}, colaborador: {}, cadastro: {}, esqueciSenha: {}, contato: {}, pagina: {},
+    painelArtigos: {}, painelPerfil: {}
+  };
+
+  go(screen) { this.setState({ activeScreen: screen, mobileMenuOpen: false, userMenuOpen: false }); }
+  toggleMobileMenu() { this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen })); }
+  toggleUserMenu() { this.setState(s => ({ userMenuOpen: !s.userMenuOpen })); }
+  openLogin() { this.setState({ showLoginModal: true, userMenuOpen: false }); }
+  closeLogin() { this.setState({ showLoginModal: false }); }
+  doLogin() { this.setState({ showLoginModal: false, loggedIn: true }); this.fireToast('Bem-vinda de volta!', 'Login realizado com sucesso.'); }
+  logout() { this.setState({ loggedIn: false, userMenuOpen: false, activeScreen: 'home' }); }
+  fireToast(title, message) {
+    this.setState({ toast: { visible: true, title, message } });
+    clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(() => this.setState({ toast: { visible: false, title: '', message: '' } }), 3500);
   }
+  submitCadastro() { this.fireToast('Cadastro enviado!', 'Verifique seu e-mail para confirmar a conta.'); setTimeout(() => this.go('emailConfirmacao'), 1200); }
+  submitContato() { this.fireToast('Mensagem enviada!', 'A equipe vai responder em breve.'); }
+  submitEsqueciSenha() { this.fireToast('E-mail enviado!', 'Simulando o clique no link recebido...'); setTimeout(() => this.setState({ esqueciSenhaStep: 'senha' }), 1200); }
+  loadMoreNoticias() { this.setState(s => ({ noticiaVisibleCount: s.noticiaVisibleCount + 3 })); }
+  setNoticiaSearch(e) { this.setState({ noticiaSearch: e.target.value, noticiaVisibleCount: 3 }); }
+  setNoticiaCategoria(cat) { this.setState({ noticiaCategoria: cat, noticiaVisibleCount: 3 }); }
+  openPauta(idx) { this.setState({ selectedNoticiaIdx: idx, activeScreen: 'pautaDetail' }); window.scrollTo?.({ top: 0 }); }
+  openArtigo(idx) { this.setState({ selectedArtigoIdx: idx, activeScreen: 'artigoDetail' }); window.scrollTo?.({ top: 0 }); }
+  setEscritorPapel(p) { this.setState({ escritorPapel: p }); }
+  setPainelPerfilTab(t) { this.setState({ painelPerfilTab: t }); }
+  submitNovoArtigo() { this.fireToast('Artigo criado!', 'Enviado para a fase de revisão.'); this.go('painelArtigos'); }
+  openProducao(idx) { this.setState({ selectedProducaoIdx: idx, activeScreen: 'artigoProducao' }); }
+  colaborarAceitar() { this.fireToast('Você entrou na produção!', 'O artigo foi adicionado à sua lista.'); }
+  reservarPauta() { this.fireToast('Pauta reservada!', 'Ela já aparece na sua área de colaborador.'); }
+  fecharPautas() { this.fireToast('Pautas fechadas!', 'Grupo disponível para reserva dos colaboradores.'); }
+  concluirRedefinirSenha() { this.fireToast('Senha alterada!', 'Você já pode acessar com a nova senha.'); this.openLogin(); this.setState({ activeScreen: 'home', esqueciSenhaStep: 'email' }); }
 
   renderVals() {
-    const s = this.state.activeScreen;
-    const base = { border: 'none', borderRadius: '999px', padding: '9px 16px', fontSize: '14px', cursor: 'pointer', fontFamily: "'Public Sans',sans-serif" };
-    const tabStyle = (name) => s === name
-      ? { ...base, background: '#f3c921', color: '#181818', fontWeight: 700 }
-      : { ...base, background: 'transparent', color: '#ada89f', fontWeight: 500 };
+    const s = this.state;
+    const navBase = { border: 'none', background: 'transparent', color: '#ada89f', fontWeight: 500, fontSize: '14px', padding: '9px 14px', borderRadius: '8px', cursor: 'pointer', fontFamily: "'Public Sans',sans-serif", textAlign: 'left' };
+    const navActive = { ...navBase, background: 'rgba(243,201,33,0.14)', color: '#f3c921', fontWeight: 700 };
+    const navItems = [
+      { key: 'home', label: 'Home' },
+      { key: 'noticias', label: 'Notícias' },
+      { key: 'videos', label: 'Vídeos' },
+      { key: 'artigos', label: 'Artigos' },
+      { key: 'contato', label: 'Contato' }
+    ].map(n => ({ label: n.label, onClick: () => this.go(n.key), style: (s.activeScreen === n.key || (n.key === 'noticias' && s.activeScreen === 'pautaDetail') || (n.key === 'artigos' && s.activeScreen === 'artigoDetail')) ? navActive : navBase }));
+
+    const chipBase = { border: '1px solid rgba(255,255,255,0.14)', color: '#ada89f', fontSize: '13px', padding: '7px 14px', borderRadius: '999px', background: 'transparent', cursor: 'pointer', fontFamily: "'Public Sans',sans-serif" };
+    const chipActive = { ...chipBase, background: '#f3c921', color: '#181818', fontWeight: 700, border: 'none' };
+    const categorias = ['Todas', 'Economia', 'Política', 'Mundo'];
+    const categoriaChips = categorias.map(c => {
+      const val = c === 'Todas' ? null : c;
+      return { label: c, onClick: () => this.setNoticiaCategoria(val), style: s.noticiaCategoria === val ? chipActive : chipBase };
+    });
+
+    let filtradas = this.noticias.filter(n =>
+      (!s.noticiaCategoria || n.categoria === s.noticiaCategoria) &&
+      (!s.noticiaSearch || n.titulo.toLowerCase().includes(s.noticiaSearch.toLowerCase()))
+    );
+    const noticiasVisiveis = filtradas.slice(0, s.noticiaVisibleCount).map(n => {
+      const realIdx = this.noticias.indexOf(n);
+      return { ...n, onClick: () => this.openPauta(realIdx) };
+    });
+
+    const roleOptions = [
+      { key: 'escrito', label: 'Escritor' }, { key: 'revisado', label: 'Revisor' },
+      { key: 'narrado', label: 'Narrador' }, { key: 'produzido', label: 'Produtor' }, { key: 'todos', label: 'Todos' }
+    ];
+    const escritorPapelOptions = roleOptions.map(r => ({
+      label: r.label, onClick: () => this.setEscritorPapel(r.key),
+      style: s.escritorPapel === r.key ? chipActive : chipBase
+    }));
+
+    const sideBase = { border: 'none', background: 'transparent', color: '#ada89f', fontWeight: 500, fontSize: '14px', padding: '10px 12px', borderRadius: '8px', cursor: 'pointer', fontFamily: "'Public Sans',sans-serif", textAlign: 'left' };
+    const sideActive = { ...sideBase, background: 'rgba(243,201,33,0.14)', color: '#f3c921', fontWeight: 700 };
+    const painelSidebarItems = [
+      { key: 'painelArtigos', label: 'Meus artigos' },
+      { key: 'colaborar', label: 'Colaborar' },
+      { key: 'pautasFechar', label: 'Pautas' },
+      { key: 'painelPerfil', label: 'Meu perfil' }
+    ].map(it => ({ label: it.label, onClick: () => this.go(it.key), style: s.activeScreen === it.key ? sideActive : sideBase }));
+
+    const adminSidebarItems = [
+      { key: 'adminDashboard', label: 'Dashboard' },
+      { key: 'adminContatos', label: 'Contatos' },
+      { key: 'adminPermissoes', label: 'Permissões' }
+    ].map(it => ({ label: it.label, onClick: () => this.go(it.key), style: s.activeScreen === it.key ? sideActive : sideBase }));
+
+    const tabBase = { border: 'none', borderBottom: '2px solid transparent', background: 'transparent', color: '#847e72', fontWeight: 600, fontSize: '14px', padding: '0 4px 10px', marginRight: '20px', cursor: 'pointer', fontFamily: "'Public Sans',sans-serif" };
+    const tabActive = { ...tabBase, color: '#f2f0ee', borderBottom: '2px solid #f3c921' };
+    const perfilTabDefs = [
+      { key: 'recados', label: 'Recados' }, { key: 'contribuicoes', label: 'Contribuições' },
+      { key: 'pagamentos', label: 'Pagamentos' }, { key: 'dados', label: 'Perfil' }, { key: 'seguranca', label: 'Segurança' }
+    ];
+    const perfilTabs = perfilTabDefs.map(t => ({ label: t.label, onClick: () => this.setPainelPerfilTab(t.key), style: s.painelPerfilTab === t.key ? tabActive : tabBase }));
+
+    const pautaAtual = this.noticias[s.selectedNoticiaIdx];
+    const artigoAtual = this.artigos[s.selectedArtigoIdx];
+    const artigosListagem = this.artigos.map((a, i) => ({ ...a, onClick: () => this.openArtigo(i) }));
+    const producaoPainel = this.producaoDetalhes.map((p, i) => ({ titulo: p.titulo, fase: p.fase, onClick: () => this.openProducao(i) }));
+    const producaoAtual = this.producaoDetalhes[s.selectedProducaoIdx];
 
     return {
-      isHome: s === 'home',
-      isNoticias: s === 'noticias',
-      isVideos: s === 'videos',
-      isPerfil: s === 'perfil',
-      isContato: s === 'contato',
-      isPainel: s === 'painel',
-      showFooter: s !== 'painel',
-      goHome: () => this.setScreen('home'),
-      goNoticias: () => this.setScreen('noticias'),
-      goVideos: () => this.setScreen('videos'),
-      goPerfil: () => this.setScreen('perfil'),
-      goContato: () => this.setScreen('contato'),
-      goPainel: () => this.setScreen('painel'),
-      homeTabStyle: tabStyle('home'),
-      noticiasTabStyle: tabStyle('noticias'),
-      videosTabStyle: tabStyle('videos'),
-      perfilTabStyle: tabStyle('perfil'),
-      contatoTabStyle: tabStyle('contato'),
-      painelTabStyle: tabStyle('painel'),
+      isLoggedIn: s.loggedIn,
+      isLoggedOut: !s.loggedIn,
+      userMenuOpen: s.userMenuOpen,
+      mobileMenuOpen: s.mobileMenuOpen,
+      showLoginModal: s.showLoginModal,
+      toast: s.toast,
+      toggleUserMenu: () => this.toggleUserMenu(),
+      toggleMobileMenu: () => this.toggleMobileMenu(),
+      openLogin: () => this.openLogin(),
+      closeLogin: () => this.closeLogin(),
+      doLogin: () => this.doLogin(),
+      logout: () => this.logout(),
+      goHome: () => this.go('home'),
+      goNoticias: () => this.go('noticias'),
+      goVideos: () => this.go('videos'),
+      goArtigos: () => this.go('artigos'),
+      goContato: () => this.go('contato'),
+      goCadastro: () => this.go('cadastro'),
+      goEsqueciSenha: () => this.go('esqueciSenha'),
+      goPagina: () => this.go('pagina'),
+      goPainelArtigos: () => this.go('painelArtigos'),
+      goPainelPerfil: () => this.go('painelPerfil'),
+      goEscritor: () => this.go('escritor'),
+      goColaborador: () => this.go('colaborador'),
+      goColaborar: () => this.go('colaborar'),
+      goPautasFechar: () => this.go('pautasFechar'),
+      goKanban: () => this.go('kanban'),
+      goNovoArtigo: () => this.go('novoArtigo'),
+      goLinks: () => this.go('links'),
+      goCalculadoras: () => this.go('calculadoras'),
+      goAdminDashboard: () => this.go('adminDashboard'),
+      submitNovoArtigo: () => this.submitNovoArtigo(),
+      colaborarAceitar: () => this.colaborarAceitar(),
+      reservarPauta: () => this.reservarPauta(),
+      fecharPautas: () => this.fecharPautas(),
+      concluirRedefinirSenha: () => this.concluirRedefinirSenha(),
+      isEsqueciSenhaEmail: s.esqueciSenhaStep === 'email',
+      isEsqueciSenhaNova: s.esqueciSenhaStep === 'senha',
+      isEmailConfirmacao: s.activeScreen === 'emailConfirmacao',
+      isLinks: s.activeScreen === 'links',
+      isCalculadoras: s.activeScreen === 'calculadoras',
+      isNovoArtigo: s.activeScreen === 'novoArtigo',
+      isArtigoProducao: s.activeScreen === 'artigoProducao',
+      isColaborar: s.activeScreen === 'colaborar',
+      isPautasFechar: s.activeScreen === 'pautasFechar',
+      isKanban: s.activeScreen === 'kanban',
+      isAdminDashboard: s.activeScreen === 'adminDashboard',
+      isAdminContatos: s.activeScreen === 'adminContatos',
+      isAdminPermissoes: s.activeScreen === 'adminPermissoes',
+      adminSidebarItems,
+      adminStats: this.adminStats,
+      contatosInbox: this.contatosInbox,
+      permissoesList: this.permissoesList,
+      projetosLinks: this.projetos.map(nome => ({ nome })),
+      colaborarList: this.colaborarList,
+      pautasAbertas: this.pautasAbertas,
+      kanbanColunas: this.kanbanColunas,
+      producaoAtual,
+      submitCadastro: () => this.submitCadastro(),
+      submitContato: () => this.submitContato(),
+      submitEsqueciSenha: () => this.submitEsqueciSenha(),
+      navItems,
+      isHome: s.activeScreen === 'home',
+      isNoticias: s.activeScreen === 'noticias',
+      isPautaDetail: s.activeScreen === 'pautaDetail',
+      isVideos: s.activeScreen === 'videos',
+      isArtigos: s.activeScreen === 'artigos',
+      isArtigoDetail: s.activeScreen === 'artigoDetail',
+      isEscritor: s.activeScreen === 'escritor',
+      isColaborador: s.activeScreen === 'colaborador',
+      isCadastro: s.activeScreen === 'cadastro',
+      isEsqueciSenha: s.activeScreen === 'esqueciSenha',
+      isContato: s.activeScreen === 'contato',
+      isPagina: s.activeScreen === 'pagina',
+      isPainelArtigos: s.activeScreen === 'painelArtigos',
+      isPainelPerfil: s.activeScreen === 'painelPerfil',
+      showFooter: !['painelArtigos', 'painelPerfil', 'colaborar', 'pautasFechar', 'kanban', 'novoArtigo', 'artigoProducao', 'adminDashboard', 'adminContatos', 'adminPermissoes'].includes(s.activeScreen),
+      projetos: this.projetos,
       videosHome: this.videosHome,
       videosGrid: this.videosGrid,
-      projetos: this.projetos,
-      noticias: this.noticias,
+      categoriaChips,
+      noticiaSearch: s.noticiaSearch,
+      setNoticiaSearch: (e) => this.setNoticiaSearch(e),
+      hasNoticias: filtradas.length > 0,
+      hasNoticiasEmpty: filtradas.length === 0,
+      noticiasVisiveis,
+      hasMoreNoticias: filtradas.length > s.noticiaVisibleCount,
+      loadMoreNoticias: () => this.loadMoreNoticias(),
+      pautaAtual,
+      artigoAtual,
+      artigosListagem,
       artigosPerfil: this.artigosPerfil,
-      badges: this.badges,
+      escritorPapelOptions,
+      pautasReservadas: this.pautasReservadas,
+      resumoPautasPeriodo: this.resumoPautasPeriodo,
+      painelSidebarItems,
       statsPainel: this.statsPainel,
-      atividadePainel: this.atividadePainel
+      producaoPainel,
+      atividadePainel: this.atividadePainel,
+      perfilTabs,
+      isTabRecados: s.painelPerfilTab === 'recados',
+      isTabContribuicoes: s.painelPerfilTab === 'contribuicoes',
+      isTabPagamentos: s.painelPerfilTab === 'pagamentos',
+      isTabDados: s.painelPerfilTab === 'dados',
+      isTabSeguranca: s.painelPerfilTab === 'seguranca',
+      recados: this.recados,
+      pagamentos: this.pagamentos
     };
   }
 }

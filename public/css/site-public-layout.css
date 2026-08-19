@@ -1,7 +1,276 @@
 /**
- * Layout público (/site, /site/videos) — rosto do site (`layouts/_main`).
- * Carregar após `public/css/site-theme.css`. Usa `var(--primary-color)` do tema.
+ * Layout público (`layouts/_main`) — chrome do mockup.
+ * Carregar após `public/css/site-theme.css`. Consome tokens `--vl-*`.
  */
+
+.vl-container {
+	max-width: var(--vl-container-max);
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: var(--vl-container-pad);
+	padding-right: var(--vl-container-pad);
+}
+
+.vl-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: var(--vl-surface);
+	border-bottom: 1px solid var(--vl-border);
+}
+
+.vl-header-inner {
+	max-width: var(--vl-container-max);
+	margin: 0 auto;
+	padding: 14px var(--vl-container-pad);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.vl-nav-pills {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+
+.vl-nav-pill {
+	border: none;
+	background: transparent;
+	color: var(--vl-muted);
+	font-weight: 500;
+	font-size: 14px;
+	padding: 9px 14px;
+	border-radius: var(--vl-radius);
+	cursor: pointer;
+	font-family: var(--vl-font-body);
+	text-align: left;
+	text-decoration: none;
+}
+
+.vl-nav-pill:hover,
+.vl-nav-pill.is-active,
+.vl-nav-pill.active {
+	background: rgba(var(--vl-brand-rgb), 0.14);
+	color: var(--vl-brand);
+	font-weight: 700;
+}
+
+.vl-hero {
+	max-width: var(--vl-container-max);
+	margin: 0 auto;
+	padding: 56px var(--vl-container-pad) 40px;
+	display: grid;
+	grid-template-columns: minmax(300px, 1.1fr) minmax(280px, 0.9fr);
+	gap: 48px;
+	align-items: center;
+}
+
+.vl-hero-kicker {
+	font-family: ui-monospace, Menlo, monospace;
+	font-size: 12px;
+	letter-spacing: 0.08em;
+	color: var(--vl-brand);
+	text-transform: uppercase;
+	margin-bottom: 16px;
+}
+
+.vl-hero h1 {
+	font-family: var(--vl-font-title);
+	font-size: clamp(32px, 5vw, 52px);
+	line-height: 1.08;
+	font-weight: 700;
+	margin: 0 0 20px;
+}
+
+.vl-hero p {
+	font-size: 17px;
+	line-height: 1.6;
+	color: var(--vl-muted);
+	max-width: 480px;
+	margin: 0 0 28px;
+}
+
+.vl-hero-media {
+	position: relative;
+	aspect-ratio: 16 / 10;
+	border-radius: 16px;
+	background: var(--vl-thumb-placeholder-bg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.vl-hero-actions {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+	.vl-hero {
+		grid-template-columns: 1fr;
+		padding-top: 32px;
+		gap: 28px;
+	}
+}
+
+.vl-card,
+.vl-card-h {
+	background: var(--vl-surface);
+	border: 1px solid var(--vl-border);
+	border-radius: 10px;
+	color: var(--vl-text);
+}
+
+.vl-card-h {
+	display: grid;
+	grid-template-columns: 150px 1fr;
+	gap: 16px;
+	padding: 14px;
+	text-align: left;
+}
+
+.vl-card-media-16x9,
+.vl-card-media-4x3 {
+	background: var(--vl-thumb-placeholder-bg);
+	overflow: hidden;
+}
+
+.vl-card-media-16x9 {
+	aspect-ratio: 16 / 9;
+	border-radius: 10px;
+}
+
+.vl-card-media-4x3 {
+	aspect-ratio: 4 / 3;
+	border-radius: var(--vl-radius);
+}
+
+.vl-chip {
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	color: var(--vl-muted);
+	font-size: 13px;
+	padding: 7px 14px;
+	border-radius: 999px;
+	background: transparent;
+	font-family: var(--vl-font-body);
+}
+
+.vl-chip.is-active,
+.vl-chip.active {
+	background: var(--vl-brand);
+	color: var(--vl-brand-text);
+	font-weight: 700;
+	border: none;
+}
+
+.vl-footer,
+footer {
+	border-top: 1px solid var(--vl-border);
+	margin-top: 24px;
+	background: var(--vl-bg);
+	color: var(--vl-text);
+}
+
+.vl-footer-grid {
+	max-width: var(--vl-container-max);
+	margin: 0 auto;
+	padding: 48px var(--vl-container-pad) 24px;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(180px, 1fr));
+	gap: 32px;
+}
+
+.vl-footer h5,
+footer h5 {
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--vl-muted-2);
+	margin: 0 0 12px;
+	font-family: var(--vl-font-body);
+	font-weight: 600;
+}
+
+.vl-footer a,
+footer a {
+	color: var(--vl-muted);
+	font-size: 14px;
+}
+
+.vl-footer a:hover,
+footer a:hover {
+	color: var(--vl-brand);
+}
+
+.vl-footer p,
+footer p {
+	color: var(--vl-muted-2);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.vl-footer-legal {
+	max-width: var(--vl-container-max);
+	margin: 0 auto;
+	padding: 16px var(--vl-container-pad) 32px;
+	border-top: 1px solid rgba(255, 255, 255, 0.06);
+	color: var(--vl-muted-2);
+	font-size: 12px;
+	text-align: center;
+}
+
+@media (max-width: 900px) {
+	.vl-footer-grid {
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	}
+}
+
+.vl-toast {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 200;
+	background: var(--vl-surface);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-left: 3px solid #4ade80;
+	border-radius: 10px;
+	padding: 16px 20px;
+	max-width: 320px;
+	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+#header-login-modal .modal-content {
+	background: var(--vl-surface) !important;
+	border: 1px solid rgba(255, 255, 255, 0.1) !important;
+	border-radius: 14px;
+	color: var(--vl-text) !important;
+}
+
+#header-login-modal .modal-header,
+#header-login-modal .modal-footer {
+	border-color: var(--vl-border) !important;
+	background: transparent;
+}
+
+#header-login-modal .form-control {
+	background: var(--vl-bg) !important;
+	border: 1px solid var(--vl-border-strong) !important;
+	color: var(--vl-text) !important;
+	border-radius: var(--vl-radius);
+}
+
+#header-login-modal .btn-primary {
+	background: var(--vl-brand) !important;
+	border-color: var(--vl-brand) !important;
+	color: var(--vl-brand-text) !important;
+	font-weight: 700;
+	border-radius: var(--vl-radius);
+}
+
 @keyframes slideInUp {
 			from {
 				opacity: 0;
@@ -71,13 +340,16 @@
 		}
 
 		#gen-header {
-			position: absolute;
+			position: sticky;
+			top: 0;
 			width: 100%;
-			z-index: 999;
+			z-index: 50;
+			background: var(--vl-surface);
+			border-bottom: 1px solid var(--vl-border);
 		}
 
 		#gen-header .gen-bottom-header {
-			background: transparent;
+			background: var(--vl-surface);
 		}
 
 		/* Login/cadastro no menu hamburger — só no mobile (os botões .gen-button somem em ≤767px) */
@@ -148,7 +420,7 @@
 			overflow: hidden;
 			flex-shrink: 0;
 			background: rgba(255, 255, 255, 0.12);
-			color: #f1f1f1;
+			color: var(--vl-text);
 			line-height: 1;
 			box-sizing: border-box;
 		}
@@ -164,11 +436,12 @@
 		}
 
 		.navbar-brand div {
-			font-size: 1.5rem;
-			/* Tamanho similar ao loader, mas ajustado para a navbar */
-			font-weight: bold;
-			color: #fff;
-			margin-left: 15px;
+			font-size: 15px;
+			font-weight: 700;
+			font-family: var(--vl-font-title);
+			color: var(--vl-text);
+			letter-spacing: 0.03em;
+			margin-left: 10px;
 		}
 
 		/*
@@ -177,7 +450,7 @@
 		 * Com banner (produção) o seletor não casa e o header continua absoluto.
 		 */
 		body:not(:has(.banner-section)) header#gen-header.gen-header-style-1.gen-has-sticky {
-			position: relative;
+			position: sticky;
 		}
 
 		/* Overlay para escurecer a imagem de fundo do banner */
@@ -215,17 +488,19 @@
 
 		/* Classe de utilidade para usar a cor primária do tema */
 		.text-primary-color {
-			color: var(--primary-color) !important;
+			color: var(--vl-brand) !important;
 		}
 
 		.btn-primary-color {
-			background-color: var(--primary-color) !important;
-			border-color: var(--primary-color) !important;
+			background-color: var(--vl-brand) !important;
+			border-color: var(--vl-brand) !important;
+			color: var(--vl-brand-text) !important;
+			border-radius: var(--vl-radius);
 		}
 
 		.btn-primary-color:hover {
-			background-color: #fff !important;
-			color: var(--primary-color) !important;
+			background-color: var(--vl-brand-hover) !important;
+			color: var(--vl-brand-text) !important;
 		}
 
 		/* Estilos para a nova seção de carrossel de vídeos */
@@ -242,8 +517,8 @@
 		}
 
 		.video-carousel-section .section-title-holder h2 {
-			color: #fff;
-			font-weight: bold;
+			color: var(--vl-text);
+			font-weight: 700;
 			margin: 0;
 		}
 
@@ -297,7 +572,7 @@
 		}
 
 		.video-carousel-section .movie-card-info h5 {
-			color: #fff;
+			color: var(--vl-text);
 			font-size: 1.1rem;
 			margin-top: 0.75rem;
 			margin-bottom: 0.25rem;
@@ -305,7 +580,7 @@
 
 		.video-carousel-section .movie-card-info p {
 			font-size: 0.9rem;
-			color: #a0a0a0;
+			color: var(--vl-muted);
 		}
 
 		/* Posicionamento dos botões de navegação do carrossel */
@@ -351,12 +626,12 @@
 		}
 
 		.tag-primary {
-			background-color: var(--primary-color);
-			color: #fff;
+			background-color: var(--vl-brand);
+			color: var(--vl-brand-text);
 			padding: 3px 10px;
-			border-radius: 5px;
+			border-radius: var(--vl-radius);
 			font-size: 0.8rem;
-			font-weight: bold;
+			font-weight: 700;
 		}
 
 		/* Animação de zoom para o texto 'Assista ao video' */
@@ -427,7 +702,7 @@
 		}
 
 		#custom-slider-owl .owl-dot.active span {
-			background: var(--primary-color);
+			background: var(--vl-brand);
 			opacity: 1;
 		}
 
@@ -554,13 +829,14 @@
 
 		/* Navbar fixa ao rolar */
 		#gen-header.fixed-navbar {
-			position: fixed !important;
+			position: sticky !important;
 			top: 0;
 			left: 0;
-			width: 100vw;
-			z-index: 9999;
-			box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.25);
-			animation: fadeInDown 0.4s;
+			width: 100%;
+			z-index: 50;
+			background: var(--vl-surface);
+			box-shadow: none;
+			animation: none;
 		}
 
 		@keyframes fadeInDown {
@@ -582,8 +858,8 @@
 			right: 30px;
 			width: 50px;
 			height: 50px;
-			background: var(--primary-color);
-			color: #fff;
+			background: var(--vl-brand);
+			color: var(--vl-brand-text);
 			border-radius: 50%;
 			display: none;
 			/* Hidden by default */
@@ -612,8 +888,8 @@
 
 		#back-to-top-btn:hover,
 		#back-to-top-btn:focus-visible {
-			background: #fff;
-			color: var(--primary-color);
+			background: var(--vl-brand-hover);
+			color: var(--vl-brand-text);
 		}
 
 		@media (max-width: 767px) {
@@ -681,10 +957,10 @@
 }
 
 .vl-site-videos {
-	--vl-video-card-bg: #1a1a1a;
-	--vl-video-card-border: #333;
-	--vl-video-card-text: #fff;
-	--vl-video-card-muted: #ccc;
+	--vl-video-card-bg: var(--vl-surface);
+	--vl-video-card-border: var(--vl-border);
+	--vl-video-card-text: var(--vl-text);
+	--vl-video-card-muted: var(--vl-muted);
 }
 
 .vl-site-videos .video-card {
@@ -735,7 +1011,7 @@
 }
 
 .custom-breadcrumb .breadcrumb-item {
-	color: #666;
+	color: var(--vl-muted-2);
 	list-style: none;
 	counter-increment: none;
 }
@@ -749,17 +1025,17 @@
 }
 
 .custom-breadcrumb .breadcrumb-item a {
-	color: var(--primary-color);
+	color: var(--vl-brand);
 	text-decoration: none;
 }
 
 .custom-breadcrumb .breadcrumb-item.active {
-	color: #999;
+	color: var(--vl-text);
 }
 
 .custom-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
 	content: ">";
-	color: #666;
+	color: var(--vl-muted-2);
 	margin: 0 8px;
 }
 
@@ -828,8 +1104,8 @@
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
-	background: var(--primary-color);
-	color: white;
+	background: var(--vl-brand);
+	color: var(--vl-brand-text);
 	padding: 4px 8px;
 	border-radius: 4px;
 	font-size: 0.8rem;
@@ -841,8 +1117,8 @@
 	top: 10px;
 	right: 10px;
 	z-index: 2;
-	background: #dc3545;
-	color: #fff;
+	background: var(--vl-danger);
+	color: var(--vl-text);
 	padding: 2px 6px;
 	border-radius: 4px;
 	font-size: 0.65rem;
@@ -857,11 +1133,11 @@
  * -------------------------------------------------------------------------- */
 
 .vl-site-noticias {
-	--vl-noticias-card-bg: #1a1a1a;
-	--vl-noticias-card-border: #3d3d3d;
-	--vl-noticias-card-text: #ececec;
-	--vl-noticias-card-muted: #a3a3a3;
-	--vl-noticias-card-body: #c9c9c9;
+	--vl-noticias-card-bg: var(--vl-surface);
+	--vl-noticias-card-border: var(--vl-border);
+	--vl-noticias-card-text: var(--vl-text);
+	--vl-noticias-card-muted: var(--vl-muted-2);
+	--vl-noticias-card-body: var(--vl-muted);
 	/* Deve coincidir com gutter do Masonry em _noticias.php (4 colunas em lg+) */
 	--vl-noticias-masonry-gutter: 16px;
 	--vl-noticias-masonry-cols: 4;
@@ -880,23 +1156,24 @@
 
 /* Filtrar / Sugerir pauta: ouro do tema (sem hover azul do .btn-primary) */
 .vl-site-noticias .vl-noticias-btn-filtro {
-	background-color: var(--primary-color);
-	border-color: var(--primary-color);
-	color: #1a1408;
+	background-color: var(--vl-brand);
+	border-color: var(--vl-brand);
+	color: var(--vl-brand-text);
 	font-weight: 600;
+	border-radius: var(--vl-radius);
 }
 
 .vl-site-noticias .vl-noticias-btn-filtro:hover,
 .vl-site-noticias .vl-noticias-btn-filtro:focus {
-	background-color: #d4a82a;
-	border-color: #d4a82a;
-	color: #1a1408;
+	background-color: var(--vl-brand-hover);
+	border-color: var(--vl-brand-hover);
+	color: var(--vl-brand-text);
 }
 
 .vl-site-noticias .vl-noticias-btn-filtro:active {
-	background-color: #a67f10;
-	border-color: #a67f10;
-	color: #1a1408;
+	background-color: var(--vl-brand);
+	border-color: var(--vl-brand);
+	color: var(--vl-brand-text);
 }
 
 .vl-site-noticias .vl-noticias-btn-filtro:focus-visible {
@@ -905,14 +1182,14 @@
 
 /* Mesma cor do item ativo do menu (var(--primary-color) em style.css) */
 .vl-site-noticias .vl-noticias-entrar-link {
-	color: var(--primary-color);
+	color: var(--vl-brand);
 	font-weight: 600;
 	text-decoration: none;
 }
 
 .vl-site-noticias .vl-noticias-entrar-link:hover,
 .vl-site-noticias .vl-noticias-entrar-link:focus {
-	color: #d4a82a;
+	color: var(--vl-brand-hover);
 	text-decoration: underline;
 }
 
@@ -1005,7 +1282,7 @@
 }
 
 .vl-site-noticias .pautas-list > .card:hover {
-	border-color: var(--primary-color) !important;
+	border-color: var(--vl-brand) !important;
 	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
 }
 
@@ -1014,7 +1291,7 @@
 }
 
 .vl-site-noticias .pautas-list .card-title {
-	color: #fff;
+	color: var(--vl-text);
 }
 
 .vl-site-noticias .pautas-list .card .text-muted,
@@ -1027,11 +1304,11 @@
 }
 
 .vl-site-noticias .pautas-list .card .btn-link {
-	color: var(--primary-color);
+	color: var(--vl-brand);
 }
 
 .vl-site-noticias .pautas-list .card .btn-link:hover {
-	color: #fff;
+	color: var(--vl-brand-hover);
 }
 
 /*
@@ -1073,57 +1350,57 @@
 /* Spinners (modal AJAX + infinite scroll): ouro do site, não azul Bootstrap */
 .vl-site-noticias .vl-noticias-spinner,
 .vl-noticias-loading-overlay .vl-noticias-spinner {
-	color: var(--primary-color) !important;
+	color: var(--vl-brand) !important;
 }
 
 /* Modais de pauta na página pública /site/noticias (fora de .vl-site-noticias no DOM) */
 .vl-noticias-pauta-modal .modal-content {
-	background-color: #1e1e1e;
-	color: #ececec;
+	background-color: var(--vl-surface);
+	color: var(--vl-text);
 }
 
 .vl-noticias-pauta-modal .modal-header,
 .vl-noticias-pauta-modal .modal-footer {
-	background-color: #1a1a1a;
+	background-color: var(--vl-bg);
 }
 
 .vl-noticias-pauta-modal .modal-body .form-control,
 .vl-noticias-pauta-modal .modal-body .form-select {
-	background-color: #2a2a2a;
-	border-color: #555;
-	color: #f0f0f0;
+	background-color: var(--vl-bg);
+	border-color: var(--vl-border-strong);
+	color: var(--vl-text);
 }
 
 .vl-noticias-pauta-modal .modal-body .form-control:focus,
 .vl-noticias-pauta-modal .modal-body .form-select:focus {
-	background-color: #333;
-	border-color: var(--primary-color);
-	color: #fff;
-	box-shadow: 0 0 0 0.2rem rgba(185, 141, 19, 0.35);
+	background-color: var(--vl-bg);
+	border-color: var(--vl-brand);
+	color: var(--vl-text);
+	box-shadow: 0 0 0 0.2rem rgba(var(--vl-brand-rgb), 0.35);
 }
 
 .vl-noticias-pauta-modal .modal-body .input-group-text {
-	background-color: #2d2d2d;
-	border-color: #555;
-	color: #ddd;
+	background-color: var(--vl-surface);
+	border-color: var(--vl-border-strong);
+	color: var(--vl-muted);
 }
 
 .vl-noticias-pauta-modal .modal-body .form-text {
-	color: #9a9a9a;
+	color: var(--vl-muted-2);
 }
 
 .vl-noticias-pauta-modal .modal-body .form-label {
-	color: #e0e0e0;
+	color: var(--vl-muted);
 }
 
 .vl-noticias-pauta-modal .modal-body .card {
-	background-color: #252525;
-	border-color: #444;
-	color: #e8e8e8;
+	background-color: var(--vl-surface);
+	border-color: var(--vl-border);
+	color: var(--vl-text);
 }
 
 .vl-noticias-pauta-modal .modal-body .card .text-muted {
-	color: #a3a3a3 !important;
+	color: var(--vl-muted-2) !important;
 }
 
 .vl-noticias-pauta-modal .div-comentarios,
@@ -1133,8 +1410,8 @@
 }
 
 .vl-noticias-pauta-modal .img-thumbnail {
-	background-color: #2a2a2a;
-	border-color: #555;
+	background-color: var(--vl-bg);
+	border-color: var(--vl-border-strong);
 }
 
 /*
@@ -1142,17 +1419,17 @@
  * substitui o azul pelo ouro do site (--primary-color).
  */
 .vl-noticias-pauta-modal .btn-primary {
-	--bs-btn-bg: var(--primary-color);
-	--bs-btn-border-color: var(--primary-color);
-	--bs-btn-color: #1a1408;
-	--bs-btn-hover-bg: #d4a82a;
-	--bs-btn-hover-border-color: #d4a82a;
-	--bs-btn-hover-color: #1a1408;
-	--bs-btn-active-bg: #a67f10;
-	--bs-btn-active-border-color: #a67f10;
-	--bs-btn-active-color: #1a1408;
-	--bs-btn-disabled-bg: #6c5a2a;
-	--bs-btn-disabled-border-color: #6c5a2a;
+	--bs-btn-bg: var(--vl-brand);
+	--bs-btn-border-color: var(--vl-brand);
+	--bs-btn-color: var(--vl-brand-text);
+	--bs-btn-hover-bg: var(--vl-brand-hover);
+	--bs-btn-hover-border-color: var(--vl-brand-hover);
+	--bs-btn-hover-color: var(--vl-brand-text);
+	--bs-btn-active-bg: var(--vl-brand);
+	--bs-btn-active-border-color: var(--vl-brand);
+	--bs-btn-active-color: var(--vl-brand-text);
+	--bs-btn-disabled-bg: var(--vl-muted-2);
+	--bs-btn-disabled-border-color: var(--vl-muted-2);
 	font-weight: 600;
 }
 
@@ -1166,7 +1443,7 @@
 	height: 270px;
 	max-width: 100%;
 	aspect-ratio: 480 / 270;
-	background-color: #222;
+	background-color: var(--vl-thumb-placeholder-bg);
 	box-sizing: border-box;
 }
 
@@ -1180,4 +1457,40 @@
 	margin-left: auto;
 	margin-right: auto;
 	max-height: 200px;
+}
+
+footer > .container {
+	max-width: var(--vl-container-max);
+	padding-left: var(--vl-container-pad);
+	padding-right: var(--vl-container-pad);
+}
+
+/* Sobrescreve o Jost inline do `_main` até o Módulo C trocar o chrome. */
+body,
+body p,
+body a,
+body li,
+body span,
+body div,
+body label,
+body input,
+body textarea,
+body select,
+body button {
+	font-family: var(--vl-font-body) !important;
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+	font-family: var(--vl-font-title) !important;
+}
+
+body .bi,
+body [class^="bi-"],
+body [class*=" bi-"] {
+	font-family: "bootstrap-icons" !important;
 }

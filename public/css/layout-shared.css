@@ -1,4 +1,51 @@
-/* Regras visuais compartilhadas entre layouts principais */
+/* Regras visuais compartilhadas entre layouts principais (tokens do mockup). */
+.vl-container {
+	max-width: var(--vl-container-max);
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: var(--vl-container-pad);
+	padding-right: var(--vl-container-pad);
+}
+
+.vl-sidebar {
+	width: var(--vl-sidebar-width);
+	flex-shrink: 0;
+	padding: 32px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.vl-sidebar-link {
+	border: none;
+	background: transparent;
+	color: var(--vl-muted);
+	font-weight: 500;
+	font-size: 14px;
+	padding: 10px 12px;
+	border-radius: var(--vl-radius);
+	cursor: pointer;
+	font-family: var(--vl-font-body);
+	text-align: left;
+	text-decoration: none;
+	display: block;
+}
+
+.vl-sidebar-link:hover,
+.vl-sidebar-link.is-active,
+.vl-sidebar-link.active {
+	background: rgba(var(--vl-brand-rgb), 0.14);
+	color: var(--vl-brand);
+	font-weight: 700;
+}
+
+.vl-card {
+	background: var(--vl-surface);
+	border: 1px solid var(--vl-border);
+	border-radius: 10px;
+	color: var(--vl-text);
+}
+
 .dropdown:hover > .dropdown-menu {
 	display: block;
 	margin-top: -2px;
@@ -43,25 +90,26 @@
 .bg-primary,
 .btn-outline-secondary,
 .btn-primary {
-	background-color: var(--vl-brand-bg) !important;
+	background-color: var(--vl-brand) !important;
 	color: var(--vl-brand-text);
+	border-radius: var(--vl-radius);
 }
 
 .btn-primary {
-	border-color: var(--vl-brand-bg) !important;
+	border-color: var(--vl-brand) !important;
 }
 
 a .bg-primary:hover {
-	background-color: var(--vl-brand-bg-hover) !important;
+	background-color: var(--vl-brand-hover) !important;
 }
 
 .bg-light {
-	background-color: var(--vl-muted-surface);
-	color: var(--vl-brand-text);
+	background-color: var(--vl-surface);
+	color: var(--vl-text);
 }
 
 a {
-	color: var(--vl-link-color);
+	color: var(--vl-brand);
 }
 
 @media screen and (min-width: 600px) {
@@ -105,8 +153,8 @@ textarea#referencias.form-control {
 	justify-content: center;
 	overflow: hidden;
 	flex-shrink: 0;
-	background: rgba(128, 128, 128, 0.28);
-	color: inherit;
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--vl-muted);
 	line-height: 1;
 	box-sizing: border-box;
 	container-type: size;
@@ -128,6 +176,7 @@ textarea#referencias.form-control {
 	max-width: 100%;
 	aspect-ratio: 480 / 270;
 	background-color: var(--vl-thumb-placeholder-bg);
+	border-radius: var(--vl-radius);
 	box-sizing: border-box;
 }
 

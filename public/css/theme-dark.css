@@ -1,32 +1,75 @@
-/* Overrides compartilhados do tema escuro (MDB/Bootstrap) */
-[data-mdb-theme=dark] .card {
-	background-color: var(--mdb-picker-header-bg);
+/* Tema escuro fixo — consome os tokens do mockup. */
+html,
+html[data-mdb-theme=dark],
+[data-mdb-theme=dark] {
+	--mdb-body-bg: var(--vl-bg);
+	--mdb-body-color: var(--vl-text);
+	--mdb-surface-bg: var(--vl-surface);
+	--mdb-surface-color: var(--vl-text);
+	--mdb-picker-header-bg: var(--vl-surface);
+	--mdb-surface-inverted-color: var(--vl-text);
+	--mdb-divider-color: var(--vl-surface);
+	--mdb-link-color: var(--vl-brand);
 }
 
-[data-mdb-theme=dark] .text-dark {
-	color: var(--mdb-surface-inverted-color) !important;
+html,
+body {
+	background-color: var(--vl-bg);
+	color: var(--vl-text);
+	font-family: var(--vl-font-body);
+	--mdb-body-font-family: var(--vl-font-body);
 }
 
-[data-mdb-theme=dark] .bg-dark {
-	background-color: var(--mdb-divider-color) !important;
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--vl-font-title);
 }
 
-[data-mdb-theme=dark] .bg-primary {
-	background-color: var(--vl-brand-bg) !important;
+[data-mdb-theme=dark] .card,
+.card {
+	background-color: var(--vl-surface);
+	color: var(--vl-text);
+	border-color: var(--vl-border);
+}
+
+[data-mdb-theme=dark] .text-dark,
+.text-dark {
+	color: var(--vl-text) !important;
+}
+
+[data-mdb-theme=dark] .bg-dark,
+.bg-dark {
+	background-color: var(--vl-bg) !important;
+}
+
+[data-mdb-theme=dark] .bg-primary,
+.bg-primary {
+	background-color: var(--vl-brand) !important;
 	color: var(--vl-brand-text) !important;
 }
 
-[data-mdb-theme=dark] a {
-	color: var(--mdb-surface-inverted-color) !important;
+[data-mdb-theme=dark] a,
+a {
+	color: var(--vl-brand);
+}
+
+[data-mdb-theme=dark] a:hover,
+a:hover {
+	color: var(--vl-brand-hover);
 }
 
 [data-mdb-theme=dark] .btn-primary,
-[data-mdb-theme=dark] .btn-outline-secondary {
-	background-color: var(--vl-brand-bg) !important;
-	border-color: var(--vl-brand-bg) !important;
+[data-mdb-theme=dark] .btn-outline-secondary,
+.btn-primary,
+.btn-outline-secondary {
+	background-color: var(--vl-brand) !important;
+	border-color: var(--vl-brand) !important;
 	color: var(--vl-brand-text) !important;
+	border-radius: var(--vl-radius);
 }
 
-[data-mdb-theme=dark] .btn-light {
-	background-color: var(--mdb-btn-disabled-color);
+[data-mdb-theme=dark] .btn-light,
+.btn-light {
+	background-color: var(--vl-surface);
+	color: var(--vl-text);
+	border-color: var(--vl-border-strong);
 }
