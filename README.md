@@ -177,7 +177,8 @@ O primeiro build instala extensões PHP e pode levar vários minutos.
 
 O que sobe:
 
-- **vl-web** — PHP 8.2 + Composer + OPcache + Redis; o código da pasta é montado no container; o entrypoint roda `composer install` e o servidor embutido do PHP (raiz do projeto + `.docker/router.php`).
+- **vl-nginx** — nginx 1.27; porta **8080:80**; document root = raiz do projeto; estáticos, gzip e `expires`; PHP via FastCGI em `web:9000`.
+- **vl-web** — PHP 8.2-FPM + Composer + OPcache + Redis; sem porta no host; o código da pasta é montado no container; o entrypoint roda `composer install` e `php-fpm`. Spark: `docker compose exec web php spark …`.
 - **vl-db** — MariaDB 10.6.16; banco `visao_libertaria`; root sem senha; dados em `./.db`.
 - **vl-redis** — Redis 7; cache e sessão quando `.env` tem `REDIS_HOST=vl-redis`.
 
@@ -259,7 +260,7 @@ O `.env` **não é o mesmo**:
 | Login das contas fixas não entra | Faltou `db:seed Main` (ou, num banco já populado, `db:seed SincronizaContasFixas`) |
 | Docker: conexão recusada no banco | `.env` com `hostname = localhost` em vez de `vl-db` |
 | `Bind for 0.0.0.0:3306 failed` | MySQL do XAMPP ainda está no ar |
-| Site no Docker não abre na 8080 | Docker Desktop fechado, ou build ainda rodando |
+| Site no Docker não abre na 8080 | Docker Desktop fechado, build ainda rodando, ou `vl-web` ainda no `composer install` (o nginx sobe antes do FPM) |
 | E-mail não sai | Falta `app/Config/Email.php` local com SMTP |
 
 Detalhes do ambiente Docker: `Docs/arch/docker-local.md`.

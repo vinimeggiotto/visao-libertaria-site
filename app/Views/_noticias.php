@@ -166,6 +166,7 @@
 						<div class="text-center preview_imagem_div mb-3 collapse">
 							<img class="img-thumbnail img-preview-modal" src="" data-bs-toggle="tooltip" data-bs-placement="top"
 								id="preview_imagem" alt="Pré-visualização da imagem da pauta" title="Pré-visualização da imagem da pauta" style="max-height: 200px;">
+							<div class="vl-thumb-placeholder d-none" id="preview_imagem_placeholder" aria-hidden="true"></div>
 						</div>
 					</form>
 				</div>
@@ -234,11 +235,8 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('scripts'); ?>
-<script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
-	integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/infinite-scroll@4.0.1/dist/infinite-scroll.pkgd.min.js"
-	integrity="sha384-+83ma0Y8eQWtTIhmx2gjueu3BY0XU4gX4EkL12u3M+WPc4SDskKaIpIL7QiB8ikh"
-	crossorigin="anonymous"></script>
+<script defer src="<?= asset_url('public/js/vendor/masonry.pkgd.min.js'); ?>"></script>
+<script defer src="<?= asset_url('public/js/vendor/infinite-scroll.pkgd.min.js'); ?>"></script>
 <?php if (isset($_SESSION['colaboradores']['id'])): ?>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
@@ -438,13 +436,35 @@ $pautaListMinPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta_tamanho_maximo'] : null;
 ?>
 (function () {
+	var vlImgDefaultPauta = <?= json_encode(base_url('public/assets/imagem-default.webp')); ?>;
+
+	function vlPautaPreviewEhDefault(src) {
+		if (src == null || src === '') {
+			return true;
+		}
+		var s = String(src);
+		return s === vlImgDefaultPauta || s.indexOf('imagem-default.webp') !== -1 || s.indexOf('imagem-default.png') !== -1;
+	}
+
+	function vlSetPautaPreview(src) {
+		var $img = $('#preview_imagem');
+		var $ph = $('#preview_imagem_placeholder');
+		if (vlPautaPreviewEhDefault(src)) {
+			$img.addClass('d-none').attr('src', '');
+			$ph.removeClass('d-none');
+		} else {
+			$ph.addClass('d-none');
+			$img.removeClass('d-none').attr('src', src);
+		}
+	}
+
 	function resetPautaFormUi() {
 		$('#modalSugerirPauta #link').prop('disabled', false);
 		var f = document.getElementById('pautas_form');
 		if (f) {
 			f.reset();
 		}
-		$('#modalSugerirPauta .img-preview-modal').attr('src', '');
+		vlSetPautaPreview('');
 		$('#modalSugerirPauta .preview_imagem_div').hide();
 		$('#id_pauta').val('');
 		if (window.VL_contagemPalavrasAtualizar) {
@@ -561,6 +581,12 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 
 	$('#modalSugerirPauta #imagem').on('change', function () {
 		$('#modalSugerirPauta .preview_imagem_div').show();
+		var valImagem = $('#imagem').val();
+		if (vlPautaPreviewEhDefault(valImagem)) {
+			$('#imagem').val(vlImgDefaultPauta);
+			vlSetPautaPreview(vlImgDefaultPauta);
+			return;
+		}
 		var form = new FormData(document.getElementById('pautas_form'));
 		$.ajax({
 			url: "<?= site_url('colaboradores/pautas/verificaImagem'); ?>",
@@ -574,10 +600,10 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 			complete: function () { $('#modal-loading').hide(); },
 			success: function (retorno) {
 				if (retorno.status) {
-					$('#preview_imagem').attr('src', $('#imagem').val());
+					vlSetPautaPreview($('#imagem').val());
 				} else {
-					$('#preview_imagem').attr('src', '<?= base_url('public/assets/imagem-default.webp'); ?>');
-					$('#imagem').val('<?= base_url('public/assets/imagem-default.webp'); ?>');
+					$('#imagem').val(vlImgDefaultPauta);
+					vlSetPautaPreview(vlImgDefaultPauta);
 					popMessage('ATENÇÃO', retorno.mensagem, TOAST_STATUS.DANGER);
 				}
 			}
@@ -632,15 +658,13 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 		});
 	});
 
-	var vlImgDefaultPauta = <?= json_encode(base_url('public/assets/imagem-default.webp')); ?>;
-
 	function vlClearPautaCamposDependentes() {
 		var $m = $('#modalSugerirPauta');
 		$m.find('#titulo, #texto').val('');
 		$m.find('#imagem').val('');
 		$m.find('#pauta_antiga').val('N');
 		$m.find('.preview_imagem_div').hide();
-		$m.find('#preview_imagem').attr('src', vlImgDefaultPauta);
+		vlSetPautaPreview(vlImgDefaultPauta);
 		if (window.VL_contagemPalavrasAtualizar) {
 			window.VL_contagemPalavrasAtualizar();
 		}
@@ -682,9 +706,15 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 			success: function (retorno) {
 				if (retorno.status) {
 					$m.find('#titulo').val(retorno.titulo);
-					$m.find('#imagem').val(retorno.imagem);
 					$m.find('#texto').val(retorno.texto);
-					$m.find('#preview_imagem').attr('src', retorno.imagem || vlImgDefaultPauta);
+					var imgRet = retorno.imagem || '';
+					if (vlPautaPreviewEhDefault(imgRet)) {
+						$m.find('#imagem').val(vlImgDefaultPauta);
+						vlSetPautaPreview(vlImgDefaultPauta);
+					} else {
+						$m.find('#imagem').val(imgRet);
+						vlSetPautaPreview(imgRet);
+					}
 					$m.find('.preview_imagem_div').show();
 					if (window.VL_contagemPalavrasAtualizar) {
 						window.VL_contagemPalavrasAtualizar();
@@ -695,14 +725,10 @@ $pautaListMaxPalavrasModal = $pautaListAplicaLimitesModal ? (int) $config['pauta
 						$m.find('#pauta_antiga').val('S');
 						popMessage('ATENÇÃO!', retorno.mensagem, TOAST_STATUS.INFO);
 					}
-					if (retorno.imagem === '') {
-						$m.find('#imagem').val(vlImgDefaultPauta);
-						$m.find('#preview_imagem').attr('src', vlImgDefaultPauta);
-					}
 				} else {
 					vlClearPautaCamposDependentes();
 					$m.find('#imagem').val(vlImgDefaultPauta);
-					$m.find('#preview_imagem').attr('src', vlImgDefaultPauta);
+					vlSetPautaPreview(vlImgDefaultPauta);
 					popMessage('ATENÇÃO', retorno.mensagem, TOAST_STATUS.DANGER);
 				}
 			}

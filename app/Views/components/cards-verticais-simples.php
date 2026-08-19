@@ -20,13 +20,20 @@ $href = $tipo === 'artigo'
 	: base_url('colaboradores/pautas/detalhamento/' . ($dados['id'] ?? ''));
 
 $imagemBruta = trim((string) ($dados['imagem'] ?? ''));
-$imagemSrc = $imagemBruta !== '' ? $imagemBruta : base_url('public/assets/imagem-default.webp');
+$ehImagemDefault = $imagemBruta === ''
+	|| str_contains($imagemBruta, 'imagem-default.webp')
+	|| str_contains($imagemBruta, 'imagem-default.png');
+$imagemSrc = null;
 
 if ($tipo === 'artigo') {
 	$ytIdLista = extrair_id_video_youtube($dados['link_video_youtube'] ?? null);
 	if ($ytIdLista !== null) {
 		$imagemSrc = cria_url_thumb($ytIdLista);
 	}
+}
+
+if ($imagemSrc === null && ! $ehImagemDefault) {
+	$imagemSrc = $imagemBruta;
 }
 
 $dataPublicacao = '';
@@ -70,9 +77,13 @@ if ($tipo === 'artigo') {
 		<div class="vl-card-vertical-thumb rounded-top-3">
 			<a href="<?= esc($href, 'attr'); ?>"
 				class="vl-card-vertical-thumb-link text-decoration-none">
+				<?php if ($imagemSrc !== null): ?>
 				<img class="vl-card-vertical-thumb-img" src="<?= esc($imagemSrc, 'attr'); ?>"
 					alt="<?= esc($titulo, 'attr'); ?>"
 					loading="lazy" width="480" height="270">
+				<?php else: ?>
+				<span class="vl-thumb-placeholder" aria-hidden="true"></span>
+				<?php endif; ?>
 			</a>
 		</div>
 		<div class="card-body d-flex flex-column p-3">

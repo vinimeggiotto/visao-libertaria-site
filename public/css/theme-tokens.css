@@ -6,6 +6,7 @@
 	--vl-link-color: #4b515c;
 	--vl-muted-surface: #e6e6e6;
 	--vl-brand-rgb: 243, 201, 33;
+	--vl-thumb-placeholder-bg: #222;
 }
 
 [data-mdb-theme=dark] {

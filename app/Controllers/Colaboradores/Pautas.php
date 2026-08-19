@@ -569,8 +569,21 @@ class Pautas extends BaseController
 		}
 	}
 
+	private function urlImagemEhDefault(string $url): bool
+	{
+		return $url !== '' && (
+			$url === base_url('public/assets/imagem-default.webp')
+			|| str_contains($url, 'imagem-default.webp')
+			|| str_contains($url, 'imagem-default.png')
+		);
+	}
+
 	private function urlImagemValida(string $url): bool
 	{
+		if ($this->urlImagemEhDefault($url)) {
+			return true;
+		}
+
 		if ($url === '' || filter_var($url, FILTER_VALIDATE_URL) === false) {
 			return false;
 		}

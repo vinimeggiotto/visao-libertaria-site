@@ -4,16 +4,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor/bootstrap.min.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor/bootstrap-icons.min.css'); ?>">
 
-	<script defer src="https://code.jquery.com/jquery-3.7.1.min.js"
-		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-		crossorigin="anonymous"></script>
-	<script defer src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+	<script defer src="<?= asset_url('public/js/vendor/jquery-3.7.1.min.js'); ?>"></script>
+	<script defer src="<?= asset_url('public/js/vendor/bootstrap.bundle.min.js'); ?>"></script>
+	<script defer src="<?= asset_url('public/js/vendor/bs-custom-file-input.min.js'); ?>"></script>
 
 
 	<meta property="og:type" content="website" />
@@ -38,15 +34,15 @@
 		<meta name="twitter:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>">
 		<meta name="twitter:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>">
 		<meta name="twitter:image"
-			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>">
 
 		<meta property="og:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>" />
 		<meta property="og:image"
-			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>" />
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>" />
 		<meta property="og:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>" />
 	<?php endif; ?>
 
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor/mdb.min.css'); ?>">
 	<link rel="stylesheet" href="<?= asset_url('public/css/theme-tokens.css'); ?>">
 	<link rel="stylesheet" href="<?= asset_url('public/css/theme-dark.css'); ?>">
 	<link rel="stylesheet" href="<?= asset_url('public/css/layout-shared.css'); ?>">
@@ -72,6 +68,11 @@
 			object-fit: cover;
 			object-position: center center;
 			transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+		}
+
+		.vl-card-vertical .vl-card-vertical-thumb-link .vl-thumb-placeholder {
+			width: 100%;
+			height: 100%;
 		}
 
 		.vl-card-vertical .vl-card-vertical-thumb-link:hover .vl-card-vertical-thumb-img,
@@ -174,17 +175,15 @@
 		<?= $_SESSION['site_config']['texto_nome']; ?>
 	</title>
 	<link rel="icon" type="image/x-icon"
-		href="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
+		href="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>">
 
 
-	<link rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/css/bootstrap-toaster.min.css">
+	<link rel="stylesheet" href="<?= asset_url('public/css/vendor/bootstrap-toaster.min.css'); ?>">
 
 </head>
 
 <body>
-	<script defer
-		src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
+	<script defer src="<?= asset_url('public/js/vendor/bootstrap-toaster.min.js'); ?>"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
 		let toast = {
@@ -268,7 +267,7 @@
 				<div>
 					<a class="navbar-brand mt-2 mt-lg-0" href="<?= site_url('site'); ?>">
 						<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-							src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
+							src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>"
 							alt="MDB Logo" loading="lazy">
 						<span class="lead fw-bold"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					</a>
@@ -358,7 +357,7 @@
 				<!-- Footer Widget -->
 				<div class="col-md-6 col-lg-4 mb-4">
 					<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-						src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>" />
+						src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.webp'), 'attr'); ?>" />
 					<span class="lead"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					<p class="mt-2 lh-sm fw-light"><?= $_SESSION['site_config']['texto_rodape']; ?></p>
 				</div>

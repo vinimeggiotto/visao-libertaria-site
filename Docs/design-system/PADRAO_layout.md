@@ -2,13 +2,13 @@
 
 ## Assets públicos
 
-CSS do rosto do site: Bootstrap/ícones/toaster locais em `public/css/vendor/` + `site-theme.css` + `site-public-layout.css`. Home ainda junta Owl+Magnific em `vendor-home.css` / `vendor-home.js`. Não carregar o StreamLab (`style.css`). URLs locais usam `asset_url()` (`?v=` + mtime). Sem Google Fonts, sem Unsplash, sem CDN no layout público.
+Layouts públicos (`_main`) e internos (`colaboradores`, `administradores`, `main`) usam os mesmos vendors locais em `public/css/vendor/` e `public/js/vendor/` (Bootstrap, ícones, jQuery, toaster, MDB, masonry, infinite-scroll, bs-custom-file-input) via `asset_url()` (`?v=` + mtime). Quill e ApexCharts ficam no CDN, só nas telas que já os carregam. Owl+Magnific só na home (`vendor-home.css` / `vendor-home.js`). Não carregar o StreamLab (`style.css`). Sem Google Fonts, sem Unsplash. Sem CDN no layout público nem nos layouts internos, exceto Quill/Apex.
 
 Fonte **Jost** (400/600/700) em `public/fonts/`. Sem Google Fonts no layout público.
 
 hCaptcha só junto do widget: modal de login (anônimo, body do `_main`, não no `<head>`), cadastro, contato e esqueci senha. Layouts internos não carregam hCaptcha.
 
-Owl Carousel e Magnific Popup só na home. A listagem de vídeos abre o YouTube pelo link `cria_link_watch` (sem popup). AJAX desses forms usa `async: true`.
+Owl Carousel e Magnific Popup só na home. Notícias, vídeos e artigos não carregam Owl/Magnific. A listagem de vídeos abre o YouTube pelo link `cria_link_watch` (sem popup). AJAX desses forms usa `async: true`.
 
 Ícones do site público e das telas internas: só Bootstrap Icons (`bi bi-*`).
 
@@ -22,7 +22,7 @@ Quando a página **não** tem `.banner-section`, o header passa a `position: rel
 
 ## Marca (logo / favicon / rodapé)
 
-URLs de favicon e rodapé vêm de `site_config.marca_favicon` e `site_config.marca_rodape` (resolvidas uma vez no `BaseController`). Prioridade: arquivo enviado no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`); senão `public/assets/logo.webp`. Placeholder de card: `public/assets/imagem-default.webp`. Views não chamam `file_exists` para marca. Não usar URL externa do YouTube nem Unsplash.
+URLs de favicon e rodapé vêm de `site_config.marca_favicon` e `site_config.marca_rodape` (resolvidas uma vez no `BaseController`). Prioridade: arquivo enviado no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`); senão `public/assets/logo.webp`. Sem thumb/YouTube, o card usa bloco CSS (`.vl-thumb-placeholder`, 480×270, fundo `#222`) — sem `<img>` e sem request de `imagem-default.webp`. O form de pauta ainda pode gravar essa URL; no preview, se o valor for o default, a mesma classe (sem fallback YouTube). Views não chamam `file_exists` para marca. Não usar URL externa do YouTube nem Unsplash.
 
 ## Avatar de colaborador
 

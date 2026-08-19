@@ -7,4 +7,4 @@ fi
 
 composer install
 
-php -S 0.0.0.0:80 -t /var/www/localhost/htdocs /var/www/localhost/htdocs/.docker/router.php
+exec php-fpm

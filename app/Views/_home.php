@@ -76,10 +76,13 @@
                      <div class="movie-card-img-container">
                      <?php
 						$ytUa = extrair_id_video_youtube($ua['link_video_youtube'] ?? null);
-						$ytUaThumb = $ytUa !== null ? cria_url_thumb($ytUa) : base_url('public/assets/imagem-default.webp');
 						?>
-                     <img src="<?= esc($ytUaThumb, 'attr') ?>"
+                     <?php if ($ytUa !== null): ?>
+                     <img src="<?= esc(cria_url_thumb($ytUa), 'attr') ?>"
                         alt="<?= esc($ua['titulo']) ?>" loading="lazy" width="480" height="270">
+                     <?php else: ?>
+                     <span class="vl-thumb-placeholder" aria-hidden="true"></span>
+                     <?php endif; ?>
                         <div class="movie-card-overlay">
                            <i class="bi bi-play-circle-fill play-icon"></i>
                            <!-- O link do popup envolve tudo para ser clicável -->
@@ -162,10 +165,13 @@
                      <div class="movie-card-img-container">
                         <?php
 						$ytV = extrair_id_video_youtube($v['video_id'] ?? null);
-						$thumbV = $ytV !== null ? cria_url_thumb($ytV) : base_url('public/assets/imagem-default.webp');
 						?>
-                        <img src="<?= esc($thumbV, 'attr') ?>"
+                        <?php if ($ytV !== null): ?>
+                        <img src="<?= esc(cria_url_thumb($ytV), 'attr') ?>"
                            alt="<?= esc($v['titulo']) ?>" loading="lazy" width="480" height="270">
+                        <?php else: ?>
+                        <span class="vl-thumb-placeholder" aria-hidden="true"></span>
+                        <?php endif; ?>
                         <div class="movie-card-overlay">
                            <i class="bi bi-play-circle-fill play-icon"></i>
                            <!-- O link do popup envolve tudo para ser clicável -->

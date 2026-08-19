@@ -1,6 +1,6 @@
 # Performance do servidor
 
-PHP 8.2+ / CodeIgniter 4.7. Produção: nginx + Plesk (host canônico em `host-canonico.md`). Local: XAMPP (Apache) ou Docker (`php -S` + OPcache). Sem CDN e sem load balancer.
+PHP 8.2+ / CodeIgniter 4.7. Produção: nginx + Plesk (host canônico em `host-canonico.md`). Local: XAMPP (Apache) ou Docker (nginx + PHP-FPM + OPcache). Sem CDN e sem load balancer.
 
 ## OPcache
 
@@ -63,7 +63,7 @@ No Docker, `REDIS_HOST=vl-redis` liga cache e sessão no Redis (config por ambie
 
 ## Docker local
 
-Continua `php -S` + `.docker/router.php` (document root = raiz do repo). O ganho local é o OPcache, não nginx+FPM. Redis: `docker-local.md`.
+nginx (`vl-nginx`, `8080:80`) + PHP-FPM (`vl-web`, porta 9000 só na rede interna). Document root = raiz do repo (não `public/`). Gzip e `expires` de estáticos no `.docker/nginx.conf` (css/js 1 mês; imagens e fontes 1 ano; HTML sem `Cache-Control` longo). Redis: `docker-local.md`.
 
 ## Observabilidade
 
@@ -81,4 +81,4 @@ Checklist (ainda sem medição registrada):
 - Lighthouse desktop e mobile: home, `/site/noticias`, `/site/artigos`, `/site/videos`
 - Login no modal + “lembrar-me” (cookie antigo deixa de valer; precisa logar de novo)
 - QA visual do purge CSS (header, banner, cards, botões `gen-*`) em desktop e mobile — sem o StreamLab completo
-- `docker compose` sobe `vl-web`, `vl-db` e `vl-redis`; `php spark migrate`; `php spark thumbs:backfill`
+- `docker compose` sobe `vl-nginx`, `vl-web`, `vl-db` e `vl-redis`; `php spark migrate`; `php spark thumbs:backfill`

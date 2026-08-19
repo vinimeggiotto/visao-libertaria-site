@@ -23,9 +23,23 @@ if (!empty($dados['abrir_nova_aba'])) {
         <div class="<?= (isset($dados['class-img'])) ? ($dados['class-img']) : ('col-5'); ?>">
         <?php if (isset($dados['link_video_youtube'])): ?>
             <?php $ytIdCard = extrair_id_video_youtube($dados['link_video_youtube']); ?>
-            <img class="rounded" style="max-width: inherit;" src="<?= $ytIdCard !== null ? cria_url_thumb($ytIdCard) : base_url('public/assets/imagem-default.webp'); ?>" alt="<?= esc($dados['titulo']); ?>" width="480" height="270" loading="lazy">
+            <?php if ($ytIdCard !== null): ?>
+            <img class="rounded" style="max-width: inherit;" src="<?= cria_url_thumb($ytIdCard); ?>" alt="<?= esc($dados['titulo']); ?>" width="480" height="270" loading="lazy">
+            <?php else: ?>
+            <span class="vl-thumb-placeholder" aria-hidden="true"></span>
+            <?php endif; ?>
         <?php else: ?>
-            <!-- <img class="rounded" style="max-width: inherit;" src="<?= $dados['imagem'] ?>" alt="<?= $dados['titulo']; ?>" alt=""> -->
+            <?php
+            $imagemBrutaH = trim((string) ($dados['imagem'] ?? ''));
+            $ehDefaultH = $imagemBrutaH === ''
+                || str_contains($imagemBrutaH, 'imagem-default.webp')
+                || str_contains($imagemBrutaH, 'imagem-default.png');
+            ?>
+            <?php if (! $ehDefaultH): ?>
+            <img class="rounded" style="max-width: inherit;" src="<?= esc($imagemBrutaH, 'attr'); ?>" alt="<?= esc($dados['titulo']); ?>" width="480" height="270" loading="lazy">
+            <?php else: ?>
+            <span class="vl-thumb-placeholder" aria-hidden="true"></span>
+            <?php endif; ?>
         <?php endif; ?>
         </div>
         <div class="<?= (isset($dados['class-div'])) ? ($dados['class-div']) : ('col-7'); ?>">
