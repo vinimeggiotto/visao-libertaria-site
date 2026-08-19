@@ -4,6 +4,8 @@ use CodeIgniter\I18n\Time;
 
 ?>
 <?php helper('data') ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <?php if (!empty($comentarios)): ?>
 	<?php foreach ($comentarios as $chave => $comentario): ?>
 		<?php
@@ -58,6 +60,7 @@ use CodeIgniter\I18n\Time;
 		<p class="small mb-0">Nenhum comentário ainda.</p>
 	</div>
 <?php endif; ?>
+</div>
 
 <script>
 	$(function () {

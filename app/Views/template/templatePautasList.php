@@ -6,6 +6,8 @@ $nTotalEncontradas = ! empty($pautasList['pager'])
 	? (int) $pautasList['pager']->getTotal('pautas')
 	: 0;
 ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <p class="small text-muted mb-2 border-bottom pb-2">
 	<strong><?= $nTotalEncontradas; ?></strong>
 	<?= $nTotalEncontradas === 1 ? 'pauta encontrada no total' : 'pautas encontradas no total'; ?>
@@ -15,7 +17,7 @@ $nTotalEncontradas = ! empty($pautasList['pager'])
 </p>
 <?php if ($pautasList['pautas'] !== NULL && !empty($pautasList['pautas'])): ?>
 	<?php foreach ($pautasList['pautas'] as $pauta): ?>
-		<div class="media text-muted pt-2 border-bottom row" id="pauta_<?= $pauta['id']; ?>">
+		<div class="vl-card media text-muted pt-2 mb-2 row" id="pauta_<?= $pauta['id']; ?>">
 			<div class="col-12 row">
 				<div class="col-2">
 					<image class="me-1 rounded img-thumbnail float-start" for="btn-check-outlined" style="max-width: 72px; width: 100%;"
@@ -87,10 +89,11 @@ $nTotalEncontradas = ! empty($pautasList['pager'])
 <?php endif; ?>
 
 
-<div class="d-block mt-2">
+<div class="vl-ajax-pager d-block mt-2">
 	<?php if ($pautasList['pager']): ?>
 		<?= $pautasList['pager']->simpleLinks('pautas', 'default_template') ?>
 	<?php endif; ?>
+</div>
 </div>
 
 <script>

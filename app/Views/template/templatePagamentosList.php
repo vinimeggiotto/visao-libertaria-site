@@ -1,4 +1,6 @@
 <?php $totalRegistros = (!empty($pagamentosList['pager'])) ? (int) $pagamentosList['pager']->getTotal('pagamentos') : 0; ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <div id="pagamentos-total-registros" class="d-none" data-total-registros="<?= esc((string) $totalRegistros, 'attr'); ?>"></div>
 <?php if ($pagamentosList['pagamentos'] !== NULL && !empty($pagamentosList['pagamentos'])): ?>
 	<table class="table table-sm align-middle mb-0 table-hover table-shrink">
@@ -44,13 +46,13 @@
 		<!-- Table body END -->
 	</table>
 <?php else: ?>
-	<div class="col-12 text-center mt-4">
+	<div class="vl-ajax-empty col-12 text-center mt-4">
 		Não foi retornado nenhum pagamento.
 	</div>
 <?php endif; ?>
 
 
-<div class="d-block mt-2 mb-0 d-flex justify-content-center py-2 border-top bg-body-secondary bg-opacity-25">
+<div class="vl-ajax-pager d-block mt-2 mb-0 d-flex justify-content-center py-2">
 	<?php if ($pagamentosList['pager']): ?>
 		<?= $pagamentosList['pager']->simpleLinks('pagamentos', 'default_template') ?>
 	<?php endif; ?>
@@ -80,3 +82,4 @@
 			});
 		});
 	</script>
+</div>

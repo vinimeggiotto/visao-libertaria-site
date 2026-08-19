@@ -29,28 +29,29 @@ if ($temLinhas) {
 	}
 }
 ?>
+<?= view('template/vl-ajax-skin'); ?>
 <?php if (!$temLinhas): ?>
-	<div class="text-center py-5 px-3">
+	<div class="vl-ajax vl-ajax-empty">
 		<i class="bi bi-folder2-open fs-2 text-muted mb-3 d-block" aria-hidden="true"></i>
 		<p class="fw-semibold text-body mb-1">Nenhum artigo em produção</p>
 		<p class="small text-muted mb-3">Quando tiver rascunhos ou artigos na trilha de produção, eles aparecem aqui.</p>
 		<a href="<?= site_url('colaboradores/artigos/cadastrar'); ?>" class="btn btn-sm btn-primary">Novo artigo</a>
 	</div>
 <?php else: ?>
-	<div class="kanban-producao-wrap p-2 p-md-3 rounded border bg-body-secondary bg-opacity-25">
+	<div class="vl-ajax kanban-producao-wrap p-2 p-md-3">
 		<div class="kanban-producao-scroll d-flex gap-2 pb-1">
 			<?php foreach ($fasesKanban as $fid => $meta): ?>
 				<?php
 				$lista = $porFase[$fid];
 				$n = count($lista);
 				?>
-				<div class="kanban-producao-col flex-shrink-0 rounded-3 border bg-body d-flex flex-column"
+				<div class="kanban-producao-col flex-shrink-0 d-flex flex-column"
 					style="width: min(100%, 17rem); max-height: min(62vh, 34rem);">
-					<div class="kanban-producao-col-head px-2 py-2 border-bottom bg-body-secondary bg-opacity-50 rounded-top-3">
+					<div class="kanban-producao-col-head px-2 py-2">
 						<div class="d-flex align-items-center gap-2">
 							<i class="bi <?= $meta['icon']; ?> small text-<?= $meta['bs']; ?>"
 								aria-hidden="true"></i>
-							<span class="small fw-semibold text-uppercase" style="letter-spacing: 0.03em;"><?= esc($meta['titulo']); ?></span>
+							<span class="small fw-semibold text-uppercase" style="letter-spacing: 0.04em;"><?= esc($meta['titulo']); ?></span>
 							<span class="badge bg-secondary ms-auto"><?= $n; ?></span>
 						</div>
 					</div>
@@ -59,7 +60,7 @@ if ($temLinhas) {
 							<p class="small text-muted mb-0 fst-italic text-center py-3">Nenhum nesta fase</p>
 						<?php else: ?>
 							<?php foreach ($lista as $artigo): ?>
-								<div class="card border shadow-sm mb-2">
+								<div class="vl-card card border mb-2">
 									<div class="card-body p-2">
 										<a class="fw-semibold small text-decoration-none d-block mb-2 kanban-card-titulo"
 											href="<?= site_url('colaboradores/artigos/detalhamento/' . $artigo['id']); ?>"
@@ -95,18 +96,18 @@ if ($temLinhas) {
 				</div>
 			<?php endforeach; ?>
 			<?php if (!empty($porFase['_outros'])): ?>
-				<div class="kanban-producao-col flex-shrink-0 rounded-3 border bg-body d-flex flex-column"
+				<div class="kanban-producao-col flex-shrink-0 d-flex flex-column"
 					style="width: min(100%, 17rem); max-height: min(62vh, 34rem);">
-					<div class="kanban-producao-col-head px-2 py-2 border-bottom bg-body-secondary bg-opacity-50 rounded-top-3">
+					<div class="kanban-producao-col-head px-2 py-2">
 						<div class="d-flex align-items-center gap-2">
-							<i class="bi bi-layers small text-body" aria-hidden="true"></i>
-							<span class="small fw-semibold text-uppercase" style="letter-spacing: 0.03em;">Outras fases</span>
+							<i class="bi bi-layers small" aria-hidden="true"></i>
+							<span class="small fw-semibold text-uppercase" style="letter-spacing: 0.04em;">Outras fases</span>
 							<span class="badge bg-secondary ms-auto"><?= count($porFase['_outros']); ?></span>
 						</div>
 					</div>
 					<div class="kanban-producao-col-body flex-grow-1 p-2 overflow-y-auto">
 						<?php foreach ($porFase['_outros'] as $artigo): ?>
-							<div class="card border shadow-sm mb-2">
+							<div class="vl-card card border mb-2">
 								<div class="card-body p-2">
 									<a class="fw-semibold small text-decoration-none d-block mb-2"
 										href="<?= site_url('colaboradores/artigos/detalhamento/' . $artigo['id']); ?>"><?= esc($artigo['titulo']); ?></a>

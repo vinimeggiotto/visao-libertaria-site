@@ -3,10 +3,12 @@
 use CodeIgniter\I18n\Time;
 
 ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <?php if ($estaticasList['estaticas'] !== NULL && !empty($estaticasList['estaticas'])): ?>
 	<table class="table align-middle p-4 mb-0 mt-2 table-hover table-shrink">
 		<!-- Table head -->
-		<thead class="table-dark">
+		<thead class="listagem-site-thead table-dark">
 			<tr>
 
 				<th scope="col" class="border-0 rounded-start">Título</th>
@@ -40,13 +42,13 @@ use CodeIgniter\I18n\Time;
 		<!-- Table body END -->
 	</table>
 <?php else: ?>
-	<div class="col-12 text-center mt-4">
+	<div class="vl-ajax-empty col-12 text-center mt-4">
 		Não foi retornado nenhuma página estática.
 	</div>
 <?php endif; ?>
 
 
-<div class="d-block mt-3">
+<div class="vl-ajax-pager d-block mt-3">
 	<?php if ($estaticasList['pager']): ?>
 		<?= $estaticasList['pager']->simpleLinks('estaticas', 'default_template') ?>
 	<?php endif; ?>
@@ -119,3 +121,5 @@ use CodeIgniter\I18n\Time;
 			});
 		});
 	</script>
+</div>
+</div>

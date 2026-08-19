@@ -1,21 +1,6 @@
 <?php use CodeIgniter\I18n\Time; ?>
-<style>
-	.tabela-publicado .table thead.listagem-site-thead th {
-		background-color: var(--bs-secondary-bg) !important;
-		color: var(--bs-body-color);
-		font-weight: 600;
-		font-size: 0.7rem;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		border-bottom: 1px solid var(--bs-border-color) !important;
-		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-		vertical-align: middle;
-	}
-	[data-bs-theme="dark"] .tabela-publicado .table thead.listagem-site-thead th,
-	[data-mdb-theme="dark"] .tabela-publicado .table thead.listagem-site-thead th {
-		box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
-	}
-</style>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <table class="table table-sm align-middle mb-0 table-hover table-shrink">
 	<thead class="listagem-site-thead">
 		<tr>
@@ -97,7 +82,7 @@
 		<?php else: ?>
 			<tr>
 				<td colspan="6" class="p-0">
-					<div class="text-center py-5 px-3">
+					<div class="vl-ajax-empty">
 						<i class="bi bi-folder2-open fs-2 text-muted mb-2 d-block" aria-hidden="true"></i>
 						<p class="fw-semibold text-body mb-1">Nenhum artigo encontrado</p>
 						<p class="small text-muted mb-0">Ajuste a pesquisa ou o tipo de artigo.</p>
@@ -107,10 +92,11 @@
 		<?php endif; ?>
 	</tbody>
 </table>
-<div class="mt-2 mb-0 d-flex justify-content-center py-2 border-top bg-body-secondary bg-opacity-25">
+<div class="vl-ajax-pager mt-2 mb-0 d-flex justify-content-center py-2">
 	<?php if ($artigosList['pager']): ?>
 		<?= $artigosList['pager']->simpleLinks('artigos', 'default_template') ?>
 	<?php endif; ?>
+</div>
 </div>
 <script>
 	$(function () {

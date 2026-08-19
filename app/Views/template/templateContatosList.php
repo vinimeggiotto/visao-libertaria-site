@@ -6,6 +6,8 @@ helper('text');
 
 $totalRegistros = (int) ($contatosList['total'] ?? 0);
 ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <span id="vl-contatos-total-inline" class="d-none" data-total="<?= esc((string) $totalRegistros, 'attr'); ?>"></span>
 <?php if ($contatosList['contatos'] !== null && !empty($contatosList['contatos'])): ?>
 	<table class="table table-sm align-middle mb-0 table-hover table-shrink">
@@ -77,13 +79,14 @@ $totalRegistros = (int) ($contatosList['total'] ?? 0);
 		</tbody>
 	</table>
 <?php else: ?>
-	<div class="col-12 text-center mt-4 text-muted">
+	<div class="vl-ajax-empty col-12 text-center mt-4 text-muted">
 		Não foi retornado nenhum contato.
 	</div>
 <?php endif; ?>
 
 <?php if (!empty($contatosList['pager'])): ?>
-	<div class="mt-2 mb-0 d-flex justify-content-center py-2 border-top bg-body-secondary bg-opacity-25">
+	<div class="vl-ajax-pager mt-2 mb-0 d-flex justify-content-center py-2">
 		<?= $contatosList['pager']->simpleLinks('contatos', 'default_template'); ?>
 	</div>
 <?php endif; ?>
+</div>

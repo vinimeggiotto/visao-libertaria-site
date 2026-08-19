@@ -5,16 +5,17 @@
  * O JS fica em template/modal_comentarios_pauta_scripts.php, na section scripts.
  */
 ?>
+<?= view('template/vl-ajax-skin'); ?>
 <div class="modal fade" id="modalComentariosPauta" tabindex="-1" aria-labelledby="modalComentariosPautaLabel"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
-		<div class="modal-content">
+		<div class="modal-content vl-card">
 			<div class="modal-header">
 				<h3 class="modal-title fs-5" id="modalComentariosPautaLabel">Comentários da Pauta</h3>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
 			</div>
 			<div class="modal-body">
-				<div class="card border-0 bg-body-tertiary mb-3">
+				<div class="vl-card card border-0 mb-3">
 					<div class="card-body py-2 px-3">
 						<div class="d-flex gap-3 align-items-start">
 							<img src="" class="rounded border modalImagem modal-comentarios-pauta-thumb" alt="">
@@ -40,7 +41,7 @@
 					<div class="text-center mb-2">
 						<button class="btn btn-primary btn-sm px-4" id="enviar-comentario" type="button">Enviar comentário</button>
 					</div>
-					<div class="border rounded-2 p-2 bg-body-tertiary div-list-comentarios overflow-auto small"></div>
+					<div class="vl-card border rounded-2 p-2 div-list-comentarios overflow-auto small"></div>
 				</div>
 			</div>
 			<div class="modal-footer">

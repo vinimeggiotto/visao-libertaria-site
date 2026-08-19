@@ -6,6 +6,8 @@ use CodeIgniter\I18n\Time;
 
 $totalLista = (int) ($pautasList['total'] ?? 0);
 ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <div class="d-none" id="pautas-fechadas-total-registros" data-total-registros="<?= $totalLista; ?>"></div>
 <?php if ($pautasList['pautas'] !== NULL && ! empty($pautasList['pautas'])): ?>
 	<table class="table table-sm align-middle mb-0 table-hover table-shrink">
@@ -53,14 +55,15 @@ $totalLista = (int) ($pautasList['total'] ?? 0);
 		</tbody>
 	</table>
 <?php else: ?>
-	<div class="col-12 text-center mt-2 py-3 text-muted small">
+	<div class="vl-ajax-empty col-12 text-center mt-2 py-3 text-muted small">
 		Nenhum fechamento encontrado com os filtros atuais.
 	</div>
 <?php endif; ?>
 
 
-<div class="d-block mt-3">
+<div class="vl-ajax-pager d-block mt-3">
 	<?php if (! empty($pautasList['pager'])): ?>
 		<?= $pautasList['pager']->simpleLinks('pautas', 'default_template'); ?>
 	<?php endif; ?>
+</div>
 </div>

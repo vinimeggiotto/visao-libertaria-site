@@ -7,6 +7,8 @@ $artigosPagina = $artigosList['artigos'] ?? [];
 $incluirDescartados = !empty($artigosList['incluir_descartados']);
 $temLinhas = $artigosPagina !== null && !empty($artigosPagina);
 ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <table class="table table-sm align-middle mb-0 table-hover">
 	<thead class="listagem-site-thead">
 		<tr>
@@ -49,7 +51,7 @@ $temLinhas = $artigosPagina !== null && !empty($artigosPagina);
 		<?php else: ?>
 			<tr>
 				<td colspan="4" class="p-0">
-					<div class="text-center py-5 px-3">
+					<div class="vl-ajax-empty">
 						<i class="bi bi-folder2-open fs-2 text-muted mb-3 d-block" aria-hidden="true"></i>
 						<p class="fw-semibold text-body mb-1">Nenhum resultado nesta pesquisa</p>
 						<p class="small text-muted mb-0">Ajuste o título, marque ou desmarque <strong>Incluir artigos descartados</strong> ou veja os artigos em produção no quadro acima.</p>
@@ -59,10 +61,11 @@ $temLinhas = $artigosPagina !== null && !empty($artigosPagina);
 		<?php endif; ?>
 	</tbody>
 </table>
-<div class="mt-2 mb-0 d-flex justify-content-center py-2 border-top bg-body-secondary bg-opacity-25">
+<div class="vl-ajax-pager mt-2 mb-0 d-flex justify-content-center py-2">
 	<?php if ($pager): ?>
 		<?= $pager->simpleLinks('artigos', 'default_template'); ?>
 	<?php endif; ?>
+</div>
 </div>
 <script>
 	(function () {

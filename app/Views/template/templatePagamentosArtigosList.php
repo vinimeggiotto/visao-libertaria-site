@@ -4,11 +4,13 @@ use CodeIgniter\I18n\Time;
 
 ?>
 <?php helper('data') ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <?php if ($artigos !== NULL && !empty($artigos)): ?>
 	<div id="pagamento_preview_tem_artigos" class="d-none" aria-hidden="true"></div>
 	<h5>Artigos Pendentes de Pagamento</h5>
-	<table class="table table-striped">
-		<thead>
+	<table class="table table-sm align-middle table-hover">
+		<thead class="listagem-site-thead">
 			<tr>
 				<th scope="col">Artigo</th>
 				<th scope="col">Publicado em</th>
@@ -60,8 +62,8 @@ use CodeIgniter\I18n\Time;
 
 <?php if ($usuarios !== NULL && !empty($usuarios)): ?>
 	<h5>Descrição Pagamentos Usuários</h5>
-	<table class="table table-striped">
-		<thead>
+	<table class="table table-sm align-middle table-hover">
+		<thead class="listagem-site-thead">
 			<tr>
 				<th scope="col">Apelido</th>
 				<th scope="col">Pontos Escrita</th>
@@ -120,8 +122,8 @@ use CodeIgniter\I18n\Time;
 <?php if (! empty($pagamentos_avulsos ?? [])): ?>
 	<?php $avulsosConsultaSalva = isset($pagamentos_id); ?>
 	<h5 class="mt-4">Pagamentos avulsos</h5>
-	<table class="table table-striped">
-		<thead>
+	<table class="table table-sm align-middle table-hover">
+		<thead class="listagem-site-thead">
 			<tr>
 				<th scope="col">Colaborador</th>
 				<?php if (! $avulsosConsultaSalva): ?>
@@ -172,7 +174,7 @@ $semArtigos = ($artigos === null || empty($artigos));
 $semAvulsos = empty($pagamentos_avulsos ?? []);
 ?>
 <?php if ($semArtigos && $semAvulsos): ?>
-	<h5>Não foi encontrado nenhum artigo para ser pago.</h5>
+	<h5 class="vl-ajax-empty">Não foi encontrado nenhum artigo para ser pago.</h5>
 	<script>
 		$(document).ready(function () {
 			$('.collapse').hide();
@@ -185,3 +187,4 @@ $semAvulsos = empty($pagamentos_avulsos ?? []);
 		});
 	</script>
 <?php endif; ?>
+</div>

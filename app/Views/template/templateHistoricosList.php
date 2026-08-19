@@ -4,9 +4,11 @@ use CodeIgniter\I18n\Time;
 
 ?>
 <?php helper('data') ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <?php if ($colaboradoresHistoricosList['colaboradoresHistoricos'] !== NULL && !empty($colaboradoresHistoricosList['colaboradoresHistoricos'])): ?>
-	<table class="table table-striped">
-		<thead>
+	<table class="table table-sm align-middle table-hover">
+		<thead class="listagem-site-thead">
 			<tr>
 				<th scope="col">Ação</th>
 				<th scope="col">Objeto</th>
@@ -36,10 +38,12 @@ use CodeIgniter\I18n\Time;
 <?php endif; ?>
 
 
-<div class="d-block mt-3">
+<div class="vl-ajax-pager d-block mt-3">
 	<?php if ($colaboradoresHistoricosList['pager']): ?>
 		<?= $colaboradoresHistoricosList['pager']->simpleLinks('historico', 'default_template') ?>
 	<?php endif; ?>
+</div>
+</div>
 
 	<script>
 	$(document).ready(function () {

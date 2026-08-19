@@ -9,6 +9,8 @@ $pautasReservadas = $pautasReservadas ?? [];
 $totalReservadas = count($pautasReservadas);
 
 ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <p class="small text-muted border-bottom pb-2 mb-3">
 	<strong><?= $totalReservadas; ?></strong>
 	<?= $totalReservadas === 1 ? 'pauta reservada para o fechamento' : 'pautas reservadas para o fechamento'; ?>
@@ -32,7 +34,7 @@ $totalReservadas = count($pautasReservadas);
 				<span class="badge text-bg-primary"><?= esc($tag !== '' ? $tag : '(sem tag)'); ?></span>
 				<small class="text-muted"><?= count($lista); ?> <?= count($lista) === 1 ? 'pauta' : 'pautas'; ?></small>
 			</div>
-			<ul class="list-group list-group-flush small rounded border">
+			<ul class="list-group list-group-flush small rounded">
 				<?php foreach ($lista as $pauta): ?>
 					<li class="list-group-item px-2 py-2 min-w-0 overflow-hidden">
 						<div class="d-flex align-items-start gap-2 min-w-0">
@@ -55,3 +57,4 @@ $totalReservadas = count($pautasReservadas);
 		</div>
 	<?php endforeach; ?>
 <?php endif; ?>
+</div>

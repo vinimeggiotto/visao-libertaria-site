@@ -4,6 +4,8 @@ use CodeIgniter\I18n\Time;
 
 ?>
 <?php helper('data') ?>
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax">
 <div class="d-none" id="permissoes-total-registros" data-total-registros="<?= (int) ($colaboradoresList['total'] ?? 0); ?>"></div>
 <?php if ($colaboradoresList['colaboradores'] !== NULL && !empty($colaboradoresList['colaboradores'])): ?>
 	<table class="table table-sm align-middle mb-0 table-hover table-shrink">
@@ -37,7 +39,7 @@ use CodeIgniter\I18n\Time;
 						<div class="d-flex flex-wrap gap-1">
 							<?php if (!empty($nomesAtribuicoes)): ?>
 								<?php foreach ($nomesAtribuicoes as $nomeAtribuicao): ?>
-									<span class="badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle">
+									<span class="badge vl-badge-papel">
 										<?= trim($nomeAtribuicao); ?>
 									</span>
 								<?php endforeach; ?>
@@ -60,16 +62,17 @@ use CodeIgniter\I18n\Time;
 		<!-- Table body END -->
 	</table>
 <?php else: ?>
-	<div class="col-12 text-center mt-4">
+	<div class="vl-ajax-empty col-12 text-center mt-4">
 		Não foi retornado nenhum colaborador.
 	</div>
 <?php endif; ?>
 
 
-<div class="d-block mt-3">
+<div class="vl-ajax-pager d-block mt-3">
 	<?php if ($colaboradoresList['pager']): ?>
 		<?= $colaboradoresList['pager']->simpleLinks('colaboradores', 'default_template') ?>
 	<?php endif; ?>
+</div>
 
 	<script>
 		$(function () {
@@ -95,3 +98,4 @@ use CodeIgniter\I18n\Time;
 			});
 		});
 	</script>
+</div>

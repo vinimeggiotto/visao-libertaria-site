@@ -2,7 +2,8 @@
 
 $temLinhas = $artigos !== null && !empty($artigos);
 ?>
-<div class="table-responsive rounded border">
+<?= view('template/vl-ajax-skin'); ?>
+<div class="vl-ajax table-responsive rounded border">
 	<table class="table table-sm align-middle mb-0 table-hover table-shrink">
 		<thead class="listagem-site-thead">
 			<tr>
@@ -34,7 +35,7 @@ $temLinhas = $artigos !== null && !empty($artigos);
 			<?php else: ?>
 				<tr>
 					<td colspan="2" class="p-0">
-						<div class="text-center py-5 px-3">
+						<div class="vl-ajax-empty">
 							<i class="bi bi-folder2-open fs-2 text-muted mb-2 d-block" aria-hidden="true"></i>
 							<p class="fw-semibold text-body mb-1">Nenhum artigo encontrado</p>
 							<p class="small text-muted mb-0">Não há artigos nesta fase no momento</p>
