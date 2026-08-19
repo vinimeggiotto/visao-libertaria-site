@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <style>
 	.listagem-site-table-wrap {
@@ -43,11 +44,10 @@
 	}
 </style>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 		<div class="d-sm-flex justify-content-between align-items-center mb-4">
 			<div>
-				<h1 class="h3 mb-1"><?= esc($titulo); ?></h1>
+				<h1 class="vl-painel-title"><?= esc($titulo); ?></h1>
 				<p class="text-muted small mb-0">Visualize os pagamentos já realizados e abra os detalhes de cada lançamento</p>
 			</div>
 			<a class="btn btn-primary btn-sm mt-2 mt-sm-0" href="<?= site_url('colaboradores/admin/financeiro/pagar'); ?>">
@@ -104,7 +104,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
 </div>
 
 <?= $this->endSection(); ?>

@@ -4,7 +4,7 @@ use CodeIgniter\I18n\Time;
 
 ?>
 
-<?= $this->extend('layouts/main'); ?>
+<?= $this->extend('layouts/_main'); ?>
 
 <?= $this->section('content'); ?>
 
@@ -14,67 +14,36 @@ use CodeIgniter\I18n\Time;
 	}
 </style>
 
-<!-- <div class="container">
-	<div class="">
-		<div class="bg-light py-2 px-4 mb-3">
-			<h3 class="m-0">Categorias</h3>
-		</div>
+<div class="vl-container" style="padding-top: 40px; padding-bottom: 64px;">
+	<nav style="font-size: 13px; color: var(--vl-muted-2); margin-bottom: 20px;" aria-label="Migalhas de navegação">
+		<a href="<?= site_url(); ?>" style="color: var(--vl-muted-2); text-decoration: none;">Home</a>
+		<span> / </span>
+		<span style="color: var(--vl-text);">Artigos</span>
+	</nav>
+
+	<h1 style="font-family: var(--vl-font-title); font-size: 32px; font-weight: 700; margin: 0 0 8px;">Artigos</h1>
+	<p style="color: var(--vl-muted); font-size: 15px; margin: 0 0 28px;">Textos publicados pelos escritores da comunidade.</p>
+
+	<div class="row list-artigos">
+		<?php foreach ($artigosList['artigos'] as $artigo): ?>
+			<?= view_cell('\App\Libraries\Cards::cardsVerticaisSimples', $artigo, 300, 'card_artigo_' . ($artigo['id'] ?? '')); ?>
+		<?php endforeach; ?>
 	</div>
-	<div class="d-flex flex-wrap m-n1 pl-2 pr-2">
-		<?php //foreach ($widgetCategorias as $categorias) : ?>
-			<a href="<? //base_url() . 'site/artigos/' . $categorias['id']; ?>" class="btn btn-sm btn-outline-secondary m-1 <? //($categorias['id'] == $idCategoriaAtual) ? ('active') : (''); ?>"><? //$categorias['nome']; ?></a>
-		<?php //endforeach; ?>
+
+	<div class="d-none">
+		<?php if ($artigosList['pager']): ?>
+			<?= $artigosList['pager']->simpleLinks('artigos', 'default_template') ?>
+		<?php endif; ?>
 	</div>
-</div> -->
 
-<div class="container-fluid py-3">
-	<div class="container">
-
-		<section class="pt-4 pb-4">
-			<div class="row">
-				<div class="col-12">
-					<nav class="custom-breadcrumb" aria-label="breadcrumb">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item">
-								<a href="<?= site_url(); ?>">
-									<i class="bi bi-house-fill pe-1"></i>Home
-								</a>
-							</li>
-							<li class="breadcrumb-item">
-								<a href="javascript:void(0);">
-									<i class="bi bi-journal-text pe-1"></i>Artigos
-								</a>
-							</li>
-							<li class="breadcrumb-item active" aria-current="page">
-								<i class="bi bi-grid-fill pe-1"></i>Todos os Artigos Publicados
-							</li>
-						</ol>
-					</nav>
-				</div>
+	<div class="page-load-status">
+		<div class="infinite-scroll-request d-flex justify-content-center mt-5 mb-5">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Carregando...</span>
 			</div>
-		</section>
-
-		<div class="row list-artigos">
-			<?php foreach ($artigosList['artigos'] as $artigo): ?>
-				<?= view_cell('\App\Libraries\Cards::cardsVerticaisSimples', $artigo, 300, 'card_artigo_' . ($artigo['id'] ?? '')); ?>
-			<?php endforeach; ?>
 		</div>
-
-		<div class="d-none">
-			<?php if ($artigosList['pager']): ?>
-				<?= $artigosList['pager']->simpleLinks('artigos', 'default_template') ?>
-			<?php endif; ?>
-		</div>
-
-		<div class="page-load-status">
-			<div class="infinite-scroll-request d-flex justify-content-center mt-5 mb-5">
-				<div class="spinner-border" role="status">
-					<span class="visually-hidden">Carregando...</span>
-				</div>
-			</div>
-			<p class="infinite-scroll-last">Fim do conteúdo</p>
-			<p class="infinite-scroll-error">Todo o conteúdo foi carregado.</p>
-		</div>
+		<p class="infinite-scroll-last">Fim do conteúdo</p>
+		<p class="infinite-scroll-error">Todo o conteúdo foi carregado.</p>
 	</div>
 </div>
 
@@ -97,7 +66,6 @@ use CodeIgniter\I18n\Time;
 		var msnry = $grid.data('masonry');
 
 		$grid.infiniteScroll({
-			// Infinite Scroll options...
 			path: '.next_page',
 			append: '.vl-card-vertical-col',
 			history: false,

@@ -2,6 +2,7 @@
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
@@ -52,12 +53,11 @@
 	}
 </style>
 
-<div class="container-fluid py-3 admin-artigos-form">
-	<div class="container">
+<div class="vl-painel admin-artigos-form">
 	<div class="row py-2">
 		<div class="col-12">
-			<h1 class="mb-0 h2" id="heading-admin-artigo-form">Atualização de artigos</h1>
-			<p class="text-muted small mb-0 mt-1">Edição administrativa do conteúdo, mídia, publicação e metadados</p>
+			<h1 class="vl-painel-title" id="heading-admin-artigo-form">Atualização de artigos</h1>
+			<p class="vl-painel-lead">Edição administrativa do conteúdo, mídia, publicação e metadados</p>
 		</div>
 	</div>
 	<?php
@@ -619,7 +619,6 @@
 				</div>
 			</aside>
 		<?php endif; ?>
-	</div>
 	</div>
 </div>
 

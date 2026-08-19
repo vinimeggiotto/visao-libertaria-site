@@ -1,13 +1,13 @@
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 		<div class="d-sm-flex justify-content-between align-items-center mb-4">
 			<div>
-				<h1 class="h3 mb-1">Dashboard de artigos</h1>
-				<p class="text-muted small mb-0">Visão geral da trilha de produção e listagem de todos os artigos do site</p>
+				<h1 class="vl-painel-title">Dashboard de artigos</h1>
+				<p class="vl-painel-lead">Visão geral da trilha de produção e listagem de todos os artigos do site</p>
 			</div>
 			<a href="<?= site_url('colaboradores/artigos/cadastrar'); ?>" class="btn btn-sm btn-primary mt-2 mt-sm-0">Novo artigo</a>
 		</div>
@@ -15,7 +15,7 @@
 		<section class="mb-4" aria-labelledby="heading-pipeline">
 			<h2 id="heading-pipeline" class="h5 text-body mb-1">Produção no site</h2>
 			<p class="text-muted small mb-0">Clique numa fase para listar os artigos nesse estado</p>
-			<div class="card border rounded-3 shadow-sm mt-2">
+			<div class="vl-card mt-2">
 				<div class="card-body p-2 p-sm-3">
 					<div class="row row-cols-2 row-cols-sm-3 row-cols-lg-6 g-2">
 						<div class="col">
@@ -153,8 +153,8 @@
 			}
 		</style>
 
-		<section class="card border rounded-3 shadow-sm" aria-labelledby="heading-listagem-site">
-			<div class="card-header bg-body-secondary bg-opacity-25 border-bottom p-3">
+		<section class="vl-card" aria-labelledby="heading-listagem-site">
+			<div class="card-header border-bottom p-3">
 				<div>
 					<h2 id="heading-listagem-site" class="h5 mb-1">Listagem de artigos do site</h2>
 					<p class="small text-muted mb-0">Os filtros aplicam-se à tabela abaixo; use <strong>Filtros avançados</strong> para fase e colaborador</p>
@@ -240,7 +240,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
 </div>
 
 <?= $this->endSection(); ?>

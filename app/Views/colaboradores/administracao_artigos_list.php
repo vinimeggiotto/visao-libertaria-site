@@ -1,9 +1,9 @@
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 
 		<style>
 			.listagem-site-table-wrap {
@@ -42,8 +42,9 @@
 			}
 		</style>
 
-		<section class="card border rounded-3 shadow-sm mt-4" aria-labelledby="heading-listagem-site-admin">
-			<div class="card-header bg-body-secondary bg-opacity-25 border-bottom p-3">
+		<h1 class="vl-painel-title mb-3">Gerenciar artigos</h1>
+		<section class="vl-card mt-2" aria-labelledby="heading-listagem-site-admin">
+			<div class="card-header border-bottom p-3">
 				<h2 id="heading-listagem-site-admin" class="h5 mb-1">Listagem de artigos do site</h2>
 			</div>
 			<div class="card-body p-3">
@@ -149,8 +150,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
-
 </div>
 
 <div class="modal fade" id="modalListagem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

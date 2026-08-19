@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/main'); ?>
+<?= $this->extend('layouts/_main'); ?>
 
 <?= $this->section('content'); ?>
 <?php
@@ -6,95 +6,104 @@ $avatarBruto = isset($colaborador['avatar']) ? trim((string) $colaborador['avata
 $urlListaColaborador = site_url('site/colaboradorList/' . rawurlencode($colaborador['apelido']));
 ?>
 
-<div class="container py-4">
-	<div class="card border-0 shadow-sm mb-4">
-		<div class="card-body p-4 p-lg-5 vl-perfil-hero">
-			<div class="row align-items-center g-4">
-				<div class="col-md-auto text-center text-md-start">
-					<div class="position-relative d-inline-block mb-3">
-						<?= avatar_html(
-							$avatarBruto !== '' ? $avatarBruto : null,
-							'Avatar de ' . $colaborador['apelido'],
-							'rounded-circle border border-3 border-white shadow d-block',
-							'width:8.5rem;height:8.5rem;object-fit:cover;'
-						); ?>
-						<span class="position-absolute top-100 start-50 translate-middle badge bg-danger rounded-pill px-3 py-2 shadow-sm text-nowrap"><?= (int) $contador_pautas; ?>
-							pauta<?= ($contador_pautas > 1) ? 's' : ''; ?></span>
-					</div>
+<div class="vl-container" style="max-width: 1000px; padding-top: 40px; padding-bottom: 64px;">
+	<div class="vl-card mb-4" style="border-radius: 16px; padding: 36px; background: rgba(243,201,33,0.1); border: none;">
+		<div class="d-flex flex-wrap align-items-center" style="gap: 24px;">
+			<div>
+				<?= avatar_html(
+					$avatarBruto !== '' ? $avatarBruto : null,
+					'Avatar de ' . $colaborador['apelido'],
+					'rounded-circle',
+					'width:96px;height:96px;object-fit:cover;'
+				); ?>
+			</div>
+			<div>
+				<div style="font-size: 12px; color: var(--vl-brand); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Colaborador · <?= (int) $contador_pautas; ?> pauta<?= ($contador_pautas != 1) ? 's' : ''; ?></div>
+				<h1 style="font-family: var(--vl-font-title); font-size: 26px; font-weight: 700; margin: 0 0 8px;"><?= esc($colaborador['apelido']); ?></h1>
+				<p style="color: var(--vl-muted); font-size: 14px; line-height: 1.5; margin: 0;">Cadastrou-se no site há <?= esc($tempo); ?>.</p>
+			</div>
+			<?php if (! empty($conquistaDestaque)):
+				$nomeConquistaCol = trim((string) ($conquistaDestaque['nome'] ?? ''));
+				$tooltipConquistaCol = $nomeConquistaCol !== ''
+					? ('Conquista de colaborador no site: ' . $nomeConquistaCol . '.')
+					: 'Conquista de colaborador no site.';
+				?>
+				<div class="ms-md-auto text-md-end">
+					<p style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--vl-muted-2); margin-bottom: 8px;">Conquista de colaborador</p>
+					<img class="rounded-circle vl-conquista-destaque-img"
+						src="<?= esc(site_url($conquistaDestaque['imagem']), 'attr'); ?>"
+						alt="<?= esc($nomeConquistaCol !== '' ? $nomeConquistaCol : 'Conquista de colaborador', 'attr'); ?>"
+						data-bs-toggle="tooltip"
+						data-bs-placement="left"
+						data-bs-title="<?= esc($tooltipConquistaCol, 'attr'); ?>"
+						style="width: 64px; height: 64px; object-fit: cover;">
 				</div>
-				<div class="col min-w-0 text-center text-md-start">
-					<h1 class="h2 mb-2 mb-md-3"><?= esc($colaborador['apelido']); ?></h1>
-					<div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 mb-3">
-						<?php foreach ($atribuicoes as $atribuicao):
-							$corAtrib = esc($atribuicao['cor'], 'attr');
-							$corBgSubtle = ($atribuicao['cor'] === 'white') ? 'light' : $corAtrib;
-							?>
-							<span class="badge rounded-pill fw-semibold text-dark bg-<?= $corBgSubtle; ?>-subtle border border-<?= $corAtrib; ?> border-opacity-50"><?= esc($atribuicao['nome']); ?></span>
-						<?php endforeach; ?>
-					</div>
-					<p class="text-muted small mb-0">
-						<i class="bi bi-calendar3 me-1" aria-hidden="true"></i>
-						Cadastrou-se no site há <?= esc($tempo); ?>.
-					</p>
-				</div>
-				<?php if (! empty($conquistaDestaque)):
-					$nomeConquistaCol = trim((string) ($conquistaDestaque['nome'] ?? ''));
-					$tooltipConquistaCol = $nomeConquistaCol !== ''
-						? ('Conquista de colaborador no site: ' . $nomeConquistaCol . '.')
-						: 'Conquista de colaborador no site.';
-					?>
-					<div class="col-12 col-md-auto text-center text-md-end ms-md-auto pt-3 pt-md-0 ps-md-4 border-top border-md-0 border-md-start border-secondary border-opacity-25">
-						<p class="small fw-semibold text-dark text-uppercase mb-3 mb-md-2" style="font-size: 0.72rem; letter-spacing: 0.06em;">Conquista de colaborador</p>
-						<img class="rounded-circle shadow-sm border border-white vl-conquista-destaque-img"
-							src="<?= esc(site_url($conquistaDestaque['imagem']), 'attr'); ?>"
-							alt="<?= esc($nomeConquistaCol !== '' ? $nomeConquistaCol : 'Conquista de colaborador', 'attr'); ?>"
-							data-bs-toggle="tooltip"
-							data-bs-placement="left"
-							data-bs-title="<?= esc($tooltipConquistaCol, 'attr'); ?>">
-					</div>
-				<?php endif; ?>
+			<?php endif; ?>
+		</div>
+	</div>
+
+	<div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 20px;">
+		<?php foreach ($atribuicoes as $atribuicao):
+			$corAtrib = esc($atribuicao['cor'], 'attr');
+			$corBgSubtle = ($atribuicao['cor'] === 'white') ? 'light' : $corAtrib;
+			?>
+			<span class="badge rounded-pill fw-semibold text-dark bg-<?= $corBgSubtle; ?>-subtle border border-<?= $corAtrib; ?> border-opacity-50"><?= esc($atribuicao['nome']); ?></span>
+		<?php endforeach; ?>
+	</div>
+
+	<div class="row g-3 mb-4">
+		<div class="col-6 col-md-3">
+			<div class="vl-card text-center" style="border-radius: 10px; padding: 14px;">
+				<div style="font-size: 22px; font-weight: 700; font-family: var(--vl-font-title);"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['cadastradas_semana'])); ?></div>
+				<div style="font-size: 12px; color: var(--vl-muted-2);">cadastradas nesta semana</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-3">
+			<div class="vl-card text-center" style="border-radius: 10px; padding: 14px;">
+				<div style="font-size: 22px; font-weight: 700; font-family: var(--vl-font-title);"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['usadas_semana'])); ?></div>
+				<div style="font-size: 12px; color: var(--vl-muted-2);">usadas nesta semana</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-3">
+			<div class="vl-card text-center" style="border-radius: 10px; padding: 14px;">
+				<div style="font-size: 22px; font-weight: 700; font-family: var(--vl-font-title);"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['usadas_mes'])); ?></div>
+				<div style="font-size: 12px; color: var(--vl-muted-2);">usadas no mês</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-3">
+			<div class="vl-card text-center" style="border-radius: 10px; padding: 14px;">
+				<div style="font-size: 22px; font-weight: 700; font-family: var(--vl-font-title);"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['usadas_ano'])); ?></div>
+				<div style="font-size: 12px; color: var(--vl-muted-2);">usadas no ano</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="card border-0 shadow-sm mb-4">
-		<div class="card-body p-4">
-			<div class="row g-4 align-items-start">
-				<div class="col-lg-7">
-					<h3 class="h6 text-dark mb-3">Atividade em pautas</h3>
-					<ul class="list-inline small mb-3 mb-lg-0">
-						<li class="list-inline-item me-3"><span class="text-dark fw-semibold"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['cadastradas_semana'])); ?></span> cadastrada<?= ((int) $resumo_pautas_periodo['cadastradas_semana'] !== 1) ? 's' : ''; ?> nesta semana</li>
-						<li class="list-inline-item me-3"><span class="text-dark fw-semibold"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['usadas_semana'])); ?></span> usada<?= ((int) $resumo_pautas_periodo['usadas_semana'] !== 1) ? 's' : ''; ?> nesta semana</li>
-						<li class="list-inline-item me-3"><span class="text-dark fw-semibold"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['usadas_mes'])); ?></span> usada<?= ((int) $resumo_pautas_periodo['usadas_mes'] !== 1) ? 's' : ''; ?> no mês</li>
-						<li class="list-inline-item"><span class="text-dark fw-semibold"><?= esc(sprintf('%02d', (int) $resumo_pautas_periodo['usadas_ano'])); ?></span> usada<?= ((int) $resumo_pautas_periodo['usadas_ano'] !== 1) ? 's' : ''; ?> no ano</li>
-					</ul>
-					<p class="small text-body-secondary mb-0">
-						<i class="bi bi-clock-history me-1" aria-hidden="true"></i>
-						<?php if ($ultima_pauta_cadastrada_formatada !== null): ?>
-							Última pauta cadastrada: <span class="text-dark fw-semibold"><?= esc($ultima_pauta_cadastrada_formatada); ?></span>
-						<?php else: ?>
-							Ainda não há pautas cadastradas por este colaborador.
-						<?php endif; ?>
-					</p>
-				</div>
-				<div class="col-lg-5">
-					<h3 class="h6 text-dark mb-3">Veja também</h3>
-					<div class="d-flex flex-wrap gap-2">
-						<a href="<?= esc(site_url('site/noticias'), 'attr'); ?>" class="btn btn-sm btn-outline-secondary">Notícias</a>
-						<a href="<?= esc(site_url('site/escritor/' . rawurlencode($colaborador['apelido'])), 'attr'); ?>" class="btn btn-sm btn-outline-secondary">Perfil de escritor</a>
-					</div>
-					<p class="small text-body-secondary mt-3 mb-0">Em <span class="text-dark fw-semibold">Pautas</span> cadastre e acompanhe sugestões de tema. O perfil de escritor mostra <span class="text-dark fw-semibold">artigos publicados</span> e a participação em cada papel.</p>
-				</div>
-			</div>
-		</div>
+	<p style="font-size: 13px; color: var(--vl-muted); margin-bottom: 20px;">
+		<i class="bi bi-clock-history me-1" aria-hidden="true"></i>
+		<?php if ($ultima_pauta_cadastrada_formatada !== null): ?>
+			Última pauta cadastrada: <span style="color: var(--vl-text); font-weight: 600;"><?= esc($ultima_pauta_cadastrada_formatada); ?></span>
+		<?php else: ?>
+			Ainda não há pautas cadastradas por este colaborador.
+		<?php endif; ?>
+	</p>
+
+	<div class="d-flex flex-wrap gap-2 mb-4">
+		<a href="<?= esc(site_url('site/noticias'), 'attr'); ?>" class="btn btn-sm" style="border: 1px solid rgba(255,255,255,0.18); color: var(--vl-text);">Notícias</a>
+		<a href="<?= esc(site_url('site/escritor/' . rawurlencode($colaborador['apelido'])), 'attr'); ?>" class="btn btn-sm" style="border: 1px solid rgba(255,255,255,0.18); color: var(--vl-text);">Perfil de escritor</a>
 	</div>
 
-	<section class="mb-5">
-		<header class="border-bottom pb-3 mb-4">
-			<h2 class="h4 mb-0 text-dark" id="vlColaboradorPautasTitulo">Pautas reservadas de <?= esc($colaborador['apelido']); ?></h2>
-		</header>
+	<section>
+		<h2 style="font-family: var(--vl-font-title); font-size: 20px; font-weight: 700; margin: 0 0 16px;" id="vlColaboradorPautasTitulo">Pautas reservadas de <?= esc($colaborador['apelido']); ?></h2>
 		<div class="row <?= esc($classeListaCSS, 'attr'); ?>"></div>
 	</section>
+</div>
+
+<div class="modal vl-noticias-loading-overlay" style="z-index:7000;" id="modal-loading" tabindex="-1" aria-hidden="true">
+	<div class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Carregando…</span>
+		</div>
+	</div>
 </div>
 
 <?= $this->endSection(); ?>
@@ -125,4 +134,3 @@ $urlListaColaborador = site_url('site/colaboradorList/' . rawurlencode($colabora
 	});
 </script>
 <?= $this->endSection(); ?>
-

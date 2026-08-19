@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <style>
 	.config-page-skip:focus {
@@ -30,10 +31,10 @@
 	}
 
 	.config-page-nav .list-group-item.active {
-		border-color: var(--bs-warning-border-subtle) !important;
-		border-left-color: var(--bs-warning);
-		background-color: var(--bs-warning-bg-subtle);
-		color: var(--bs-emphasis-color) !important;
+		border-color: var(--vl-border) !important;
+		border-left-color: var(--vl-brand);
+		background-color: rgba(var(--vl-brand-rgb), 0.14);
+		color: var(--vl-brand) !important;
 		font-weight: 600;
 	}
 
@@ -67,14 +68,14 @@
 	}
 
 	#accordionConfiguracoes .accordion-button:not(.collapsed) {
-		color: var(--bs-emphasis-color);
-		background-color: var(--bs-warning-bg-subtle);
-		box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-warning-border-subtle);
+		color: var(--vl-text);
+		background-color: rgba(var(--vl-brand-rgb), 0.10);
+		box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--vl-border);
 	}
 
 	#accordionConfiguracoes .accordion-button:focus {
-		border-color: var(--bs-warning-border-subtle);
-		box-shadow: 0 0 0 .25rem rgba(var(--bs-warning-rgb), .25);
+		border-color: var(--vl-brand);
+		box-shadow: 0 0 0 .25rem rgba(var(--vl-brand-rgb), .25);
 	}
 
 	#accordionConfiguracoes .accordion-item {
@@ -82,14 +83,14 @@
 	}
 </style>
 
-<section class="py-4" aria-labelledby="config-page-title">
-	<div class="container">
+<section class="vl-painel" aria-labelledby="config-page-title">
+	<div>
 		<a href="#config-conteudo-principal"
 			class="config-page-skip visually-hidden-focusable rounded">Pular para as configurações</a>
 
 		<div class="row pb-4 align-items-end">
 			<div class="col-12">
-				<h1 id="config-page-title" class="mb-0 h2" tabindex="-1">Configurações do site</h1>
+				<h1 id="config-page-title" class="vl-painel-title" tabindex="-1">Configurações do site</h1>
 			</div>
 		</div>
 

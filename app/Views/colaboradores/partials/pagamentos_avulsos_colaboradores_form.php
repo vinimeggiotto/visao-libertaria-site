@@ -1,4 +1,4 @@
-<div class="rounded-3 border bg-body-secondary p-3 mt-4" id="secao_pagamentos_avulsos">
+<div class="vl-card p-3 mt-4" id="secao_pagamentos_avulsos">
 	<h2 class="h6 mb-2 text-muted">Pagamentos avulsos para colaboradores</h2>
 	<p class="small text-muted mb-3 mb-lg-2">Repasse extra por colaborador, além da divisão por pontos. Ao escolher um nome na busca, ele entra na tabela abaixo. Use o <strong>Valor do bitcoin em reais</strong> já preenchido na calculadora (modal). Preencha a <strong>Quantidade em reais</strong> do repasse; o valor em bitcoin é calculado automaticamente (não é gravado no banco além do BTC do repasse).</p>
 	<div class="row g-2">

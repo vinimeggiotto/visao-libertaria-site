@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <style>
 	/* Sticky precisa que a coluna direita tenha a mesma altura que a esquerda (row sem align-items-start). */
@@ -13,11 +14,11 @@
 	}
 </style>
 
-<div class="container py-3">
+<div class="vl-painel">
 	<div class="row align-items-center g-3 mb-4">
 		<div class="col-12 col-md">
-			<h1 class="mb-0 h2"><?= $titulo; ?></h1>
-			<p class="text-muted small mb-0">Pesquise pautas abertas, revise comentários e finalize o fechamento quando necessário.</p>
+			<h1 class="vl-painel-title"><?= $titulo; ?></h1>
+			<p class="vl-painel-lead">Pesquise pautas abertas, revise comentários e finalize o fechamento quando necessário.</p>
 		</div>
 		<div class="col-12 col-sm-auto">
 			<button type="button" class="btn btn-primary btn-sm w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#modal-fechar">
@@ -26,7 +27,7 @@
 		</div>
 	</div>
 
-	<div class="card shadow-sm border-0 mb-4">
+	<div class="vl-card mb-4">
 		<div class="card-header py-3">
 			<h5 class="mb-0">Pesquisa de pautas</h5>
 		</div>
@@ -47,7 +48,7 @@
 
 	<div class="row g-4">
 		<div class="col-12 col-lg-8">
-			<div class="card shadow-sm border-0" id="pautas-encontradas-listagem">
+			<div class="vl-card" id="pautas-encontradas-listagem">
 				<div class="card-header py-3">
 					<h5 class="mb-0">Pautas encontradas</h5>
 				</div>
@@ -59,7 +60,7 @@
 			</div>
 		</div>
 		<div class="col-12 col-lg-4">
-			<div class="card shadow-sm border-0 sticky-top pautas-closing-resumo-card" style="top: 1rem;">
+			<div class="vl-card sticky-top pautas-closing-resumo-card" style="top: 1rem;">
 				<div class="card-header py-3">
 					<h5 class="mb-0 h6">Reservadas para fechamento</h5>
 					<small class="text-muted d-block mt-1">Estas pautas entram no fechamento ao confirmar “Fechar Pauta”.</small>

@@ -1,189 +1,186 @@
-<?= $this->extend('layouts/main'); ?>
+<?= $this->extend('layouts/_main'); ?>
 
 <?= $this->section('content'); ?>
 
-<div class="container text-center w-auto">
-	<div class="bg-light py-2 px-4 mb-4">
-		<h3 class="m-0">Acesse as calculadoras de descontos</h3>
-	</div>
-	<div class="justify-content-center row">
-		<ul class="nav nav-tabs" id="myTab" role="tablist">
-			<li class="nav-item" role="presentation">
-				<button class="nav-link active" id="calc1-tab" data-toggle="tab" data-target="#calc1" type="button"
+<style>
+	.vl-site-calculadoras .vl-calc-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 20px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		margin: 0 0 24px;
+		padding: 0;
+		list-style: none;
+	}
+	.vl-site-calculadoras .vl-calc-tab {
+		border: none;
+		border-bottom: 2px solid transparent;
+		background: transparent;
+		color: var(--vl-muted-2);
+		font-weight: 600;
+		font-size: 14px;
+		padding: 0 4px 10px;
+		margin-bottom: -1px;
+		cursor: pointer;
+		font-family: var(--vl-font-body);
+	}
+	.vl-site-calculadoras .vl-calc-tab.active,
+	.vl-site-calculadoras .vl-calc-tab[aria-selected="true"] {
+		color: var(--vl-text);
+		border-bottom-color: var(--vl-brand);
+	}
+	.vl-site-calculadoras .vl-calc-note {
+		color: var(--vl-muted);
+		font-size: 13px;
+		line-height: 1.6;
+		margin: 0 0 20px;
+	}
+	.vl-site-calculadoras .vl-calc-field {
+		margin-bottom: 16px;
+	}
+	.vl-site-calculadoras .vl-calc-field label {
+		display: block;
+		font-size: 13px;
+		color: var(--vl-muted);
+		margin-bottom: 6px;
+	}
+	.vl-site-calculadoras .vl-calc-suffix {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+	.vl-site-calculadoras .vl-calc-suffix span {
+		color: var(--vl-muted);
+		font-size: 14px;
+		flex: 0 0 auto;
+	}
+	.vl-site-calculadoras .vl-calc-results {
+		margin-top: 8px;
+	}
+	.vl-site-calculadoras .vl-calc-result {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 16px;
+		padding: 12px 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		font-size: 14px;
+		color: var(--vl-muted);
+	}
+	.vl-site-calculadoras .vl-calc-result:last-child {
+		border-bottom: none;
+		color: var(--vl-text);
+		font-weight: 600;
+	}
+	.vl-site-calculadoras .vl-calc-result [id] {
+		color: var(--vl-brand);
+		font-weight: 700;
+		font-size: 13px;
+		font-family: var(--vl-font-title);
+		white-space: nowrap;
+	}
+</style>
+
+<div class="vl-container vl-site-calculadoras" style="max-width: 900px; padding-top: 56px; padding-bottom: 64px;">
+	<h1 style="font-family: var(--vl-font-title); font-size: 30px; font-weight: 700; margin: 0 0 8px;">Calculadoras</h1>
+	<p style="color: var(--vl-muted); font-size: 15px; margin: 0 0 28px;">Ferramentas rápidas para colaboradores e leitores.</p>
+	<div class="vl-card" style="border-radius: 12px; padding: 22px;">
+		<h2 style="font-family: var(--vl-font-title); font-size: 16px; font-weight: 700; margin: 0 0 20px;">Acesse as calculadoras de descontos</h2>
+
+		<ul class="vl-calc-tabs" id="myTab" role="tablist">
+			<li role="presentation">
+				<button class="vl-calc-tab active" id="calc1-tab" data-bs-toggle="tab" data-bs-target="#calc1" type="button"
 					role="tab" aria-controls="calc1" aria-selected="true">Custo do funcionário para a empresa</button>
 			</li>
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="calc2-tab" data-toggle="tab" data-target="#calc2" type="button" role="tab"
-					aria-controls="calc2" aria-selected="false">Calcule seu salário líquido</button>
+			<li role="presentation">
+				<button class="vl-calc-tab" id="calc2-tab" data-bs-toggle="tab" data-bs-target="#calc2" type="button"
+					role="tab" aria-controls="calc2" aria-selected="false">Calcule seu salário líquido</button>
 			</li>
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="calc3-tab" data-toggle="tab" data-target="#calc3" type="button" role="tab"
-					aria-controls="calc3" aria-selected="false">Quanto um PJ ganharia se fosse CLT</button>
+			<li role="presentation">
+				<button class="vl-calc-tab" id="calc3-tab" data-bs-toggle="tab" data-bs-target="#calc3" type="button"
+					role="tab" aria-controls="calc3" aria-selected="false">Quanto um PJ ganharia se fosse CLT</button>
 			</li>
 		</ul>
+
 		<div class="tab-content" id="myTabContent">
-			<div class="tab-pane fade mt-1 show active" id="calc1" role="tabpanel" aria-labelledby="calc1-tab">
-				<div class="col-12 d-flex justify-content-center row">
-					<form class="col-12 col-md-6 mt-4" id="form-calc1">
-						<p class="m-4 text-muted">Por conta das divergências dos valores da contribuição sindical não
-							posso incluí-la no cálculo, mas fique atento, ela custa de 1 dia de trabalho até 12% do seu
-							salário</p>
-						<div class="mb-3 d-flex justify-content-center row">
-							<label for="">Salário Líquido:</label>
-							<div class="input-group col-6">
-								<input type="number" class="form-control form-control-sm" id="calc1_net-salary" />
-							</div>
-						</div>
-						<div class="mb-3 d-flex justify-content-center row">
-							<label for="username">Vales sobre salário bruto:</label>
-							<div class="input-group col-2">
-								<input type="number" class="form-control form-control-sm" id="calc1_voucher-value" />
-								<span>%<span>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="col-12 d-flex justify-content-center mb-4">
-					<ul class="list-group col-4">
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Salário Bruto: <span class="badge badge-primary badge-pill" id="calc1_gross"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do FGTS: <span class="badge badge-primary badge-pill" id="calc1_fgts"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do INSS: <span class="badge badge-primary badge-pill" id="calc1_inss"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do IR: <span class="badge badge-primary badge-pill" id="calc1_ir"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do Voucher: <span class="badge badge-primary badge-pill"
-								id="calc1_theVoucherValue"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do INSS Patronal: <span class="badge badge-primary badge-pill"
-								id="calc1_inssPatronal"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Custo do seu décimo terceiro: <span class="badge badge-primary badge-pill"
-								id="calc1_decimoTerceiro"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Custo das suas férias: <span class="badge badge-primary badge-pill"
-								id="calc1_vacations"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							O seu custo para o patrão é: <span class="badge badge-primary badge-pill"
-								id="calc1_bossCost"></span>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="tab-pane fade justify-content-center mt-2" id="calc2" role="tabpanel"
-				aria-labelledby="calc2-tab">
-				<div class="col-12 d-flex justify-content-center row">
-					<form class="col-12 col-md-6 mt-4" id="form-calc2">
-						<p class="m-4 text-muted">Por conta das divergências dos valores da contribuição sindical não
-							posso incluí-la no cálculo, mas fique atento, ela custa de 1 dia de trabalho até 12% do seu
-							salário</p>
-						<div class="mb-3 d-flex justify-content-center row">
-							<label for="">Salário Bruto</label>
-							<div class="input-group col-6">
-								<input type="number" class="form-control form-control-sm" id="calc2_gross-salary" />
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="col-12 d-flex justify-content-center mb-4">
-					<ul class="list-group col-4">
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Salário Líquido: <span class="badge badge-primary badge-pill" id="calc2_net"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do FGTS: <span class="badge badge-primary badge-pill" id="calc2_fgts"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do INSS: <span class="badge badge-primary badge-pill" id="calc2_inss"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do IR: <span class="badge badge-primary badge-pill" id="calc2_ir"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Desconto do INSS Patronal: <span class="badge badge-primary badge-pill"
-								id="calc2_inssPatronal"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Custo do seu décimo terceiro: <span class="badge badge-primary badge-pill"
-								id="calc2_decimoTerceiro"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							Custo das suas férias: <span class="badge badge-primary badge-pill"
-								id="calc2_vacations"></span>
-						</li>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							O seu custo para o patrão é: <span class="badge badge-primary badge-pill"
-								id="calc2_bossCost"></span>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="tab-pane fade justify-content-center mt-2" id="calc3" role="tabpanel"
-				aria-labelledby="calc3-tab">
-				<div class="col-12 d-flex justify-content-center row">
-					<form class="col-12 col-md-6 mt-4" id="form-calc3">
-						<p class="m-4 text-muted">Por conta das divergências dos valores da contribuição sindical não
-							posso incluí-la no cálculo, mas fique atento, ela custa de 1 dia de trabalho até 12% do seu
-							salário</p>
-						<div class="mb-3 d-flex justify-content-center row">
-							<label for="">Salário PJ</label>
-							<div class="input-group col-6">
-								<input type="number" class="form-control form-control-sm" id="calc3_boss-cost" />
-							</div>
-						</div>
-					</form>
-					<div class="col-12 d-flex justify-content-center mb-4">
-						<ul class="list-group col-4">
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Salário Líquido: <span class="badge badge-primary badge-pill" id="calc3_net"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Salário Bruto: <span class="badge badge-primary badge-pill" id="calc3_gross"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Desconto do FGTS: <span class="badge badge-primary badge-pill" id="calc3_fgts"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Desconto do INSS: <span class="badge badge-primary badge-pill" id="calc3_inss"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Desconto do IR: <span class="badge badge-primary badge-pill" id="calc3_ir"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Desconto do INSS Patronal: <span class="badge badge-primary badge-pill"
-									id="calc3_inssPatronal"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Custo do seu décimo terceiro: <span class="badge badge-primary badge-pill"
-									id="calc3_decimoTerceiro"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								Custo das suas férias: <span class="badge badge-primary badge-pill"
-									id="calc3_vacations"></span>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-center">
-								O seu custo para o patrão : <span class="badge badge-primary badge-pill"
-									id="calc3_bossCost"></span>
-							</li>
-						</ul>
+			<div class="tab-pane fade show active" id="calc1" role="tabpanel" aria-labelledby="calc1-tab">
+				<form id="form-calc1">
+					<p class="vl-calc-note">Por conta das divergências dos valores da contribuição sindical não
+						posso incluí-la no cálculo, mas fique atento, ela custa de 1 dia de trabalho até 12% do seu
+						salário</p>
+					<div class="vl-calc-field">
+						<label for="calc1_net-salary">Salário Líquido</label>
+						<input type="number" class="form-control" id="calc1_net-salary" />
 					</div>
+					<div class="vl-calc-field">
+						<label for="calc1_voucher-value">Vales sobre salário bruto</label>
+						<div class="vl-calc-suffix">
+							<input type="number" class="form-control" id="calc1_voucher-value" />
+							<span>%</span>
+						</div>
+					</div>
+				</form>
+				<div class="vl-calc-results">
+					<div class="vl-calc-result">Salário Bruto <span id="calc1_gross"></span></div>
+					<div class="vl-calc-result">Desconto do FGTS <span id="calc1_fgts"></span></div>
+					<div class="vl-calc-result">Desconto do INSS <span id="calc1_inss"></span></div>
+					<div class="vl-calc-result">Desconto do IR <span id="calc1_ir"></span></div>
+					<div class="vl-calc-result">Desconto do Voucher <span id="calc1_theVoucherValue"></span></div>
+					<div class="vl-calc-result">Desconto do INSS Patronal <span id="calc1_inssPatronal"></span></div>
+					<div class="vl-calc-result">Custo do seu décimo terceiro <span id="calc1_decimoTerceiro"></span></div>
+					<div class="vl-calc-result">Custo das suas férias <span id="calc1_vacations"></span></div>
+					<div class="vl-calc-result">O seu custo para o patrão é <span id="calc1_bossCost"></span></div>
+				</div>
+			</div>
+
+			<div class="tab-pane fade" id="calc2" role="tabpanel" aria-labelledby="calc2-tab">
+				<form id="form-calc2">
+					<p class="vl-calc-note">Por conta das divergências dos valores da contribuição sindical não
+						posso incluí-la no cálculo, mas fique atento, ela custa de 1 dia de trabalho até 12% do seu
+						salário</p>
+					<div class="vl-calc-field">
+						<label for="calc2_gross-salary">Salário Bruto</label>
+						<input type="number" class="form-control" id="calc2_gross-salary" />
+					</div>
+				</form>
+				<div class="vl-calc-results">
+					<div class="vl-calc-result">Salário Líquido <span id="calc2_net"></span></div>
+					<div class="vl-calc-result">Desconto do FGTS <span id="calc2_fgts"></span></div>
+					<div class="vl-calc-result">Desconto do INSS <span id="calc2_inss"></span></div>
+					<div class="vl-calc-result">Desconto do IR <span id="calc2_ir"></span></div>
+					<div class="vl-calc-result">Desconto do INSS Patronal <span id="calc2_inssPatronal"></span></div>
+					<div class="vl-calc-result">Custo do seu décimo terceiro <span id="calc2_decimoTerceiro"></span></div>
+					<div class="vl-calc-result">Custo das suas férias <span id="calc2_vacations"></span></div>
+					<div class="vl-calc-result">O seu custo para o patrão é <span id="calc2_bossCost"></span></div>
+				</div>
+			</div>
+
+			<div class="tab-pane fade" id="calc3" role="tabpanel" aria-labelledby="calc3-tab">
+				<form id="form-calc3">
+					<p class="vl-calc-note">Por conta das divergências dos valores da contribuição sindical não
+						posso incluí-la no cálculo, mas fique atento, ela custa de 1 dia de trabalho até 12% do seu
+						salário</p>
+					<div class="vl-calc-field">
+						<label for="calc3_boss-cost">Salário PJ</label>
+						<input type="number" class="form-control" id="calc3_boss-cost" />
+					</div>
+				</form>
+				<div class="vl-calc-results">
+					<div class="vl-calc-result">Salário Líquido <span id="calc3_net"></span></div>
+					<div class="vl-calc-result">Salário Bruto <span id="calc3_gross"></span></div>
+					<div class="vl-calc-result">Desconto do FGTS <span id="calc3_fgts"></span></div>
+					<div class="vl-calc-result">Desconto do INSS <span id="calc3_inss"></span></div>
+					<div class="vl-calc-result">Desconto do IR <span id="calc3_ir"></span></div>
+					<div class="vl-calc-result">Desconto do INSS Patronal <span id="calc3_inssPatronal"></span></div>
+					<div class="vl-calc-result">Custo do seu décimo terceiro <span id="calc3_decimoTerceiro"></span></div>
+					<div class="vl-calc-result">Custo das suas férias <span id="calc3_vacations"></span></div>
+					<div class="vl-calc-result">O seu custo para o patrão <span id="calc3_bossCost"></span></div>
 				</div>
 			</div>
 		</div>
+
+		<div style="text-align: center; margin: 20px 0 0;"><small style="color: var(--vl-muted-2);">Calculadora feita por <a href="https://github.com/izaqueIsrael/clt-vs-pj" target="_blank" rel="noopener noreferrer">Isaac</a></small></div>
 	</div>
-	<div class="text-center mb-4"><small>Calculadora feita por <a href="https://github.com/izaqueIsrael/clt-vs-pj" target="_blank">Isaac</a></small></div>
 </div>
 
 <?= $this->endSection(); ?>

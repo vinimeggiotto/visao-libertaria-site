@@ -6,11 +6,12 @@ use CodeIgniter\I18n\Time;
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container w-auto">
-	<div class="row pb-4 mt-3">
+<div class="vl-painel">
+	<div class="row pb-4">
 		<div class="col-12">
-			<h1 class="mb-0 h2"><?= $titulo; ?></h1>
+			<h1 class="vl-painel-title"><?= $titulo; ?></h1>
 		</div>
 	</div>
 	<div class="d-flex mt-3 justify-content-center">
@@ -18,13 +19,12 @@ use CodeIgniter\I18n\Time;
 	</div>
 	<div class="my-3 p-3 rounded box-shadow">
 
-		<div class="card border bg-transparent rounded-3 mt-4">
+		<div class="vl-card mt-4">
 			<div class="card-body p-3">
 				<div class="estaticas-list"></div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 
 <?= $this->endSection(); ?>

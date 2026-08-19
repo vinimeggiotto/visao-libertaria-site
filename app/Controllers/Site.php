@@ -253,15 +253,15 @@ class Site extends BaseController
 		$this->projetosVideosModel->orderBy('projetos_videos.publicado', 'DESC');
 
 		// Se um projeto específico foi solicitado, filtrar pelo nome (slug na URL)
-		if ($projeto !== null && $projeto !== '') {
+		$filtraProjeto = ($projeto !== null && $projeto !== '');
+		if ($filtraProjeto) {
 			$projetoNome = projeto_nome_da_url($projeto);
 			$this->projetosVideosModel->where('projetos.nome', $projetoNome);
 		}
 
 		$videos = $this->projetosVideosModel->paginate(10);
-		$pager = $this->projetosVideosModel->pager;
 
-		// Retornar apenas os vídeos em HTML para o infinite scroll
+		// Fragmento HTML igual à listagem de _videos.php (infinite scroll: append .video-item)
 		$html = '';
 		foreach ($videos as $video) {
 			$titulo = htmlspecialchars($video['titulo'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -269,42 +269,35 @@ class Site extends BaseController
 			$video_id = $video['video_id'] ?? '';
 			$publicado = $video['publicado'] ?? '';
 			$ehShort = !empty($video['short']);
+			$publicadoLabel = ($publicado !== '')
+				? Time::parse($publicado)->toLocalizedString('dd/MM/yyyy')
+				: '';
+			$watchUrl = cria_link_watch($video_id);
 
-			$html .= '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
+			$html .= '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 video-item">';
 			$html .= '<div class="card video-card h-100">';
 			$html .= '<div class="video-thumbnail">';
 			$html .= '<img src="' . cria_url_thumb($video_id) . '" alt="' . $titulo . '" class="card-img-top" width="480" height="270" loading="lazy">';
 			$html .= '<div class="play-overlay">';
-			$html .= '<i class="bi bi-play-circle-fill play-icon"></i>';
-			$html .= '<a href="' . cria_link_watch($video_id) . '" class="gen-video-popup" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></a>';
+			$html .= '<i class="bi bi-play-circle-fill play-icon" aria-hidden="true"></i>';
+			$html .= '<a href="' . $watchUrl . '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" aria-label="Assistir ' . $titulo . '"></a>';
 			$html .= '</div>';
 			if ($ehShort) {
 				$html .= '<span class="short-badge">Short</span>';
 			}
-			$html .= '<div class="project-badge">' . $projeto_nome . '</div>';
+			if (! $filtraProjeto) {
+				$html .= '<div class="project-badge">' . $projeto_nome . '</div>';
+			}
 			$html .= '</div>';
 			$html .= '<div class="card-body d-flex flex-column">';
-			$html .= '<h6 class="card-title">' . $titulo . '</h6>';
-			$html .= '<p class="card-text text-muted small">' . date('d/m/Y', strtotime($publicado)) . '</p>';
-			$html .= '<div class="mt-auto">';
-			$html .= '<a href="' . cria_link_watch($video_id) . '" class="gen-button gen-video-popup">';
-			$html .= '<div class="gen-button-block">';
-			$html .= '<span class="gen-button-line-left"></span>';
-			$html .= '<span class="gen-button-text">Assistir</span>';
-			$html .= '</div>';
-			$html .= '</a>';
-			$html .= '</div>';
+			$html .= '<h2 class="card-title h6">' . $titulo . '</h2>';
+			$html .= '<p class="card-text text-muted small">' . $publicadoLabel . '</p>';
 			$html .= '</div>';
 			$html .= '</div>';
 			$html .= '</div>';
 		}
 
-		return $this->response->setJSON([
-			'html' => $html,
-			'hasMore' => $pager->hasMore(),
-			'currentPage' => $pager->getCurrentPage(),
-			'totalPages' => $pager->getPageCount()
-		]);
+		return $html;
 	}
 
 
@@ -403,6 +396,37 @@ class Site extends BaseController
 		}
 	}
 
+	/* LEITURA PÚBLICA DO ARTIGO PUBLICADO */
+	public function artigo($idArtigo = null)
+	{
+		if ($idArtigo === null) {
+			return redirect()->to(site_url('/'));
+		}
+
+		$artigosModel = new ArtigosModel();
+		$artigo = $artigosModel
+			->select('artigos.id, artigos.titulo, artigos.gancho, artigos.texto, artigos.referencias, artigos.imagem, artigos.link_video_youtube, artigos.publicado, artigos.url_friendly, B.apelido AS autor, B.avatar AS autor_avatar')
+			->join('colaboradores B', 'B.id = artigos.escrito_colaboradores_id')
+			->where('artigos.id', $idArtigo)
+			->whereIn('artigos.fase_producao_id', [6, 7])
+			->first();
+
+		if ($artigo === null) {
+			return redirect()->to(site_url('/'));
+		}
+
+		$data = [];
+		$data['artigo'] = $artigo;
+		$data['active_menu'] = 'artigos';
+		$data['meta'] = [
+			'title' => $artigo['titulo'],
+			'image' => $artigo['imagem'] ?? '',
+			'description' => addslashes((string) ($artigo['gancho'] ?? '')),
+		];
+
+		return view('_artigo', $data);
+	}
+
 	/* CADASTRO DO USUÁRIO */
 	public function cadastrar()
 	{
@@ -446,22 +470,24 @@ class Site extends BaseController
 		if ($hash == null) {
 			return false;
 		}
-		if ($hash !== null) {
-			$colaboradoresModel = new \App\Models\ColaboradoresModel();
-			$colaboradoresAtribuicoesModel = new \App\Models\ColaboradoresAtribuicoesModel();
-			$colaboradores = $colaboradoresModel->getColaboradorPeloHash($hash);
-			if ($colaboradores !== NULL && $colaboradores !== false && !empty($colaboradores)) {
-				$gravar = array();
-				$gravar['id'] = $colaboradores['id'];
-				$gravar['confirmado_data'] = $colaboradoresModel->getNow();
-				$gravar['confirmacao_hash'] = NULL;
-				$gravar['atualizado'] = $gravar['confirmado_data'];
-				$colaboradoresModel->save($gravar);
-				$colaboradoresAtribuicoesModel->save(['colaboradores_id' => $gravar['id'], 'atribuicoes_id' => '1']);
-				$colaboradoresAtribuicoesModel->save(['colaboradores_id' => $gravar['id'], 'atribuicoes_id' => '2']);
-			}
-			return redirect()->to(url_home_com_login());
+
+		$colaboradoresModel = new \App\Models\ColaboradoresModel();
+		$colaboradoresAtribuicoesModel = new \App\Models\ColaboradoresAtribuicoesModel();
+		$colaboradores = $colaboradoresModel->getColaboradorPeloHash($hash);
+		if ($colaboradores !== NULL && $colaboradores !== false && !empty($colaboradores)) {
+			$gravar = array();
+			$gravar['id'] = $colaboradores['id'];
+			$gravar['confirmado_data'] = $colaboradoresModel->getNow();
+			$gravar['confirmacao_hash'] = NULL;
+			$gravar['atualizado'] = $gravar['confirmado_data'];
+			$colaboradoresModel->save($gravar);
+			$colaboradoresAtribuicoesModel->save(['colaboradores_id' => $gravar['id'], 'atribuicoes_id' => '1']);
+			$colaboradoresAtribuicoesModel->save(['colaboradores_id' => $gravar['id'], 'atribuicoes_id' => '2']);
+
+			return view('_confirmacao');
 		}
+
+		return redirect()->to(url_home_com_login());
 	}
 
 	/* ESQUECI SENHA */

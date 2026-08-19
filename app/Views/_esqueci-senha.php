@@ -3,81 +3,41 @@
 <?= $this->section('content'); ?>
 <?php $hcSiteKey = config('Hcaptcha')->siteKey ?? ''; ?>
 
-<style>
-	.vl-auth-input::placeholder {
-		color: #a9adb3 !important;
-		opacity: 1 !important;
-	}
-
-	.vl-auth-input:-ms-input-placeholder {
-		color: #a9adb3 !important;
-	}
-
-	.vl-auth-input::-ms-input-placeholder {
-		color: #a9adb3 !important;
-	}
-</style>
-
-<div class="container-fluid py-3 vl-site-noticias">
-	<div class="container">
-		<section class="pt-4 pb-4 margin-top-ultra">
-			<div class="row">
-				<div class="col-12">
-					<nav class="custom-breadcrumb mb-4" aria-label="Migalhas de navegacao">
-						<ol class="breadcrumb d-flex align-items-center">
-							<li class="breadcrumb-item">
-								<a href="<?= site_url('site'); ?>">
-									<i class="bi bi-house-fill pe-1" aria-hidden="true"></i>Home
-								</a>
-							</li>
-							<li class="breadcrumb-item active" aria-current="page">
-								<i class="bi bi-key-fill pe-1" aria-hidden="true"></i>Esqueci a senha
-							</li>
-						</ol>
-					</nav>
-				</div>
+<div class="vl-container" style="max-width: 480px; padding-top: 56px; padding-bottom: 64px;">
+	<h1 style="font-family: var(--vl-font-title); font-size: 24px; font-weight: 700; text-align: center; margin: 0 0 24px;">Recuperação de conta</h1>
+	<form class="vl-card" style="border-radius: 14px; padding: 28px;" id="esqueci" method="post">
+		<?php if ($formulario == 'email'): ?>
+			<div class="mb-3">
+				<label for="email" class="form-label" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;">E-mail cadastrado na plataforma</label>
+				<input type="email" id="email" name="email" class="form-control"
+					placeholder="voce@email.com" required autofocus />
 			</div>
-		</section>
-
-		<section class="mb-4">
-			<div class="row justify-content-center">
-				<div class="col-12 col-md-8 col-lg-6">
-					<form class="card border-secondary bg-dark text-light p-4" id="esqueci" method="post">
-						<h1 class="h4 text-white text-center mb-4">Recuperação de conta</h1>
-
-						<?php if ($formulario == 'email'): ?>
-							<div class="mb-3">
-								<input type="email" id="email" name="email" class="form-control bg-dark text-light border-secondary vl-auth-input"
-									placeholder="E-mail cadastrado na plataforma" required autofocus />
-							</div>
-						<?php elseif ($formulario == 'senha'): ?>
-							<div class="mb-3">
-								<input type="password" id="senha" name="senha" class="form-control bg-dark text-light border-secondary vl-auth-input"
-									placeholder="Nova Senha" required autofocus />
-							</div>
-
-							<div class="mb-3">
-								<input type="password" id="senhaconfirmacao" name="senhaconfirmacao"
-									class="form-control bg-dark text-light border-secondary vl-auth-input"
-									placeholder="Digite novamente a Senha" required />
-							</div>
-						<?php endif; ?>
-
-						<?php if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
-							<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-							<div class="d-flex justify-content-center mt-2">
-								<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
-							</div>
-						<?php endif; ?>
-
-						<div class="d-grid mt-4">
-							<button class="btn vl-noticias-btn-filtro btn-submeter" type="button">Enviar</button>
-						</div>
-					</form>
-				</div>
+		<?php elseif ($formulario == 'senha'): ?>
+			<p style="font-size: 13px; color: var(--vl-muted); margin: 0 0 16px;">Link de recuperação confirmado. Defina sua nova senha.</p>
+			<div class="mb-3">
+				<label for="senha" class="form-label" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;">Nova senha</label>
+				<input type="password" id="senha" name="senha" class="form-control"
+					placeholder="••••••••" required autofocus />
 			</div>
-		</section>
-	</div>
+			<div class="mb-3">
+				<label for="senhaconfirmacao" class="form-label" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;">Confirme a nova senha</label>
+				<input type="password" id="senhaconfirmacao" name="senhaconfirmacao"
+					class="form-control"
+					placeholder="••••••••" required />
+			</div>
+		<?php endif; ?>
+
+		<?php if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
+			<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+			<div class="d-flex justify-content-center my-3">
+				<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
+			</div>
+		<?php endif; ?>
+
+		<div class="d-grid mt-2">
+			<button class="btn btn-primary-color btn-submeter" type="button" style="font-weight: 700; font-size: 15px; padding: 14px;"><?= ($formulario == 'senha') ? 'Salvar nova senha' : 'Enviar'; ?></button>
+		</div>
+	</form>
 </div>
 
 <?= $this->endSection(); ?>

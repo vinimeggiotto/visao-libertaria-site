@@ -5,32 +5,32 @@ use CodeIgniter\I18n\Time;
 $imagemBruta = trim((string) ($dados['imagem'] ?? ''));
 $ehVazia = imagem_publica_eh_vazia($imagemBruta);
 $imagemSrc = $ehVazia ? cria_url_placeholder(480, 270) : $imagemBruta;
+$hrefPauta = site_url('site/pauta/' . rawurlencode((string) ($dados['id'] ?? '')));
 ?>
-<div class="card col-lg-3 mb-4 shadow-0 p-1">
-	<img src="<?= esc($imagemSrc, 'attr'); ?>" alt="" class="card-img-top rounded-6 object-fit-cover" width="480" height="270" loading="lazy"<?php if ($ehVazia): ?> onerror="<?= esc(attr_onerror_placeholder(), 'attr'); ?>"<?php endif; ?>>
-	<div class="card-body p-2">
-		<h5 class="card-title fw-bold">
-			<?php if ($dados['pauta_antiga'] == 'S'): ?>
-				<i class="bi bi-exclamation-circle-fill text-danger" style="font-size: 18px;"></i>
+<div class="card vl-card vl-card-h col-12">
+	<a href="<?= esc($hrefPauta, 'attr'); ?>" class="text-decoration-none d-block">
+		<div class="vl-card-media-4x3">
+			<img src="<?= esc($imagemSrc, 'attr'); ?>" alt="<?= esc($dados['titulo'] ?? '', 'attr'); ?>" class="card-img-top" width="480" height="270" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;"<?php if ($ehVazia): ?> onerror="<?= esc(attr_onerror_placeholder(), 'attr'); ?>"<?php endif; ?>>
+		</div>
+	</a>
+	<div class="card-body p-0 d-flex flex-column min-w-0">
+		<div class="d-flex flex-wrap align-items-center" style="gap: 10px; font-size: 12px; color: var(--vl-muted-2); margin-bottom: 6px;">
+			<span><?= app_time($dados['criado'])->toLocalizedString('dd MMM yyyy'); ?></span>
+		</div>
+		<h5 class="card-title fw-bold mb-2" style="font-size: 16px; line-height: 1.35;">
+			<?php if (($dados['pauta_antiga'] ?? '') == 'S'): ?>
+				<i class="bi bi-exclamation-circle-fill" style="font-size: 16px; color: var(--vl-danger);" aria-hidden="true"></i>
 			<?php endif; ?>
-			<?= $dados['titulo']; ?>
+			<a href="<?= esc($hrefPauta, 'attr'); ?>" class="text-decoration-none" style="color: var(--vl-text);"><?= $dados['titulo']; ?></a>
 		</h5>
-		<div>
-			<small>
-				<ul class="nav align-items-center flex-wrap gap-2 mb-2">
-					<li class="nav-item text-muted">
-						<span>Sugerido por <a
-								href="<?= site_url('site/colaborador/'); ?><?= urlencode($dados['apelido']); ?>"
-								class="text-muted btn-link"><?= $dados['apelido']; ?></a></span>
-					</li>
-					<li class="nav-item text-muted">
-						<?= app_time($dados['criado'])->toLocalizedString('dd MMM yyyy'); ?>
-					</li>
-				</ul>
-			</small>
-			<p class="card-text"><?= $dados['texto']; ?></p>
-			<a href="<?= $dados['link']; ?>" target="_blank" class="btn btn-outline-success btn-sm mb-1">Ler
-				Notícia</a>
+		<p class="card-text mb-2" style="font-size: 14px; color: var(--vl-muted); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;"><?= $dados['texto']; ?></p>
+		<span style="font-size: 13px; color: var(--vl-muted-2);">sugerido por <a
+				href="<?= site_url('site/colaborador/'); ?><?= urlencode($dados['apelido']); ?>"
+				style="color: var(--vl-brand); font-weight: 600; text-decoration: none;"><?= $dados['apelido']; ?></a></span>
+		<?php if (! empty($dados['link'])): ?>
+			<a href="<?= esc($dados['link'], 'attr'); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm mb-1 mt-2">Ler notícia original</a>
+		<?php endif; ?>
+		<div class="mt-2 d-flex flex-wrap gap-2">
 			<?php if (isset($_SESSION['colaboradores']['id'])):
 				$nComentarios = (int) ($dados['qtde_comentarios'] ?? 0);
 				$comentariosAria = $nComentarios === 1

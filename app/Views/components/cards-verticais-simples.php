@@ -16,8 +16,8 @@ helper('_formata_video');
 
 $tipo = $dados['tipo_conteudo'] ?? 'artigo';
 $href = $tipo === 'artigo'
-	? site_url('colaboradores/artigos/detalhamento/' . rawurlencode((string) ($dados['id'] ?? '')))
-	: base_url('colaboradores/pautas/detalhamento/' . ($dados['id'] ?? ''));
+	? site_url('site/artigo/' . rawurlencode((string) ($dados['id'] ?? '')))
+	: site_url('site/pauta/' . rawurlencode((string) ($dados['id'] ?? '')));
 
 $imagemBruta = trim((string) ($dados['imagem'] ?? ''));
 $imagemSrc = null;
@@ -76,36 +76,37 @@ if ($tipo === 'artigo') {
 ?>
 
 <div class="vl-card-vertical-col col-sm-6 col-lg-3">
-	<div class="vl-card-vertical card h-100 border-0 shadow-sm rounded-3 overflow-hidden w-100">
-		<div class="vl-card-vertical-thumb rounded-top-3">
+	<div class="vl-card vl-card-vertical h-100 overflow-hidden w-100" style="border-radius: 12px;">
+		<div class="vl-card-media-16x9">
 			<a href="<?= esc($href, 'attr'); ?>"
-				class="vl-card-vertical-thumb-link text-decoration-none">
+				class="vl-card-vertical-thumb-link text-decoration-none d-block h-100">
 				<img class="vl-card-vertical-thumb-img" src="<?= esc($imagemSrc, 'attr'); ?>"
 					alt="<?= esc($titulo, 'attr'); ?>"
+					style="width: 100%; height: 100%; object-fit: cover;"
 					loading="lazy" width="480" height="270"<?php if ($usouPlaceholder): ?> onerror="<?= esc(attr_onerror_placeholder(), 'attr'); ?>"<?php endif; ?>>
 			</a>
 		</div>
-		<div class="card-body d-flex flex-column p-3">
-			<h2 class="h6 card-title lh-sm mb-2">
-				<a href="<?= esc($href, 'attr'); ?>" class="link-dark text-decoration-none fw-bold"><?= esc($titulo); ?></a>
+		<div class="d-flex flex-column p-3">
+			<?php if ($dataPublicacao !== ''): ?>
+				<div style="font-size: 12px; color: var(--vl-muted-2); margin-bottom: 6px;"><?= esc($dataPublicacao); ?></div>
+			<?php endif; ?>
+			<h2 class="h6 mb-2" style="line-height: 1.35;">
+				<a href="<?= esc($href, 'attr'); ?>" class="text-decoration-none fw-bold" style="color: var(--vl-text);"><?= esc($titulo); ?></a>
 			</h2>
-			<p class="card-text small text-body-secondary mb-3 flex-grow-1"
-				style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;">
+			<?php if ($resumo !== ''): ?>
+			<p class="mb-3 flex-grow-1"
+				style="font-size: 13px; color: var(--vl-muted); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;">
 				<?= esc($resumo); ?></p>
-			<div class="mt-auto pt-2 border-top small text-secondary">
-				<?php if ($dataPublicacao !== ''): ?>
-					<div class="mb-2 small text-dark">
-						<i class="bi bi-calendar3 me-1" aria-hidden="true"></i><?= esc($dataPublicacao); ?>
-					</div>
-				<?php endif; ?>
+			<?php endif; ?>
+			<div class="mt-auto pt-2" style="border-top: 1px solid var(--vl-border); font-size: 13px; color: var(--vl-muted);">
 				<?php if ($tipo === 'artigo' && $papeisArtigo !== []): ?>
 					<?php foreach (array_chunk($papeisArtigo, 2) as $parPapeis): ?>
 						<div class="row g-2 mb-1">
 							<?php foreach ($parPapeis as $papel): ?>
 								<div class="col-6">
 									<div class="min-w-0">
-										<div class="text-body-secondary text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.03em;"><?= esc($papel['rotulo']); ?></div>
-										<a href="<?= esc($papel['href'], 'attr'); ?>" class="link-secondary text-truncate d-block small fw-semibold"><?= esc($papel['nome']); ?></a>
+										<div class="text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.03em; color: var(--vl-muted-2);"><?= esc($papel['rotulo']); ?></div>
+										<a href="<?= esc($papel['href'], 'attr'); ?>" class="text-truncate d-block small fw-semibold" style="color: var(--vl-muted); text-decoration: none;"><?= esc($papel['nome']); ?></a>
 									</div>
 								</div>
 							<?php endforeach; ?>
@@ -118,7 +119,7 @@ if ($tipo === 'artigo') {
 					<div class="d-flex flex-wrap align-items-center column-gap-2 row-gap-1">
 						<span class="text-nowrap">
 							<i class="bi bi-person me-1" aria-hidden="true"></i>
-							<a href="<?= esc($hrefAutor, 'attr'); ?>" class="link-secondary"><?= esc($autor); ?></a>
+							<a href="<?= esc($hrefAutor, 'attr'); ?>" style="color: var(--vl-muted);"><?= esc($autor); ?></a>
 						</span>
 					</div>
 				<?php endif; ?>

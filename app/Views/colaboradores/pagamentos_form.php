@@ -1,17 +1,17 @@
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 		<div class="d-sm-flex justify-content-between align-items-center mb-4">
 			<div>
-				<h1 class="h3 mb-1"><?= esc($titulo); ?></h1>
-				<p class="text-muted small mb-0">Configure os parâmetros de pagamento e gere o detalhamento dos artigos vinculados</p>
+				<h1 class="vl-painel-title"><?= esc($titulo); ?></h1>
+				<p class="vl-painel-lead">Configure os parâmetros de pagamento e gere o detalhamento dos artigos vinculados</p>
 			</div>
 		</div>
 
-		<section class="card border rounded-3 shadow-sm">
+		<section class="vl-card">
 			<div class="card-body p-3">
 				<form class="needs-validation w-100" novalidate="yes" method="post" id="pagamentos_form">
 					<div class="row g-2 g-md-3">
@@ -140,7 +140,6 @@
 				</form>
 			</div>
 		</section>
-	</div>
 </div>
 
 <?php if (!isset($pagamentos)): ?>

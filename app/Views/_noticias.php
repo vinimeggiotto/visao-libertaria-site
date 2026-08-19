@@ -13,104 +13,79 @@
 	</div>
 <?php endif; ?>
 
-<div class="container-fluid py-3 vl-site-noticias">
-	<div class="container">
+<div class="vl-container vl-site-noticias" style="padding-top: 40px; padding-bottom: 64px;">
+	<nav style="font-size: 13px; color: var(--vl-muted-2); margin-bottom: 20px;" aria-label="Migalhas de navegação">
+		<a href="<?= site_url('site'); ?>" style="color: var(--vl-muted-2); text-decoration: none;">Home</a>
+		<span> / </span>
+		<span style="color: var(--vl-text);">Notícias</span>
+	</nav>
 
-		<section class="pt-4 pb-4 margin-top-ultra">
-			<div class="row">
-				<div class="col-12">
-					<nav class="custom-breadcrumb mb-4" aria-label="Migalhas de navegação">
-						<ol class="breadcrumb d-flex align-items-center">
-							<li class="breadcrumb-item">
-								<a href="<?= site_url('site'); ?>">
-									<i class="bi bi-house-fill pe-1" aria-hidden="true"></i>Home
-								</a>
-							</li>
-							<li class="breadcrumb-item active" aria-current="page">
-								<i class="bi bi-newspaper pe-1" aria-hidden="true"></i>Notícias
-							</li>
-						</ol>
-					</nav>
+	<div class="row g-4">
+		<div class="col-12 col-lg-8">
+			<h1 style="font-family: var(--vl-font-title); font-size: 32px; font-weight: 700; margin: 0 0 8px;">Notícias</h1>
+			<p style="color: var(--vl-muted); font-size: 15px; margin: 0 0 28px;">Pautas sugeridas pela comunidade e selecionadas pela equipe editorial.</p>
+
+			<form method="get" id="formFiltroNoticias" action="<?= site_url('site/noticias'); ?>" class="mb-4">
+				<div class="d-flex" style="gap: 10px;">
+					<div class="flex-grow-1 d-flex align-items-center" style="gap: 8px; background: var(--vl-surface); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--vl-radius); padding: 0 14px;">
+						<i class="bi bi-search" aria-hidden="true" style="color: var(--vl-muted-2);"></i>
+						<label for="pesquisa" class="visually-hidden">Buscar</label>
+						<input type="text" class="form-control border-0 bg-transparent" id="pesquisa" name="pesquisa"
+							placeholder="Buscar por título…"
+							style="color: var(--vl-text); font-size: 14px; padding: 12px 0; box-shadow: none;"
+							value="<?= isset($_GET['pesquisa']) ? esc($_GET['pesquisa']) : ''; ?>">
+					</div>
+					<button type="submit" class="btn vl-noticias-btn-filtro text-nowrap">Filtrar</button>
+					<a href="<?= site_url('site/noticias'); ?>" id="vl-noticias-limpar" role="button" class="btn btn-outline-light text-nowrap">Limpar</a>
 				</div>
-			</div>
-		</section>
+			</form>
 
-		<section class="mb-4">
-			<div class="row">
-				<div class="col-12">
-					<div class="card border-secondary bg-dark text-light">
-						<div class="card-header border-secondary">
-							<h2 class="h5 card-title mb-0 text-white">
-								<i class="bi bi-funnel pe-2" aria-hidden="true"></i>Buscar notícias
-							</h2>
-						</div>
-						<div class="card-body">
-							<form method="get" id="formFiltroNoticias" action="<?= site_url('site/noticias'); ?>">
-								<div class="row g-3 align-items-end">
-									<div class="col-12 col-md-9">
-										<label for="pesquisa" class="form-label">Buscar</label>
-										<div class="input-group input-group-sm">
-											<span class="input-group-text bg-secondary border-secondary text-white"><i class="bi bi-search" aria-hidden="true"></i></span>
-											<input type="text" class="form-control form-control-sm bg-dark text-light border-secondary" id="pesquisa" name="pesquisa"
-												placeholder="Buscar por título, texto ou link…"
-												value="<?= isset($_GET['pesquisa']) ? esc($_GET['pesquisa']) : ''; ?>">
-										</div>
-									</div>
-									<div class="col-12 col-md-3 d-flex flex-column justify-content-end">
-										<div class="vl-noticias-filtro-botoes d-flex flex-column flex-sm-row gap-2 w-100 align-items-stretch">
-											<button type="submit" class="btn vl-noticias-btn-filtro text-nowrap">
-												<i class="bi bi-search pe-2" aria-hidden="true"></i>Filtrar
-											</button>
-											<a href="<?= site_url('site/noticias'); ?>" id="vl-noticias-limpar" role="button" class="btn btn-outline-light text-nowrap">
-												<i class="bi bi-x-lg pe-1" aria-hidden="true"></i>Limpar
-											</a>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
+			<div id="vl-noticias-list-root">
+				<?= view('template/templatePautasListSite', ['pautasList' => $pautasList]); ?>
+			</div>
+
+			<div class="page-load-status">
+				<div class="infinite-scroll-request d-flex justify-content-center mt-5 mb-5">
+					<div class="spinner-border vl-noticias-spinner" role="status">
+						<span class="visually-hidden">Carregando mais notícias…</span>
 					</div>
 				</div>
+				<p class="infinite-scroll-last h6" style="color: var(--vl-muted-2);" role="status">Fim da lista</p>
+				<p class="infinite-scroll-error h6" style="color: var(--vl-danger);" role="alert">Não foi possível carregar mais páginas</p>
 			</div>
-		</section>
-
-		<?php if (isset($_SESSION['colaboradores']['id'])): ?>
-			<div class="mb-4 text-center">
-				<?php
-				$mensagemLimitePauta = $limiteDiario === true
-					? 'Você atingiu o limite diário de pautas. Tente novamente amanhã.'
-					: 'Você atingiu o limite semanal de pautas. Tente novamente outro dia.';
-				?>
-				<button type="button" class="btn vl-noticias-btn-filtro" id="btn-sugerir-pauta"
-					<?php if ($limiteDiario === false && $limiteSemanal === false): ?>
-						data-bs-toggle="modal" data-bs-target="#modalSugerirPauta" data-bs-titulo-modal="Cadastre uma pauta"
-					<?php else: ?>
-						data-limite-pauta-msg="<?= esc($mensagemLimitePauta); ?>"
-					<?php endif; ?>>
-					Sugerir pauta
-				</button>
-			</div>
-		<?php else: ?>
-			<p class="text-center text-white-50 small mb-4">
-				Quer sugerir uma pauta ou colaborar?
-				<a href="<?= esc(url_home_com_login(), 'attr'); ?>" class="vl-noticias-entrar-link">Entrar</a>
-			</p>
-		<?php endif; ?>
-
-		<div id="vl-noticias-list-root">
-			<?= view('template/templatePautasListSite', ['pautasList' => $pautasList]); ?>
 		</div>
 
-		<div class="page-load-status">
-			<div class="infinite-scroll-request d-flex justify-content-center mt-5 mb-5">
-				<div class="spinner-border vl-noticias-spinner" role="status">
-					<span class="visually-hidden">Carregando mais notícias…</span>
-				</div>
+		<aside class="col-12 col-lg-4">
+			<div class="vl-card mb-3" style="border-radius: 12px; padding: 20px;">
+				<h2 style="font-family: var(--vl-font-title); font-size: 16px; font-weight: 700; margin: 0 0 8px;">Quer sugerir uma pauta?</h2>
+				<p style="color: var(--vl-muted); font-size: 13px; line-height: 1.5; margin: 0 0 14px;">Sugestões de pauta são feitas por colaboradores cadastrados.</p>
+				<?php if (isset($_SESSION['colaboradores']['id'])): ?>
+					<?php
+					$mensagemLimitePauta = $limiteDiario === true
+						? 'Você atingiu o limite diário de pautas. Tente novamente amanhã.'
+						: 'Você atingiu o limite semanal de pautas. Tente novamente outro dia.';
+					?>
+					<button type="button" class="btn vl-noticias-btn-filtro w-100" id="btn-sugerir-pauta"
+						<?php if ($limiteDiario === false && $limiteSemanal === false): ?>
+							data-bs-toggle="modal" data-bs-target="#modalSugerirPauta" data-bs-titulo-modal="Cadastre uma pauta"
+						<?php else: ?>
+							data-limite-pauta-msg="<?= esc($mensagemLimitePauta); ?>"
+						<?php endif; ?>>
+						Sugerir pauta
+					</button>
+				<?php else: ?>
+					<a href="<?= site_url('site/cadastre-se'); ?>" class="btn btn-primary-color w-100" style="font-weight: 700; font-size: 14px; padding: 11px;">Cadastre-se para participar</a>
+					<p class="mb-0 mt-3" style="font-size: 13px; color: var(--vl-muted-2);">
+						Já tem conta?
+						<a href="<?= esc(url_home_com_login(), 'attr'); ?>" class="vl-noticias-entrar-link">Entrar</a>
+					</p>
+				<?php endif; ?>
 			</div>
-			<p class="infinite-scroll-last h6 text-white-50" role="status">Fim da lista</p>
-			<p class="infinite-scroll-error h6 text-danger" role="alert">Não foi possível carregar mais páginas</p>
-		</div>
-
+			<div class="vl-card" style="border-radius: 12px; padding: 20px;">
+				<h2 style="font-family: var(--vl-font-title); font-size: 16px; font-weight: 700; margin: 0 0 8px;">Como funciona</h2>
+				<p style="color: var(--vl-muted); font-size: 13px; line-height: 1.6; margin: 0;">1. Colaboradores sugerem notícias e comentam nelas.<br>2. A equipe fecha as mais relevantes.<br>3. Escritores transformam em artigo e vídeo.</p>
+			</div>
+		</aside>
 	</div>
 </div>
 

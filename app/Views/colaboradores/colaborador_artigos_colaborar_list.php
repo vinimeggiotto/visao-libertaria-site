@@ -1,18 +1,18 @@
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 		<div class="d-sm-flex justify-content-between align-items-center mb-4">
 			<div>
-				<h1 class="h3 mb-1">Artigos para colaborar</h1>
-				<p class="text-muted small mb-0">Escolha a fase, pesquise e marque artigos para trabalhar nesta etapa</p>
+				<h1 class="vl-painel-title">Colaborar em artigos</h1>
+				<p class="vl-painel-lead">Artigos de outros escritores que precisam de revisor, narrador ou produtor.</p>
 			</div>
 		</div>
 
 		<div class="accordion mb-4" id="accordionLimitesColaborar">
-			<div class="accordion-item border rounded-3 overflow-hidden shadow-sm">
+			<div class="accordion-item border rounded-3 overflow-hidden">
 				<h2 class="accordion-header" id="headingLimitesColaborar">
 					<button class="accordion-button collapsed py-3" type="button" data-bs-toggle="collapse"
 						data-bs-target="#collapseLimitesColaborar" aria-expanded="false" aria-controls="collapseLimitesColaborar">
@@ -64,7 +64,7 @@
 		<section class="mb-4" aria-labelledby="heading-colab-fase">
 			<h2 id="heading-colab-fase" class="h5 text-body mb-1">Fase de colaboração</h2>
 			<p class="text-muted small mb-0">Selecione a etapa em que pretende colaborar</p>
-			<div class="card border rounded-3 shadow-sm mt-2">
+			<div class="vl-card mt-2">
 				<div class="card-body p-2 p-sm-3">
 					<div class="row row-cols-2 row-cols-sm-2 row-cols-lg-4 g-2">
 						<?php if (in_array('3', $permissoes)): ?>
@@ -128,8 +128,8 @@
 			</div>
 		</section>
 
-		<section class="card border rounded-3 shadow-sm" aria-labelledby="heading-colab-listagem">
-			<div class="card-header bg-body-secondary bg-opacity-25 border-bottom p-3">
+		<section class="vl-card" aria-labelledby="heading-colab-listagem">
+			<div class="card-header border-bottom p-3">
 				<div class="d-sm-flex justify-content-between align-items-start gap-2">
 					<div>
 						<h2 id="heading-colab-listagem" class="h5 mb-1">Listagem nesta fase</h2>
@@ -176,7 +176,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
 </div>
 
 <style>

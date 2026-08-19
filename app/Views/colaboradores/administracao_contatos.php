@@ -1,9 +1,9 @@
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 
 		<style>
 			.listagem-site-table-wrap {
@@ -62,14 +62,14 @@
 
 		<div class="d-sm-flex justify-content-between align-items-center mb-4">
 			<div>
-				<h1 class="h3 mb-1"><?= esc($titulo); ?></h1>
-				<p class="text-muted small mb-0">Pesquise e responda às mensagens enviadas pelo formulário público de contato</p>
+				<h1 class="vl-painel-title"><?= esc($titulo); ?></h1>
+				<p class="vl-painel-lead">Pesquise e responda às mensagens enviadas pelo formulário público de contato</p>
 			</div>
 		</div>
 
-		<section class="card border rounded-3 shadow-sm mb-4" aria-labelledby="heading-contatos-admin">
-			<div class="card-header bg-body-secondary bg-opacity-25 border-bottom p-3">
-				<h2 id="heading-contatos-admin" class="h5 mb-1">Listagem de contatos</h2>
+		<section class="vl-card mb-4" aria-labelledby="heading-contatos-admin">
+			<div class="card-header border-bottom p-3">
+				<h2 id="heading-contatos-admin" class="h5 mb-1">Inbox de contatos</h2>
 				<p class="text-muted small mb-0">Filtre por e-mail, assunto e estado de resposta</p>
 			</div>
 			<div class="card-body p-3">
@@ -121,7 +121,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
 </div>
 
 <div class="modal fade" id="modal-resposta-contato" tabindex="-1" aria-labelledby="modal-resposta-contato-label"

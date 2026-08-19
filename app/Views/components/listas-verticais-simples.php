@@ -20,8 +20,8 @@ pagerQueryParams = opcional, array associativo ex. ['papel' => 'escrito'] para a
         <?= view_cell($urlComponente, $lista, 300, 'lista_card_' . ($lista['tipo_conteudo'] ?? 'item') . '_' . ($lista['id'] ?? '')); ?>
 	<?php endforeach; ?>
 <?php else: ?>
-	<div class="text-center">
-		<h6 class="text-center">Nenhum resultado foi encontrado.</h6>
+	<div class="text-center" style="padding: 48px 24px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 12px; color: var(--vl-muted-2); font-size: 14px;">
+		<h6 class="text-center mb-0" style="color: var(--vl-muted-2); font-weight: 500;">Nenhum resultado foi encontrado.</h6>
 	</div>
 <?php endif; ?>
 <div class="col-12 mt-4 d-flex justify-content-center">

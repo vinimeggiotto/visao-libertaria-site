@@ -3,11 +3,12 @@
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container-fluid py-3">
-	<div class="container d-flex justify-content-center">
+<div class="vl-painel">
+	<div class="d-flex justify-content-center">
 		<div class="col-lg-8">
-			<h1 class="display-2"><?= $pauta['titulo']; ?></h1>
+			<h1 class="vl-painel-title mb-3"><?= $pauta['titulo']; ?></h1>
 
 			<div class="bg-image hover-zoom rounded-6">
 				<img class="w-100 img-fluid" height="auto" style="max-height:22rem; object-fit: cover;"
@@ -32,7 +33,7 @@
 			</div>
 			<div class="col-12 mb-3 mt-3">
 				<!-- Chart START -->
-				<div class="card border">
+				<div class="vl-card">
 					<div class="card-body">
 						<div class="row">
 							<div class="col-12 text-center">

@@ -10,7 +10,7 @@ $idx_inicio = $idx_inicio ?? 0;
 	$recadoCollapseId = 'recado-pauta-' . $idx;
 	$ehPauta = ($n['objeto'] == 'pautas');
 	?>
-	<div class="card mb-2 recado-item <?= ($n['data_visualizado'] == null) ? 'recado-nao-lido' : ''; ?>">
+	<div class="vl-card mb-2 recado-item <?= ($n['data_visualizado'] == null) ? 'recado-nao-lido' : ''; ?>">
 		<ul class="list-group list-group-flush <?= ($n['data_visualizado'] == null) ? 'border border-primary' : ''; ?>">
 			<li class="list-group-item p-2">
 				<div class="d-flex align-items-center">

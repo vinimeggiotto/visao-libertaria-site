@@ -7,58 +7,43 @@ $pct_semanal = $limites['limite_pautas_semanal'] > 0
 	: 0;
 $avatarSrc = $colaboradores['avatar'] ?? null;
 ?>
-<?= $this->extend('layouts/main'); ?>
+<?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 <?php helper('month_helper'); ?>
 
-<div class="container mb-3">
-	<div class="main-body">
-		<div class="row">
-			<div class="col-lg-4">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="d-flex flex-column align-items-center text-center">
-							<button type="button" class="btn p-0 border-0 bg-transparent" id="avatar-perfil-abrir-imagem"
-								title="Ver foto de perfil">
-								<?= avatar_slot_html(
-									'avatar_perfil',
-									$avatarSrc,
-									'Avatar',
-									'rounded-circle p-1 bg-primary',
-									'width:110px;height:110px;object-fit:cover;'
-								); ?>
-							</button>
-							<div class="mt-3">
-								<h4 class="apelido_colaborador">
-									<?= esc($colaboradores['apelido']); ?>
-								</h4>
-								<p class="text-muted font-size-sm mb-2">Colaborador desde
-									<?= date_format(new DateTime($colaboradores['criado']), 'd') . ' ' . month_helper(date_format(new DateTime($colaboradores['criado']), 'F'), 3) . '. ' . date_format(new DateTime($colaboradores['criado']), 'Y'); ?>
-								</p>
-								<p class="text-secondary mb-0">
-									<?php foreach ($atribuicoes as $atribuicao): ?>
-										<label class="badge bg-<?= esc($atribuicao['cor']); ?>"><?= esc($atribuicao['nome']); ?></label>
-									<?php endforeach; ?>
-								</p>
-							</div>
-						</div>
-						<hr class="my-4">
-						<p class="fs-5 mb-2">Páginas públicas</p>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item px-0">
-								<a href="<?= site_url('site/escritor/' . rawurlencode($colaboradores['apelido'])); ?>">Artigos publicados</a>
-							</li>
-							<li class="list-group-item px-0">
-								<a href="<?= site_url('site/colaborador/' . rawurlencode($colaboradores['apelido'])); ?>">Pautas utilizadas</a>
-							</li>
-						</ul>
-					</div>
-				</div>
+<div class="vl-painel">
+		<div class="d-flex gap-3 align-items-center mb-4" style="gap: 20px;">
+			<button type="button" class="btn p-0 border-0 bg-transparent" id="avatar-perfil-abrir-imagem"
+				title="Ver foto de perfil">
+				<?= avatar_slot_html(
+					'avatar_perfil',
+					$avatarSrc,
+					'Avatar',
+					'rounded-circle',
+					'width:72px;height:72px;object-fit:cover;'
+				); ?>
+			</button>
+			<div>
+				<h1 class="vl-painel-title apelido_colaborador"><?= esc($colaboradores['apelido']); ?></h1>
+				<p class="vl-painel-lead">Colaborador desde
+					<?= date_format(new DateTime($colaboradores['criado']), 'd') . ' ' . month_helper(date_format(new DateTime($colaboradores['criado']), 'F'), 3) . '. ' . date_format(new DateTime($colaboradores['criado']), 'Y'); ?>
+				</p>
+				<p class="mb-1 mt-2">
+					<?php foreach ($atribuicoes as $atribuicao): ?>
+						<span class="vl-badge-papel"><?= esc($atribuicao['nome']); ?></span>
+					<?php endforeach; ?>
+				</p>
+				<p class="mb-0 small">
+					<a href="<?= site_url('site/escritor/' . rawurlencode($colaboradores['apelido'])); ?>">Artigos publicados</a>
+					<span class="px-1" style="color: var(--vl-muted-2);">·</span>
+					<a href="<?= site_url('site/colaborador/' . rawurlencode($colaboradores['apelido'])); ?>">Pautas utilizadas</a>
+				</p>
 			</div>
+		</div>
 
-			<div class="col-lg-8">
-				<ul class="nav nav-tabs mb-3" id="perfil-tabs" role="tablist">
+				<ul class="nav vl-perfil-tabs" id="perfil-tabs" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="tab-recados" data-bs-toggle="tab"
 							data-bs-target="#painel-recados" type="button" role="tab"
@@ -93,7 +78,7 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 				<div class="tab-content" id="perfil-tabs-content">
 					<div class="tab-pane fade show active" id="painel-recados" role="tabpanel"
 						aria-labelledby="tab-recados" tabindex="0">
-						<div class="card mb-3">
+						<div class="vl-card mb-3">
 							<div class="card-body">
 								<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
 									<h5 class="mb-0">Recados</h5>
@@ -125,7 +110,7 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 
 					<div class="tab-pane fade" id="painel-contribuicoes" role="tabpanel"
 						aria-labelledby="tab-contribuicoes" tabindex="0">
-						<div class="card mb-3">
+						<div class="vl-card mb-3">
 							<div class="card-body">
 								<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
 									<h5 class="mb-0">Limites de pautas</h5>
@@ -180,27 +165,27 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 							</div>
 						</div>
 
-						<div class="card mb-3">
+						<div class="vl-card mb-3">
 							<div class="card-body">
 								<h5 class="mb-3">Contribuições aprovadas e pendentes</h5>
-								<div class="row text-center mb-3">
-									<div class="col-4 border-end">
-										<p class="text-muted mb-1">Colaborações (mês)</p>
-										<p class="fs-3 fw-bold mb-0">
-											<?= number_format($contribuicoes_mensal['colaboracoes'], 0, ',', '.'); ?>
-										</p>
-									</div>
-									<div class="col-4 border-end">
-										<p class="text-muted mb-1">Pontos (mês)</p>
-										<p class="fs-3 fw-bold mb-0">
-											<?= number_format($contribuicoes_mensal['pontos'], 0, ',', '.'); ?>
-										</p>
+								<div class="row text-center mb-3 g-2">
+									<div class="col-4">
+										<div class="vl-stat">
+											<div class="vl-stat-value"><?= number_format($contribuicoes_mensal['colaboracoes'], 0, ',', '.'); ?></div>
+											<div class="vl-stat-label">colaborações no mês</div>
+										</div>
 									</div>
 									<div class="col-4">
-										<p class="text-muted mb-1">Total histórico</p>
-										<p class="fs-3 fw-bold mb-0">
-											<?= number_format($contribuicoes_total, 0, ',', '.'); ?>
-										</p>
+										<div class="vl-stat">
+											<div class="vl-stat-value"><?= number_format($contribuicoes_mensal['pontos'], 0, ',', '.'); ?></div>
+											<div class="vl-stat-label">pontos no mês</div>
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="vl-stat">
+											<div class="vl-stat-value"><?= number_format($contribuicoes_total, 0, ',', '.'); ?></div>
+											<div class="vl-stat-label">total histórico</div>
+										</div>
 									</div>
 								</div>
 								<div class="table-responsive">
@@ -259,7 +244,7 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 
 					<div class="tab-pane fade" id="painel-pagamentos" role="tabpanel"
 						aria-labelledby="tab-pagamentos" tabindex="0">
-						<div class="card mb-3">
+						<div class="vl-card mb-3">
 							<div class="card-body">
 								<h5 class="mb-3">Pagamentos pelas contribuições</h5>
 								<p class="text-muted small">Clique nos seus pontos para ver os artigos daquele lote.</p>
@@ -318,7 +303,7 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 
 					<div class="tab-pane fade" id="painel-perfil" role="tabpanel"
 						aria-labelledby="tab-perfil" tabindex="0">
-						<div class="card mb-3">
+						<div class="vl-card mb-3">
 							<div class="card-body">
 								<h5 class="mb-3">Dados do perfil</h5>
 								<form class="needs-validation" method="post" id="colaboradores_perfil"
@@ -369,7 +354,7 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 
 					<div class="tab-pane fade" id="painel-seguranca" role="tabpanel"
 						aria-labelledby="tab-seguranca" tabindex="0">
-						<div class="card mb-3">
+						<div class="vl-card mb-3">
 							<div class="card-body">
 								<h5 class="mb-3">Alterar senha</h5>
 								<form class="needs-validation" method="post" id="colaboradores_senha">
@@ -394,9 +379,9 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 							</div>
 						</div>
 
-						<div class="card border-danger mb-3">
-							<div class="card-body">
-								<h5 class="mb-2 text-danger">Zona de risco</h5>
+						<div class="vl-zona-risco mb-3">
+							<div>
+								<h5 class="mb-2">Zona de risco</h5>
 								<p class="mb-3 text-muted">
 									A exclusão só é concluída depois que você confirma pelo link enviado ao seu e-mail.
 									Até lá, a conta continua ativa.
@@ -411,9 +396,6 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
 </div>
 
 <div class="modal fade bd-example-modal-lg" id="modal-colaboracoes-fechadas" tabindex="-1" role="dialog"

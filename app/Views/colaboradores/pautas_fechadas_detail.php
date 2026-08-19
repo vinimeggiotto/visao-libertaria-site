@@ -5,6 +5,7 @@ use CodeIgniter\I18n\Time;
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <style>
 	/* Listagem densa: mais linhas visíveis sem perder legibilidade */
@@ -37,7 +38,7 @@ use CodeIgniter\I18n\Time;
 	}
 </style>
 
-<div class="container py-3 pautas-fechadas-detalhe-page">
+<div class="vl-painel pautas-fechadas-detalhe-page">
 	<div class="row align-items-center g-2 mb-2">
 		<div class="col-12 col-md">
 			<h1 class="mb-0 h4"><?= esc($titulo); ?></h1>

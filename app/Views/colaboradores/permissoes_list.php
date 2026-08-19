@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 <style>
 	.listagem-site-table-wrap {
 		max-height: min(70vh, 42rem);
@@ -35,15 +36,14 @@
 		vertical-align: middle;
 	}
 </style>
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 		<div class="d-sm-flex justify-content-between align-items-center mb-4">
 			<div>
-				<h1 id="heading-permissoes" class="h3 mb-1"><?= $titulo; ?></h1>
-				<p class="text-muted small mb-0">Filtre colaboradores e edite suas permissões na listagem abaixo</p>
+				<h1 id="heading-permissoes" class="vl-painel-title"><?= $titulo; ?></h1>
+				<p class="vl-painel-lead">Filtre colaboradores e edite suas permissões na listagem abaixo</p>
 			</div>
 		</div>
-		<section class="card border rounded-3 shadow-sm" aria-labelledby="heading-permissoes">
+		<section class="vl-card" aria-labelledby="heading-permissoes">
 			<div class="card-body p-3">
 				<div class="listagem-site-filtros rounded-3 border bg-body-secondary bg-opacity-50 p-3 mb-0">
 					<form id="pesquisa-permissoes" method="get" autocomplete="off">
@@ -96,7 +96,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
 </div>
 
 <?= $this->endSection(); ?>

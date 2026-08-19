@@ -8,107 +8,79 @@ use CodeIgniter\I18n\Time;
 
 <?= $this->section('content'); ?>
 
-<div class="container-fluid py-3 vl-site-videos">
-   <div class="container">
+<div class="vl-container vl-site-videos" style="padding-top: 40px; padding-bottom: 64px;">
+	<h1 style="font-family: var(--vl-font-title); font-size: 32px; font-weight: 700; margin: 0 0 8px;">Vídeos</h1>
+	<p style="color: var(--vl-muted); font-size: 15px; margin: 0 0 24px;">Todos os vídeos publicados, organizados por projeto.</p>
 
-      <section class="pt-4 pb-4 margin-top-ultra">
-         <div class="row">
-            <div class="col-12">
-               <nav class="custom-breadcrumb" aria-label="breadcrumb">
-                  <ol class="breadcrumb">
-                     <li class="breadcrumb-item">
-                        <a href="<?= site_url(); ?>">
-                           <i class="bi bi-house-fill pe-1"></i>Home
-                        </a>
-                     </li>
-                     <li class="breadcrumb-item active" aria-current="page">
-                        <i class="bi bi-play-circle-fill pe-1"></i>Vídeos
-                     </li>
-                  </ol>
-               </nav>
-            </div>
-         </div>
-      </section>
+	<div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 28px;">
+		<a href="<?= site_url('site/videos'); ?>"
+			class="vl-chip text-decoration-none <?= !isset($projeto_atual) ? 'is-active' : ''; ?>">
+			Todos os projetos
+		</a>
+		<?php if (isset($projetos) && is_array($projetos)): ?>
+			<?php foreach ($projetos as $proj): ?>
+				<a href="<?= site_url('site/videos/' . projeto_nome_para_url($proj['nome'])); ?>"
+					class="vl-chip text-decoration-none <?= (isset($projeto_atual) && $projeto_atual === $proj['nome']) ? 'is-active' : ''; ?>">
+					<?= esc($proj['nome']); ?>
+				</a>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
 
-      <!-- Filtros por projeto -->
-      <div class="mb-4">
-         <div class="d-flex flex-wrap gap-2">
-            <a href="<?= site_url('site/videos'); ?>"
-               class="gen-button <?= !isset($projeto_atual) ? '' : 'gen-button-outline'; ?>">
-               <div class="gen-button-block">
-                  <span class="gen-button-line-left"></span>
-                  <span class="gen-button-text">Todos os Projetos</span>
-               </div>
-            </a>
-            <?php if (isset($projetos) && is_array($projetos)): ?>
-               <?php foreach ($projetos as $proj): ?>
-                  <a href="<?= site_url('site/videos/' . projeto_nome_para_url($proj['nome'])); ?>"
-                     class="gen-button <?= (isset($projeto_atual) && $projeto_atual === $proj['nome']) ? '' : 'gen-button-outline'; ?>">
-                     <div class="gen-button-block">
-                        <span class="gen-button-line-left"></span>
-                        <span class="gen-button-text"><?= esc($proj['nome']); ?></span>
-                     </div>
-                  </a>
-               <?php endforeach; ?>
-            <?php endif; ?>
-         </div>
-      </div>
+	<div class="list-videos row">
+		<?php if (isset($videosList['videos']) && is_array($videosList['videos'])): ?>
+			<?php foreach ($videosList['videos'] as $video): ?>
+				<div class="col-lg-3 col-md-4 col-sm-6 mb-4 video-item">
+					<div class="card video-card h-100">
+						<div class="video-thumbnail">
+							<img src="<?= cria_url_thumb($video['video_id']); ?>" alt="<?= esc($video['titulo']); ?>"
+								class="card-img-top" loading="lazy" width="480" height="270">
+							<div class="play-overlay">
+								<i class="bi bi-play-circle-fill play-icon" aria-hidden="true"></i>
+								<a href="<?= cria_link_watch($video['video_id']); ?>"
+									style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+									aria-label="Assistir <?= esc($video['titulo'], 'attr'); ?>"></a>
+							</div>
+							<?php if (!empty($video['short'])): ?>
+								<span class="short-badge">Short</span>
+							<?php endif; ?>
+							<?php if (!isset($projeto_atual)): ?>
+								<div class="project-badge">
+									<?= esc($video['projeto_nome'] ?? 'Projeto'); ?>
+								</div>
+							<?php endif; ?>
+						</div>
+						<div class="card-body d-flex flex-column">
+							<h2 class="card-title h6"><?= esc($video['titulo']); ?></h2>
+							<p class="card-text text-muted small">
+								<?= Time::parse($video['publicado'])->toLocalizedString('dd/MM/yyyy'); ?>
+							</p>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<div class="col-12 text-center">
+				<p style="color: var(--vl-muted-2);">Nenhum vídeo encontrado.</p>
+			</div>
+		<?php endif; ?>
+	</div>
 
-      <div class="list-videos row">
-         <?php if (isset($videosList['videos']) && is_array($videosList['videos'])): ?>
-            <?php foreach ($videosList['videos'] as $video): ?>
-               <div class="col-lg-3 col-md-4 col-sm-6 mb-4 video-item">
-                  <div class="card video-card h-100">
-                     <div class="video-thumbnail">
-                        <img src="<?= cria_url_thumb($video['video_id']); ?>" alt="<?= esc($video['titulo']); ?>"
-                           class="card-img-top" loading="lazy" width="480" height="270">
-                        <div class="play-overlay">
-                           <i class="bi bi-play-circle-fill play-icon"></i>
-                           <a href="<?= cria_link_watch($video['video_id']); ?>"
-                              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></a>
-                        </div>
-                        <?php if (!empty($video['short'])): ?>
-                           <span class="short-badge">Short</span>
-                        <?php endif; ?>
-                        <?php if (!isset($projeto_atual)): ?>
-                           <div class="project-badge">
-                              <?= esc($video['projeto_nome'] ?? 'Projeto'); ?>
-                           </div>
-                        <?php endif; ?>
-                     </div>
-                     <div class="card-body d-flex flex-column">
-                        <h6 class="card-title"><?= esc($video['titulo']); ?></h6>
-                        <p class="card-text text-muted small">
-                           <?= Time::parse($video['publicado'])->toLocalizedString('dd/MM/yyyy'); ?>
-                        </p>
-                     </div>
-                  </div>
-               </div>
-            <?php endforeach; ?>
-         <?php else: ?>
-            <div class="col-12 text-center">
-               <p class="text-muted">Nenhum vídeo encontrado.</p>
-            </div>
-         <?php endif; ?>
-      </div>
+	<?php if (isset($videosList['pager'])): ?>
+		<div class="d-none">
+			<?= $videosList['pager']->links('videos', 'default_template') ?>
+		</div>
+	<?php endif; ?>
 
-      <!-- Paginação (escondida para infinite scroll) -->
-      <?php if (isset($videosList['pager'])): ?>
-         <div class="d-none">
-            <?= $videosList['pager']->links('videos', 'default_template') ?>
-         </div>
-      <?php endif; ?>
-
-      <div class="page-load-status">
-         <div class="infinite-scroll-request">
-            <div class="spinner-border" role="status">
-               <span class="visually-hidden">Carregando...</span>
-            </div>
-         </div>
-         <p class="infinite-scroll-last">Fim do conteúdo</p>
-         <p class="infinite-scroll-error">Erro ao carregar</p>
-      </div>
-   </div>
+	<div class="page-load-status">
+		<div class="infinite-scroll-request">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Carregando...</span>
+			</div>
+		</div>
+		<p class="infinite-scroll-last">Fim do conteúdo</p>
+		<p class="infinite-scroll-error">Erro ao carregar</p>
+	</div>
 </div>
 
 <?= $this->endSection(); ?>
@@ -117,32 +89,27 @@ use CodeIgniter\I18n\Time;
 <script defer src="<?= asset_url('public/js/vendor/masonry.pkgd.min.js'); ?>"></script>
 <script defer src="<?= asset_url('public/js/vendor/infinite-scroll.pkgd.min.js'); ?>"></script>
 <script>
-   document.addEventListener('DOMContentLoaded', function () {
-      $(function () {
-      // Inicializar Masonry
-      var $grid = $('.list-videos').masonry({
-         itemSelector: '.video-item'
-      });
+	document.addEventListener('DOMContentLoaded', function () {
+		$(function () {
+		var $grid = $('.list-videos').masonry({
+			itemSelector: '.video-item'
+		});
 
-      // Inicializar Infinite Scroll
-      $grid.infiniteScroll({
-         path: '?page={{#}}',
-         append: '.video-item',
-         history: false,
-         outlayer: $grid.data('masonry'),
-         status: '.page-load-status',
-         scrollThreshold: 100
-      });
+		$grid.infiniteScroll({
+			path: '?page={{#}}',
+			append: '.video-item',
+			history: false,
+			outlayer: $grid.data('masonry'),
+			status: '.page-load-status',
+			scrollThreshold: 100,
+			fetchOptions: {
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest'
+				}
+			}
+		});
 
-      // Configurar o carregamento de novos vídeos
-      $grid.on('load.infiniteScroll', function (event, response) {
-         if (response && response.html) {
-            var $newItems = $(response.html);
-            $grid.append($newItems).masonry('appended', $newItems);
-         }
-      });
-
-      });
-   });
+		});
+	});
 </script>
 <?= $this->endSection(); ?>

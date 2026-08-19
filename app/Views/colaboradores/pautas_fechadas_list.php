@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 <style>
 	.listagem-site-table-wrap {
 		max-height: min(70vh, 42rem);
@@ -36,12 +37,11 @@
 	}
 </style>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 		<div class="d-sm-flex justify-content-between align-items-center mb-4 gap-3">
 			<div>
-				<h1 id="heading-pautas-fechadas" class="h3 mb-1"><?= esc($titulo); ?></h1>
-				<p class="text-muted small mb-0">Visualize os fechamentos anteriores e acesse os detalhes de cada grupo de pautas.</p>
+				<h1 id="heading-pautas-fechadas" class="vl-painel-title"><?= esc($titulo); ?></h1>
+				<p class="vl-painel-lead">Visualize os fechamentos anteriores e acesse os detalhes de cada grupo de pautas.</p>
 			</div>
 			<div>
 				<a href="<?= site_url('colaboradores/pautas/fechar'); ?>" class="btn btn-primary btn-sm w-100 w-sm-auto">
@@ -91,7 +91,6 @@
 				</div>
 			</div>
 		</section>
-	</div>
 </div>
 
 <?= $this->endSection(); ?>

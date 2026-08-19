@@ -5,182 +5,84 @@
 $hcSiteKey = config('Hcaptcha')->siteKey ?? '';
 ?>
 
-<style>
-	.vl-auth-input::placeholder {
-		color: #a9adb3 !important;
-		opacity: 1 !important;
-	}
-
-	.vl-auth-input:-ms-input-placeholder {
-		color: #a9adb3 !important;
-	}
-
-	.vl-auth-input::-ms-input-placeholder {
-		color: #a9adb3 !important;
-	}
-
-	/*
-	 * style.css global aplica float:left em textarea/input — isso faz o botão
-	 * “Enviar mensagem” ficar ao lado do campo. Forçamos fluxo em coluna só aqui.
-	 */
-	#contato {
-		display: flex;
-		flex-direction: column;
-	}
-
-	#contato textarea.form-control,
-	#contato input.form-control,
-	#contato select.form-select {
-		float: none !important;
-		width: 100% !important;
-	}
-
-	#contato .vl-contato-msg-wrap {
-		margin-bottom: 0.5rem;
-	}
-
-	#contato .vl-contato-msg-wrap .form-label {
-		margin-bottom: 0.25rem;
-	}
-
-	#contato .vl-contato-msg-wrap textarea {
-		margin-top: 0;
-	}
-
-	#contato .vl-contato-captcha-wrap {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
-
-	#contato .vl-contato-acoes-envio {
-		width: 100%;
-		clear: both;
-		margin-top: 0.5rem !important;
-	}
-
-	.vl-contato-login-link {
-		font-size: inherit;
-		vertical-align: baseline;
-	}
-
-	.vl-contato-login-link:hover,
-	.vl-contato-login-link:focus {
-		color: #fff !important;
-	}
-</style>
-
-<div class="container-fluid py-3 vl-site-noticias">
-	<div class="container">
-		<section class="pt-4 pb-4 margin-top-ultra">
-			<div class="row">
-				<div class="col-12">
-					<nav class="custom-breadcrumb mb-4" aria-label="Migalhas de navegacao">
-						<ol class="breadcrumb d-flex align-items-center">
-							<li class="breadcrumb-item">
-								<a href="<?= site_url('site'); ?>">
-									<i class="bi bi-house-fill pe-1" aria-hidden="true"></i>Home
-								</a>
-							</li>
-							<li class="breadcrumb-item active" aria-current="page">
-								<i class="bi bi-envelope-fill pe-1" aria-hidden="true"></i>Contato
-							</li>
-						</ol>
-					</nav>
-				</div>
+<div class="vl-container" style="max-width: 1080px; padding-top: 56px; padding-bottom: 64px;">
+	<div class="row g-4 align-items-start">
+		<div class="col-12 col-lg-5">
+			<div class="vl-card" style="border-radius: 14px; padding: 24px;">
+				<h2 style="font-family: var(--vl-font-title); font-size: 16px; font-weight: 700; margin: 0 0 10px;">
+					<i class="bi bi-exclamation-triangle-fill pe-1" aria-hidden="true" style="color: var(--vl-brand);"></i>Atenção
+				</h2>
+				<p style="color: var(--vl-muted); font-size: 13px; line-height: 1.6; margin: 0 0 10px;">
+					Este não é um local para sugerir pautas. Para isso,
+					<a href="<?= site_url('site/cadastre-se'); ?>" style="color: var(--vl-brand);">cadastre-se na plataforma</a>
+					ou
+					<button type="button"
+						class="btn btn-link p-0 align-baseline border-0 shadow-none vl-contato-login-link"
+						style="color: var(--vl-brand); text-decoration: underline; font-size: 13px;"
+						data-bs-toggle="modal" data-bs-target="#header-login-modal">acesse a sua conta</button>.
+				</p>
+				<p style="color: var(--vl-muted); font-size: 13px; line-height: 1.6; margin: 0;">
+					Contatos com esse fim não serão considerados e podem entrar em uma blacklist.
+				</p>
 			</div>
-		</section>
+		</div>
 
-		<section class="mb-4">
-			<div class="row g-4 align-items-start">
-				<div class="col-12 col-lg-5">
-					<div class="card border-secondary bg-dark text-light">
-						<div class="card-header border-secondary">
-							<h2 class="h5 card-title mb-0 text-white">
-								<i class="bi bi-exclamation-triangle-fill pe-2" aria-hidden="true"></i>Atenção
-							</h2>
-						</div>
-						<div class="card-body">
-							<p class="mb-0 text-white-50">
-								Este não é um local para sugerir pautas. Caso deseje informar uma pauta para os vídeos,
-								<a href="<?= site_url('site/cadastre-se'); ?>" class="link-light link-underline-opacity-75">cadastre-se na plataforma</a>
-								ou
-								<button type="button"
-									class="btn btn-link vl-contato-login-link text-white-50 text-decoration-underline p-0 align-baseline border-0 shadow-none"
-									data-bs-toggle="modal" data-bs-target="#header-login-modal">acesse a sua conta</button>.
-							</p>
-							<p class="mt-3 mb-0 text-white-50">
-								Contatos feitos com o intuito de sugerir pautas não serão considerados.
-							</p>
-							<p class="mt-3 mb-0 text-white-50">
-								Caso persista, os e-mails serão colocados em uma blacklist.
-							</p>
-						</div>
+		<div class="col-12 col-lg-7">
+			<div class="vl-card" style="border-radius: 14px; padding: 28px;">
+				<h2 style="font-family: var(--vl-font-title); font-size: 18px; font-weight: 700; margin: 0 0 18px;">Entre em contato conosco</h2>
+				<form id="contato" method="post" action="<?= base_url('site/contato'); ?>">
+					<div class="mb-3">
+						<label class="form-label" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;" for="email">E-mail</label>
+						<input type="email" id="email" name="email"
+							class="form-control"
+							value="<?= esc($email ?? ''); ?>" placeholder="Seu e-mail" autocomplete="email" required
+							autofocus />
 					</div>
-				</div>
-
-				<div class="col-12 col-lg-7">
-					<div class="card border-secondary bg-dark text-light">
-						<div class="card-header border-secondary">
-							<h2 class="h5 card-title mb-0 text-white">
-								<i class="bi bi-chat-dots-fill pe-2" aria-hidden="true"></i>Entre em contato conosco
-							</h2>
-						</div>
-						<div class="card-body">
-							<form id="contato" method="post" action="<?= base_url('site/contato'); ?>">
-								<div class="mb-3">
-									<label class="form-label text-white-50 small" for="email">E-mail</label>
-									<input type="email" id="email" name="email"
-										class="form-control bg-dark text-light border-secondary vl-auth-input"
-										value="<?= esc($email ?? ''); ?>" placeholder="Seu e-mail" autocomplete="email" required
-										autofocus />
-								</div>
-								<div class="mb-3">
-									<label class="form-label text-white-50 small" for="select-assunto">Assunto</label>
-									<select class="form-select bg-dark text-light border-secondary" id="select-assunto"
-										name="select-assunto" required>
-										<option value="" data-description="" selected disabled>Selecione um assunto</option>
-										<?php foreach ($assuntos as $assunto): ?>
-											<option value="<?= esc($assunto['id']); ?>"
-												data-description="<?= esc($assunto['descricao'] ?? '', 'attr'); ?>"><?= esc($assunto['assunto']); ?></option>
-										<?php endforeach; ?>
-									</select>
-									<small class="descricao text-white-50 d-block mt-1" role="status" aria-live="polite"></small>
-								</div>
-								<div class="mb-3">
-									<label class="form-label text-white-50 small d-none" for="redesocial">Rede social</label>
-									<input type="text" id="redesocial" name="redesocial"
-										class="form-control bg-dark text-light border-secondary vl-auth-input d-none"
-										placeholder="Rede social que sofreu bloqueio" />
-								</div>
-								<div class="mb-3">
-									<label class="form-label text-white-50 small d-none" for="perfil">Perfil</label>
-									<input type="text" id="perfil" name="perfil"
-										class="form-control bg-dark text-light border-secondary vl-auth-input d-none"
-										placeholder="Nome do perfil que foi bloqueado" />
-								</div>
-								<div class="vl-contato-msg-wrap">
-									<label class="form-label text-white-50 small" for="mensagem">Mensagem</label>
-									<textarea id="mensagem" name="mensagem"
-										class="form-control bg-dark text-light border-secondary vl-auth-input" rows="5"
-										placeholder="Digite sua mensagem aqui." maxlength="1000" required></textarea>
-								</div>
-
-								<?php if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
-									<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-									<div class="d-flex justify-content-center vl-contato-captcha-wrap">
-										<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
-									</div>
-								<?php endif; ?>
-
-								<div class="d-grid mt-3 vl-contato-acoes-envio">
-									<button class="btn vl-noticias-btn-filtro btn-submeter" type="submit">Enviar mensagem</button>
-								</div>
-							</form>
-						</div>
+					<div class="mb-3">
+						<label class="form-label" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;" for="select-assunto">Assunto</label>
+						<select class="form-select" id="select-assunto"
+							name="select-assunto" required>
+							<option value="" data-description="" selected disabled>Selecione um assunto</option>
+							<?php foreach ($assuntos as $assunto): ?>
+								<option value="<?= esc($assunto['id']); ?>"
+									data-description="<?= esc($assunto['descricao'] ?? '', 'attr'); ?>"><?= esc($assunto['assunto']); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<small class="descricao d-block mt-1" style="color: var(--vl-muted-2);" role="status" aria-live="polite"></small>
 					</div>
-				</div>
+					<div class="mb-3">
+						<label class="form-label d-none" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;" for="redesocial">Rede social</label>
+						<input type="text" id="redesocial" name="redesocial"
+							class="form-control d-none"
+							placeholder="Rede social que sofreu bloqueio" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label d-none" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;" for="perfil">Perfil</label>
+						<input type="text" id="perfil" name="perfil"
+							class="form-control d-none"
+							placeholder="Nome do perfil que foi bloqueado" />
+					</div>
+					<div class="vl-contato-msg-wrap mb-3">
+						<label class="form-label" style="font-size: 13px; color: var(--vl-muted); margin-bottom: 6px;" for="mensagem">Mensagem</label>
+						<textarea id="mensagem" name="mensagem"
+							class="form-control" rows="5"
+							placeholder="Digite sua mensagem aqui." maxlength="1000" required
+							style="resize: vertical; min-height: 96px;"></textarea>
+					</div>
+
+					<?php if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
+						<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+						<div class="d-flex justify-content-center vl-contato-captcha-wrap my-3">
+							<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
+						</div>
+					<?php endif; ?>
+
+					<div class="d-grid vl-contato-acoes-envio">
+						<button class="btn btn-primary-color btn-submeter" type="submit" style="font-weight: 700; font-size: 15px; padding: 14px;">Enviar mensagem</button>
+					</div>
+				</form>
 			</div>
-		</section>
+		</div>
 	</div>
 </div>
 

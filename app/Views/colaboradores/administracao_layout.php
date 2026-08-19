@@ -6,13 +6,12 @@ use CodeIgniter\I18n\Time;
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<section class="py-4">
-	<div class="container">
+<section class="vl-painel">
 		<div class="row pb-4">
 			<div class="col-12">
-				<!-- Title -->
-				<h1 class="mb-0 h2">Configurações do layout</h1>
+				<h1 class="vl-painel-title">Configurações do layout</h1>
 			</div>
 		</div>
 		<div class="g-4 row">
@@ -91,7 +90,6 @@ use CodeIgniter\I18n\Time;
 			</div>
 
 		</div>
-	</div>
 </section>
 
 <?= $this->endSection(); ?>

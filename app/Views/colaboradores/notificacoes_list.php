@@ -5,9 +5,11 @@ use CodeIgniter\I18n\Time;
 <?= $this->extend('layouts/main'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 <?php helper('month_helper'); ?>
 
-<div class="container w-auto">
+<div class="vl-painel">
+	<h1 class="vl-painel-title mb-4">Notificações</h1>
 
 	<!-- page content -->
 	<div class="my-3 p-3 rounded box-shadow">
@@ -17,7 +19,7 @@ use CodeIgniter\I18n\Time;
 				<?php if ($notificacoes !== NULL && !empty($notificacoes)): ?>
 					<?php foreach ($notificacoes as $n): ?>
 
-						<div class="card mb-2">
+						<div class="vl-card mb-2">
 							<!-- list group -->
 							<ul class="list-group list-group-flush <?=($n['data_visualizado']==null)?('border border-primary'):('');?>">
 								<!-- list group item -->
@@ -50,7 +52,7 @@ use CodeIgniter\I18n\Time;
 						</div>
 					<?php endforeach; ?>
 				<?php else: ?>
-					<div class="card mb-2">
+					<div class="vl-card mb-2">
 						<!-- list group -->
 						<ul class="list-group list-group-flush">
 							<!-- list group item -->

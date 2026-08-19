@@ -41,6 +41,7 @@ $routes->group('', ['filter' => 'authCookie:optional'], static function ($routes
     $routes->get('site/videos/(:any)', 'Site::videos/$1');
     $routes->get('site/artigos', 'Site::artigos');
     $routes->get('site/artigos/(:any)', 'Site::artigos/$1');
+    $routes->get('site/artigo/(:any)', 'Site::artigo/$1');
     $routes->get('site/pauta/(:any)', 'Site::pauta/$1');
     $routes->match(['get', 'post'], 'site/contato', 'Site::contato');
     $routes->get('site/pagina/(:any)', 'Site::pagina/$1');

@@ -6,6 +6,7 @@ use CodeIgniter\I18n\Time;
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 <style>
@@ -58,13 +59,13 @@ use CodeIgniter\I18n\Time;
 
 </style>
 
-<div class="container-fluid py-3">
-	<div class="container">
+<div class="vl-painel">
 
 		<section class="mb-4" aria-labelledby="heading-regras-artigo">
-			<h2 id="heading-regras-artigo" class="h3 text-body mb-1">Regras e orientações</h2>
-			<p class="text-muted small mb-0">Leia antes de salvar ou enviar o texto</p>
-			<div class="card border rounded-3 shadow-sm mt-2">
+			<h1 class="vl-painel-title"><?= !empty($cadastro) ? 'Novo artigo' : esc($artigo['titulo'] ?? 'Editar artigo'); ?></h1>
+			<p class="vl-painel-lead mb-3">Leia as regras antes de salvar ou enviar o texto</p>
+			<h2 id="heading-regras-artigo" class="h5 mb-1">Regras e orientações</h2>
+			<div class="vl-card mt-2">
 				<div class="card-body p-2 p-sm-3">
 					<div class="mb-0">
 						<?php if ($artigo['fase_producao_id'] == '1'): ?>
@@ -94,7 +95,7 @@ use CodeIgniter\I18n\Time;
 		?>
 		<div class="row g-3 align-items-start<?= $mostrarPainelLateral ? '' : ' justify-content-center' ?>">
 			<div class="col-12 col-lg-8">
-			<div class="card border rounded-3 shadow-sm">
+			<div class="vl-card">
 				<div class="card-body p-3">
 					<form class="w-100" novalidate="yes" method="post" id="artigo_form" enctype='multipart/form-data'>
 						<div class="row">
@@ -217,7 +218,7 @@ use CodeIgniter\I18n\Time;
 		<div class="col-12 col-lg-4">
 			<div class="painel-lateral-sticky">
 				<?php if (!$cadastro && $artigo['fase_producao_id'] == '1'): ?>
-					<div class="card border rounded-3 shadow-sm mb-3">
+					<div class="vl-card mb-3">
 						<div class="card-body">
 							<h6 class="card-title fw-semibold mb-2">Submeter para revisão</h6>
 							<p class="card-text small text-muted mb-2">Ao submeter para revisão aceito os seguintes termos:</p>
@@ -266,7 +267,7 @@ use CodeIgniter\I18n\Time;
 					</div>
 				<?php endif; ?>
 				<?php if (!$cadastro && $artigo['fase_producao_id'] == '2'): ?>
-					<div class="card border rounded-3 shadow-sm mb-3">
+					<div class="vl-card mb-3">
 						<div class="card-body">
 							<h6 class="card-title fw-semibold mb-2">Submeter para narração</h6>
 							<p class="card-text small text-muted mb-2">Ao submeter para narração aceito os seguintes termos:</p>
@@ -311,7 +312,7 @@ use CodeIgniter\I18n\Time;
 						</div>
 					</div>
 
-					<div class="card border rounded-3 shadow-sm mb-3">
+					<div class="vl-card mb-3">
 						<div class="card-body">
 							<h6 class="card-title fw-semibold mb-2">Reverter artigo</h6>
 							<p class="card-text small text-muted mb-2">Ao reverter o artigo confirmo os seguintes termos:</p>
@@ -336,7 +337,7 @@ use CodeIgniter\I18n\Time;
 						</div>
 					</div>
 
-					<div class="card border rounded-3 shadow-sm mb-3">
+					<div class="vl-card mb-3">
 						<div class="card-body">
 							<h6 class="card-title fw-semibold mb-2">Descartar artigo</h6>
 							<p class="card-text small text-muted mb-2">Ao descartar o artigo confirmo os seguintes termos:</p>
@@ -361,7 +362,7 @@ use CodeIgniter\I18n\Time;
 					</div>
 				<?php endif; ?>
 				<?php if ($historico !== NULL && !empty($historico)): ?>
-					<div class="card border rounded-3 shadow-sm mb-3">
+					<div class="vl-card mb-3">
 						<div class="">
 							<div class="accordion" id="accordionHistorico">
 								<div class="accordion-item border-0">
@@ -397,7 +398,7 @@ use CodeIgniter\I18n\Time;
 				<?php endif; ?>
 
 				<?php if ($historicoTexto !== NULL && !empty($historicoTexto)): ?>
-					<div class="card border rounded-3 shadow-sm mb-3">
+					<div class="vl-card mb-3">
 						<div class="">
 							<div class="accordion" id="accordionHistoricoTexto">
 								<div class="accordion-item border-0">
@@ -431,7 +432,7 @@ use CodeIgniter\I18n\Time;
 				<?php endif; ?>
 
 				<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
-					<div class="card border rounded-3 shadow-sm mb-3">
+					<div class="vl-card mb-3">
 						<div class="">
 							<div class="accordion" id="accordionHistoricoArtigo">
 								<div class="accordion-item border-0">
@@ -467,7 +468,7 @@ use CodeIgniter\I18n\Time;
 																comentário</button>
 														</div>
 														<div
-															class="card border rounded-3 shadow-sm mt-2 mb-0 div-list-comentarios">
+															class="vl-card mt-2 mb-0 div-list-comentarios">
 														</div>
 													</div>
 												</div>
@@ -483,7 +484,6 @@ use CodeIgniter\I18n\Time;
 		</div>
 		<?php endif; ?>
 		</div>
-	</div>
 </div>
 
 <div class="modal fade" id="modalListagem" tabindex="-1" role="dialog" aria-labelledby="modalListagemLabel"

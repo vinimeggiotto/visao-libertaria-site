@@ -6,6 +6,7 @@ use CodeIgniter\I18n\Time;
 <?= $this->extend('layouts/administradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <style>
 	.metricas-colaborador {
@@ -52,10 +53,10 @@ use CodeIgniter\I18n\Time;
 	}
 </style>
 
-<div class="container w-auto">
-	<div class="row pb-4 mt-3">
+<div class="vl-painel">
+	<div class="row pb-4">
 		<div class="col-12 order-2">
-			<h1 class="mb-0 h2"><?= $titulo; ?></h1>
+			<h1 class="vl-painel-title"><?= $titulo; ?></h1>
 		</div>
 	</div>
 

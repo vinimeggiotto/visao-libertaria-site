@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
 <?php
 $nomeEscritorUrl = $_SESSION['colaboradores']['nome'] ?? '';
@@ -29,20 +30,15 @@ $metricas = $metricas ?? array(
 		position: sticky;
 		top: 0;
 		z-index: 2;
-		background-color: var(--bs-secondary-bg) !important;
-		color: var(--bs-body-color);
+		background-color: var(--vl-surface) !important;
+		color: var(--vl-muted-2);
 		font-weight: 600;
 		font-size: 0.7rem;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
-		border-bottom: 1px solid var(--bs-border-color) !important;
-		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+		border-bottom: 1px solid var(--vl-border) !important;
+		box-shadow: none;
 		vertical-align: middle;
-	}
-
-	[data-bs-theme="dark"] .listagem-site-table-wrap .table thead.listagem-site-thead th,
-	[data-mdb-theme="dark"] .listagem-site-table-wrap .table thead.listagem-site-thead th {
-		box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
 	}
 
 	.min-height-listagem {
@@ -90,17 +86,16 @@ $metricas = $metricas ?? array(
 	}
 </style>
 
-<div class="container-fluid py-3">
-	<div class="container">
-		<div class="d-sm-flex justify-content-between align-items-center mb-4">
+<div class="vl-painel">
+		<div class="d-sm-flex justify-content-between align-items-center mb-4" style="flex-wrap: wrap; gap: 12px;">
 			<div>
-				<h1 class="h3 mb-1"><?= esc($titulo ?? 'Meus artigos'); ?></h1>
-				<p class="text-muted small mb-0">Resumo da sua atividade e listas dos seus artigos</p>
+				<h1 class="vl-painel-title"><?= esc($titulo ?? 'Meus artigos'); ?></h1>
+				<p class="vl-painel-lead">Resumo da sua atividade como escritor</p>
 			</div>
 			<div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
 				<?php if ($nomeEscritorUrl !== ''): ?>
 					<a href="<?= site_url('site/escritor/' . urlencode($nomeEscritorUrl)); ?>"
-						class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">Ver página pública</a>
+						class="btn btn-sm vl-btn-ghost" target="_blank" rel="noopener noreferrer">Ver página pública</a>
 				<?php endif; ?>
 				<a href="<?= site_url('colaboradores/artigos/cadastrar'); ?>" class="btn btn-sm btn-primary">Novo artigo</a>
 			</div>
@@ -111,7 +106,7 @@ $metricas = $metricas ?? array(
 			<p class="text-muted small mb-3 mb-md-4">Métricas dos últimos 30 dias, comparadas aos 30 dias imediatamente anteriores</p>
 			<div class="row g-3">
 				<div class="col-md-6">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Artigos escritos</h3>
@@ -137,7 +132,7 @@ $metricas = $metricas ?? array(
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Artigos publicados</h3>
@@ -170,7 +165,7 @@ $metricas = $metricas ?? array(
 			<p class="text-muted small mb-3 mb-md-4">Números acumulados como escritor. Escritos, publicados e palavras referem-se a artigos ativos; descartados mostra o total histórico de artigos que eliminou</p>
 			<div class="row g-3 mb-4">
 				<div class="col-6 col-md-3">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Escritos</h3>
@@ -189,7 +184,7 @@ $metricas = $metricas ?? array(
 					</div>
 				</div>
 				<div class="col-6 col-md-3">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Publicados</h3>
@@ -208,7 +203,7 @@ $metricas = $metricas ?? array(
 					</div>
 				</div>
 				<div class="col-6 col-md-3">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Palavras totais</h3>
@@ -227,7 +222,7 @@ $metricas = $metricas ?? array(
 					</div>
 				</div>
 				<div class="col-6 col-md-3">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Descartados</h3>
@@ -253,7 +248,7 @@ $metricas = $metricas ?? array(
 			<p class="text-muted small mb-3 mb-md-4">Indicadores atuais da trilha de produção, tempo até publicar nos últimos 30 dias e tamanho médio do texto em comparação com o seu histórico como escritor</p>
 			<div class="row g-3">
 				<div class="col-md-6 col-xl-4">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3 d-flex flex-column h-100">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Em produção</h3>
@@ -272,7 +267,7 @@ $metricas = $metricas ?? array(
 					</div>
 				</div>
 				<div class="col-md-6 col-xl-4">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3 d-flex flex-column h-100">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Tempo até publicar</h3>
@@ -301,7 +296,7 @@ $metricas = $metricas ?? array(
 					</div>
 				</div>
 				<div class="col-md-12 col-xl-4">
-					<div class="card border rounded-3 shadow-sm h-100 meus-artigos-kpi-card">
+					<div class="vl-card h-100 meus-artigos-kpi-card">
 						<div class="card-body p-3 d-flex flex-column h-100">
 							<div class="d-flex align-items-start justify-content-between gap-2 mb-2">
 								<h3 class="h6 text-body mb-0">Palavras por artigo</h3>
@@ -349,12 +344,12 @@ $metricas = $metricas ?? array(
 		</section>
 
 		<section aria-labelledby="heading-meus-artigos-listas">
-			<div class="card border rounded-3 shadow-sm mb-4">
-				<div class="card-header bg-body-secondary bg-opacity-25 border-bottom p-3">
+			<div class="vl-card mb-4">
+				<div class="card-header border-bottom p-3">
 					<div class="d-sm-flex justify-content-between align-items-center gap-2">
-						<h3 class="h6 mb-0">Meus artigos em produção</h3>
+						<h3 class="h6 mb-0">Em produção</h3>
 						<a href="<?= site_url('colaboradores/artigos/cadastrar'); ?>"
-							class="btn btn-sm btn-outline-primary flex-shrink-0">Novo artigo</a>
+							class="btn btn-sm vl-btn-ghost flex-shrink-0">Novo artigo</a>
 					</div>
 				</div>
 				<div class="card-body p-3">
@@ -364,10 +359,10 @@ $metricas = $metricas ?? array(
 				</div>
 			</div>
 
-			<div class="card border rounded-3 shadow-sm">
-				<div class="card-header bg-body-secondary bg-opacity-25 border-bottom p-3">
+			<div class="vl-card">
+				<div class="card-header border-bottom p-3">
 					<div class="d-sm-flex justify-content-between align-items-center gap-2">
-						<h3 class="h6 mb-0">Meus artigos publicados</h3>
+						<h3 class="h6 mb-0">Publicados</h3>
 					</div>
 				</div>
 				<div class="card-body p-3">
@@ -396,7 +391,6 @@ $metricas = $metricas ?? array(
 				</div>
 			</div>
 		</section>
-	</div>
 </div>
 
 <?= $this->endSection(); ?>

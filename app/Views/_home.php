@@ -1,250 +1,112 @@
 <?= $this->extend('layouts/_main'); ?>
 
 <?= $this->section('head_assets') ?>
-	<link rel="stylesheet" href="<?= asset_url('public/css/vendor-home.css'); ?>">
 	<?php if (!empty($videos_destaque[0]['video_id'])): ?>
 		<link rel="preload" as="image" href="<?= esc(cria_url_thumb($videos_destaque[0]['video_id']), 'attr'); ?>" fetchpriority="high">
 	<?php endif; ?>
 <?= $this->endSection(); ?>
 
-<?= $this->section('body_scripts') ?>
-	<script defer src="<?= asset_url('public/js/vendor-home.js'); ?>"></script>
-<?= $this->endSection(); ?>
-
 <?= $this->section('content'); ?>
 
-   <?php if (isset($videos_destaque) && !empty($videos_destaque)): ?>
-      <section class="banner-section">
-         <div class="owl-carousel" data-dots="false" data-nav="true" data-desk_num="1" data-lap_num="1" data-tab_num="1"
-            data-mob_num="1" data-mob_sm="1" data-autoplay="true" data-loop="true" data-margin="0">
-            <?php foreach ($videos_destaque as $iDestaque => $video_destaque): ?>
-               <div class="item vh-100 d-flex align-items-center">
-                  <img class="banner-hero-img"
-                     src="<?= esc(cria_url_thumb($video_destaque['video_id']), 'attr'); ?>"
-                     alt="<?= esc($video_destaque['titulo'] ?? $video_destaque['nome'] ?? ''); ?>"
-                     width="1280" height="720"
-                     <?php if ((int) $iDestaque === 0): ?>
-                     fetchpriority="high"
-                     <?php else: ?>
-                     loading="lazy"
-                     <?php endif; ?>>
-                  <div class="container">
-                     <div class="row align-items-center">
-                        <div class="col-lg-6 text-white">
-                           <h5 class="text-primary-color fw-bold" style="letter-spacing: 2px;">MAIS RECENTE</h5>
-                           <h1 class="display-3 fw-bold"><?= $video_destaque['nome']; ?></h1>
-                           <p><?= $video_destaque['titulo']; ?></p>
-                        </div>
-                        <div class="col-lg-6 d-flex justify-content-center align-items-center flex-column zoom-parent">
-                           <a href="<?= cria_link_watch($video_destaque['video_id']); ?>"
-                              class="text-white text-decoration-none text-center gen-video-popup">
-                              <i class="bi bi-play-fill zoom-on-hover"
-                                 style="font-size: 2.5rem; border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; padding-left: 5px;"></i>
-                           </a>
-                           <h4 class="mt-3 text-white fw-bold zoom-on-hover">Assista ao video</h4>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            <?php endforeach; ?>
-         </div>
-      </section>
-   <?php endif; ?>
+<?php
+$videoHero = (isset($videos_destaque) && ! empty($videos_destaque)) ? $videos_destaque[0] : null;
+$hrefHeroWatch = ($videoHero !== null && ! empty($videoHero['video_id']))
+	? cria_link_watch($videoHero['video_id'])
+	: site_url('site/videos');
+?>
 
-   <section class="video-carousel-section container pt-5">
-      <div class="section-title-holder">
-         <h2>Visão Libertária</h2>
-         <div class="gen-btn-container">
-         <?php if (!empty($visao_libertaria_projeto_slug)): ?>
-         <a href="<?= site_url('site/videos/' . $visao_libertaria_projeto_slug); ?>" class="gen-button">
-         <?php else: ?>
-         <a href="<?= site_url('site/videos'); ?>" class="gen-button">
-         <?php endif; ?>
-               <div class="gen-button-block">
-                  <span class="gen-button-line-left"></span>
-                  <span class="gen-button-text">Mais Vídeos</span>
-               </div>
-            </a>
-         </div>
-      </div>
-      <div class="owl-carousel" data-dots="false" data-nav="true" data-desk_num="4" data-lap_num="3" data-tab_num="2"
-         data-mob_num="1" data-margin="20">
-      <?php if (isset($ultimos_artigos) && !empty($ultimos_artigos)): ?>
-         <?php foreach ($ultimos_artigos as $ua): ?>
-               <div class="item">
-                  <div class="movie-card">
-                     <div class="movie-card-img-container">
-                     <?php
-						$ytUa = extrair_id_video_youtube($ua['link_video_youtube'] ?? null);
-						?>
-                     <?php if ($ytUa !== null): ?>
-                     <img src="<?= esc(cria_url_thumb($ytUa), 'attr') ?>"
-                        alt="<?= esc($ua['titulo']) ?>" loading="lazy" width="480" height="270">
-                     <?php else: ?>
-                     <img src="<?= esc(cria_url_placeholder(), 'attr') ?>"
-                        alt="" loading="lazy" width="480" height="270" onerror="<?= esc(attr_onerror_placeholder(), 'attr') ?>">
-                     <?php endif; ?>
-                        <div class="movie-card-overlay">
-                           <i class="bi bi-play-circle-fill play-icon"></i>
-                           <!-- O link do popup envolve tudo para ser clicável -->
-                        <a href="<?= $ytUa !== null ? esc(cria_link_watch($ytUa), 'attr') : esc($ua['link_video_youtube'] ?? '#', 'attr') ?>"
-                           class="gen-video-popup"
-                              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></a>
-                        </div>
-                     </div>
-                     <div class="movie-card-info">
-                     <h5><?= $ua['titulo'] ?></h5>
-                        <p>
-                        <span class="tag-primary">Visão Libertária</span>
-                        </p>
-                     </div>
-                  </div>
-               </div>
-            <?php endforeach; ?>
-         <?php endif; ?>
-      </div>
-   </section>
+<section class="vl-hero">
+	<div>
+		<div class="vl-hero-kicker">Vídeos e artigos sobre liberdade individual</div>
+		<h1>Ideias que desafiam o poder.</h1>
+		<p>Visão Libertária é um projeto de vídeos e notícias sobre livre mercado, anarcocapitalismo e crítica ao estado — feito por uma comunidade de escritores e narradores voluntários.</p>
+		<div class="vl-hero-actions">
+			<a href="<?= esc($hrefHeroWatch, 'attr'); ?>" class="btn btn-primary-color" style="font-weight: 700; font-size: 15px; padding: 14px 24px;">Assistir ao último vídeo</a>
+			<a href="<?= site_url('site/noticias'); ?>" class="btn" style="background: transparent; color: var(--vl-text); border: 1px solid rgba(255,255,255,0.18); font-weight: 600; font-size: 15px; padding: 14px 24px; border-radius: var(--vl-radius);">Ler notícias</a>
+		</div>
+	</div>
+	<div class="vl-hero-media">
+		<?php if ($videoHero !== null && ! empty($videoHero['video_id'])): ?>
+			<img src="<?= esc(cria_url_thumb($videoHero['video_id']), 'attr'); ?>"
+				alt="<?= esc($videoHero['titulo'] ?? $videoHero['nome'] ?? '', 'attr'); ?>"
+				width="1280" height="720"
+				style="width: 100%; height: 100%; object-fit: cover;"
+				fetchpriority="high">
+			<a href="<?= esc(cria_link_watch($videoHero['video_id']), 'attr'); ?>"
+				class="stretched-link"
+				style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-decoration: none;"
+				aria-label="Assistir ao vídeo em destaque">
+				<span style="width: 64px; height: 64px; border-radius: 50%; background: rgba(24,22,18,0.6); display: flex; align-items: center; justify-content: center;">
+					<i class="bi bi-play-fill" aria-hidden="true" style="font-size: 28px; color: var(--vl-text); margin-left: 3px;"></i>
+				</span>
+			</a>
+		<?php else: ?>
+			<span class="vl-hero-kicker" style="position: absolute; top: 14px; left: 14px; margin: 0;">vídeo em destaque</span>
+			<i class="bi bi-play-fill" aria-hidden="true" style="font-size: 32px; color: var(--vl-muted-2);"></i>
+		<?php endif; ?>
+	</div>
+</section>
 
-   <!-- Novo Slider com cor primária -->
-   <section class="custom-slider-section container py-5">
-      <div class="custom-slider-wrapper owl-carousel" id="custom-slider-owl"
-         style="background: #161616; border-left: 3px solid var(--primary-color); border-radius: 4px; overflow: hidden; position: relative;">
-         <!-- Slide 1 -->
-         <div class="row align-items-center" style="min-height: 400px;">
-            <div class="col-12 p-5">
-               <h2 class="fw-bold text-white" style="font-size: 3rem;">ESCREVA E GANHE SATOSHINHOS</h2>
-               <p class="text-white-50 mb-4 mt-4" style="max-width: 700px;">Transforme seus artigos em vídeos no Visão
-                  Libertária e ganhe satoshinhos por isso!</p>
-            <a href="<?= site_url('site/cadastre-se'); ?>" class="custom-slider-btn"
-                  style="background: var(--primary-color); color: #fff; padding: 16px 32px; font-weight: bold; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; display: inline-block; transition: background 0.2s;">CADASTRE-SE
-                  AGORA</a>
-            </div>
-         </div>
-         <!-- Slide 2 -->
-         <div class="row align-items-center" style="min-height: 400px;">
-            <div class="col-12 p-5">
-               <h2 class="fw-bold text-white" style="font-size: 3rem;">SUGIRA PAUTAS</h2>
-               <p class="text-white-50 mb-4 mt-4" style="max-width: 600px;">Faça seu cadastro e veja seu apelido sendo
-                  falado nos vídeos do Peter</p>
-            <a href="<?= site_url('site/cadastre-se'); ?>" class="custom-slider-btn"
-                  style="background: var(--primary-color); color: #fff; padding: 16px 32px; font-weight: bold; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; display: inline-block; transition: background 0.2s;">FAZER
-                  CADASTRO</a>
-            </div>
-         </div>
-         <!-- Slide 3 -->
-         <div class="row align-items-center" style="min-height: 400px;">
-            <div class="col-12 p-5">
-               <h2 class="fw-bold text-white" style="font-size: 3rem;">COLABORE COM O PROJETO</h2>
-               <p class="text-white-50 mb-4 mt-4" style="max-width: 600px;">Sabe narrar e produzir vídeos? Colabore com
-                  o projeto e ganhe satoshinhos</p>
-            <a href="<?= site_url('colaboradores/artigos/dashboard'); ?>" class="custom-slider-btn"
-                  style="background: var(--primary-color); color: #fff; padding: 16px 32px; font-weight: bold; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; display: inline-block; transition: background 0.2s;">COLABORE
-                  AGORA</a>
-            </div>
-         </div>
-      </div>
-   </section>
-<?php foreach ($videos_por_projeto as $indice => $vp): ?>
-   <section class="video-carousel-section container pt-5">
-      <div class="section-title-holder">
-         <h2><?= $indice; ?></h2>
-         <div class="gen-btn-container">
-            <a href="<?= site_url('site/videos/' . projeto_nome_para_url($indice)); ?>" class="gen-button">
-               <div class="gen-button-block">
-                  <span class="gen-button-line-left"></span>
-                  <span class="gen-button-text">Mais Vídeos</span>
-               </div>
-            </a>
-         </div>
-      </div>
-      <div class="owl-carousel" data-dots="false" data-nav="true" data-desk_num="4" data-lap_num="3" data-tab_num="2"
-         data-mob_num="1" data-margin="20">
-         <?php if (isset($vp) && !empty($vp)): ?>
-            <?php foreach ($vp['videos'] as $v): ?>
-               <div class="item">
-                  <div class="movie-card">
-                     <div class="movie-card-img-container">
-                        <?php
-						$ytV = extrair_id_video_youtube($v['video_id'] ?? null);
-						?>
-                        <?php if ($ytV !== null): ?>
-                        <img src="<?= esc(cria_url_thumb($ytV), 'attr') ?>"
-                           alt="<?= esc($v['titulo']) ?>" loading="lazy" width="480" height="270">
-                        <?php else: ?>
-                        <img src="<?= esc(cria_url_placeholder(), 'attr') ?>"
-                           alt="" loading="lazy" width="480" height="270" onerror="<?= esc(attr_onerror_placeholder(), 'attr') ?>">
-                        <?php endif; ?>
-                        <div class="movie-card-overlay">
-                           <i class="bi bi-play-circle-fill play-icon"></i>
-                           <!-- O link do popup envolve tudo para ser clicável -->
-                           <a href="<?= cria_link_watch($v['video_id']); ?>" class="gen-video-popup"
-                              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></a>
-                        </div>
-                     </div>
-                     <div class="movie-card-info">
-                        <h5><?= $v['titulo'] ?></h5>
-                        <p>
-                           <span class="tag-primary"><?= $indice; ?></span>
-                        </p>
-                     </div>
-                  </div>
-               </div>
-            <?php endforeach; ?>
-         <?php endif; ?>
-      </div>
-   </section>
-            <?php endforeach; ?>
+<section class="vl-container" style="padding-top: 32px; padding-bottom: 32px;">
+	<?php if (! empty($videos_por_projeto)): ?>
+		<div class="d-flex flex-wrap" style="gap: 8px; margin-bottom: 32px;">
+			<?php foreach ($videos_por_projeto as $nomeProjeto => $_videosProjeto): ?>
+				<a href="<?= site_url('site/videos/' . projeto_nome_para_url((string) $nomeProjeto)); ?>" class="vl-chip text-decoration-none"><?= esc((string) $nomeProjeto); ?></a>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 
-<?= $this->endSection(); ?>
+	<div class="d-flex align-items-baseline justify-content-between" style="margin-bottom: 20px; gap: 12px;">
+		<h2 style="font-family: var(--vl-font-title); font-size: 24px; font-weight: 700; margin: 0;">Últimos vídeos</h2>
+		<a href="<?= site_url('site/videos'); ?>" style="color: var(--vl-brand); font-size: 14px; font-weight: 600; text-decoration: none;">Ver todos →</a>
+	</div>
 
-<?= $this->section('scripts'); ?>
-   <script>
-      document.addEventListener('DOMContentLoaded', function () {
-         $(function () {
-         // Inicialização do novo slider customizado
-         $('#custom-slider-owl').owlCarousel({
-            items: 1,
-            nav: false,
-            dots: false,
-            loop: true,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            autoplayHoverPause: false,
-            smartSpeed: 800,
-            margin: 0
-         });
+	<?php if (! empty($videos_destaque)): ?>
+		<div class="row g-4">
+			<?php foreach ($videos_destaque as $videoHome): ?>
+				<?php
+				$ytHome = extrair_id_video_youtube($videoHome['video_id'] ?? null);
+				$hrefHome = $ytHome !== null ? cria_link_watch($ytHome) : site_url('site/videos');
+				?>
+				<div class="col-12 col-sm-6 col-lg-3">
+					<a href="<?= esc($hrefHome, 'attr'); ?>" class="text-decoration-none d-block">
+						<div class="vl-card-media-16x9 position-relative mb-2">
+							<?php if ($ytHome !== null): ?>
+								<img src="<?= esc(cria_url_thumb($ytHome), 'attr'); ?>"
+									alt="<?= esc($videoHome['titulo'] ?? '', 'attr'); ?>"
+									width="480" height="270" loading="lazy"
+									style="width: 100%; height: 100%; object-fit: cover;">
+							<?php else: ?>
+								<img src="<?= esc(cria_url_placeholder(), 'attr'); ?>"
+									alt="" width="480" height="270" loading="lazy"
+									style="width: 100%; height: 100%; object-fit: cover;"
+									onerror="<?= esc(attr_onerror_placeholder(), 'attr'); ?>">
+							<?php endif; ?>
+							<span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+								<span style="width: 40px; height: 40px; border-radius: 50%; background: rgba(24,22,18,0.55); display: flex; align-items: center; justify-content: center;">
+									<i class="bi bi-play-fill" aria-hidden="true" style="color: var(--vl-text); margin-left: 2px;"></i>
+								</span>
+							</span>
+						</div>
+						<?php if (! empty($videoHome['nome'])): ?>
+							<div style="font-size: 12px; color: var(--vl-brand); font-weight: 600; margin-bottom: 4px;"><?= esc($videoHome['nome']); ?></div>
+						<?php endif; ?>
+						<div style="font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--vl-text);"><?= esc($videoHome['titulo'] ?? ''); ?></div>
+					</a>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
+</section>
 
-         // Inicialização dos outros Owl Carousel (exceto o customizado)
-         $('.owl-carousel').not('#custom-slider-owl').each(function () {
-            var $this = $(this);
-            var options = {
-               dots: false,
-               nav: false,
-               items: $this.data('desk_num') || 1,
-               loop: $this.data('loop') === true,
-               autoplay: $this.data('autoplay') === true,
-               autoplayTimeout: 5000,
-               margin: $this.data('margin') || 0,
-               responsive: {
-                  0: { items: $this.data('mob_sm') || 1 },
-                  480: { items: $this.data('mob_num') || 1 },
-                  768: { items: $this.data('tab_num') || 1 },
-                  1024: { items: $this.data('lap_num') || 1 },
-                  1200: { items: $this.data('desk_num') || 1 }
-               }
-            };
-            $this.owlCarousel(options);
-         });
+<section class="vl-container" style="padding-top: 16px; padding-bottom: 56px;">
+	<div class="vl-card" style="border-radius: 12px; border-left: 3px solid var(--vl-brand); padding: 36px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+		<div>
+			<h3 style="font-family: var(--vl-font-title); font-size: 22px; font-weight: 700; margin: 0 0 8px;">Escreva e ganhe satoshis</h3>
+			<p style="color: var(--vl-muted); font-size: 15px; margin: 0; max-width: 520px;">Transforme uma pauta em artigo e ele pode virar vídeo no canal. Cada publicação paga em sats.</p>
+		</div>
+		<a href="<?= site_url('site/cadastre-se'); ?>" class="btn btn-primary-color" style="font-weight: 700; font-size: 14px; padding: 13px 22px; white-space: nowrap;">Cadastre-se agora</a>
+	</div>
+</section>
 
-         // Magnific Popup para vídeo
-         $('.gen-video-popup').magnificPopup({
-            type: 'iframe',
-            mainClass: 'mfp-fade',
-            removalDelay: 160,
-            preloader: false,
-            fixedContentPos: false
-         });
-         });
-      });
-   </script>
 <?= $this->endSection(); ?>

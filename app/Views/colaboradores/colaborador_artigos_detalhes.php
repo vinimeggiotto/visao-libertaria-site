@@ -3,9 +3,9 @@
 <?= $this->extend('layouts/colaboradores'); ?>
 
 <?= $this->section('content'); ?>
+<?= view('colaboradores/partials/vl-painel-styles'); ?>
 
-<div class="container-fluid py-2">
-	<div class="container">
+<div class="vl-painel">
 		<div class="mb-3">
 			<?php if ($artigo['fase_producao_id'] == '3'): ?>
 				<?= $config['artigo_regras_narrar']; ?>
@@ -17,8 +17,26 @@
 
 		<div class="row g-3 justify-content-center">
 			<div class="col-lg-8 col-sm-12">
-			<h1 class="display-5 mb-3"><?= esc($artigo['titulo']); ?></h1>
-			<div class="position-relative mb-2">
+			<?php
+			$vlFasesNome = [
+				'1' => 'Escrevendo',
+				'2' => 'Revisando',
+				'3' => 'Narrando',
+				'4' => 'Produzindo',
+				'5' => 'Publicando',
+				'6' => 'Pagando',
+			];
+			$vlFaseAtual = $vlFasesNome[(string) ($artigo['fase_producao_id'] ?? '')] ?? '';
+			?>
+			<?php if ($vlFaseAtual !== ''): ?>
+			<div class="d-flex align-items-center gap-2 mb-2">
+				<span class="vl-badge-fase"><?= esc($vlFaseAtual); ?></span>
+			</div>
+			<?php endif; ?>
+			<h1 class="vl-painel-title mb-3"><?= esc($artigo['titulo']); ?></h1>
+			<div class="vl-card mb-3" style="padding: 18px;">
+				<p class="vl-eyebrow">Texto do escritor</p>
+				<div class="position-relative mb-2">
 				<div class="py-2">
 					<!-- <div class="mb-3">
 							<?php //foreach($artigo['categorias'] as $categoria): ?>
@@ -29,10 +47,11 @@
 						</div> -->
 					<div>
 						<div><?= $artigo['texto_producao'] ?? ''; ?></div>
-						<h4 class="mb-3">Referências:</h4>
+						<h4 class="vl-eyebrow mt-3">Referências</h4>
 						<p style="line-break:anywhere;"><?= nl2br(esc($artigo['referencias'] ?? '')); ?></p>
 					</div>
 				</div>
+			</div>
 			</div>
 
 			</div>
@@ -40,7 +59,7 @@
 			<?php if ($historico !== NULL && !empty($historico)): ?>
 				<div class="col-12 mb-3 mt-3">
 					<!-- Chart START -->
-					<div class="card border">
+					<div class="vl-card">
 						<div class="">
 							<div class="accordion" id="accordionHistorico">
 								<div class="accordion-item border-0">
@@ -79,7 +98,7 @@
 
 			<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
 				<div class="col-12 mb-3 mt-3">
-					<div class="card border">
+					<div class="vl-card">
 						<div class="">
 							<div class="accordion" id="accordionHistoricoArtigo">
 								<div class="accordion-item border-0">
@@ -144,7 +163,7 @@
 				?>
 				<div class="col-12">
 					<!-- Chart START -->
-					<div class="card border">
+					<div class="vl-card">
 						<!-- Card body -->
 						<div class="card-body">
 							<!-- Form START -->
@@ -196,7 +215,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card border mt-3">
+				<div class="vl-card mt-3">
 					<div class="card-body">
 						<h5 class="card-title">Submeter para produção</h5>
 						<div class="d-grid">
@@ -214,7 +233,7 @@
 				?>
 				<div class="col-12">
 					<!-- Chart START -->
-					<div class="card border">
+					<div class="vl-card">
 						<!-- Card body -->
 						<div class="card-body">
 							<!-- Form START -->
@@ -259,7 +278,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card border mt-3">
+				<div class="vl-card mt-3">
 					<div class="card-body">
 						<h5 class="card-title">Submeter para publicação</h5>
 						<div class="d-grid">
@@ -274,7 +293,7 @@
 			<?php if ($pode_publicar): ?>
 				<div class="col-12">
 					<!-- Chart START -->
-					<div class="card border">
+					<div class="vl-card">
 						<!-- Card body -->
 						<div class="card-body">
 							<div class="d-grid gap-2 mb-3">
@@ -323,7 +342,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card border mt-3">
+				<div class="vl-card mt-3">
 					<div class="card-body">
 						<h5 class="card-title">Submeter para pagamento</h5>
 						<div class="d-grid">
@@ -335,7 +354,7 @@
 			<?php endif; ?>
 
 			<?php if ($pode_reverter_ou_descartar): ?>
-				<div class="card border mt-3">
+				<div class="vl-card mt-3">
 					<div class="card-body">
 						<h5 class="card-title mb-3">Ações avançadas</h5>
 						<div class="d-grid gap-2">
