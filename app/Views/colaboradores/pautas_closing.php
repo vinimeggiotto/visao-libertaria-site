@@ -79,7 +79,6 @@
 	</div>
 </div>
 
-
 <div class="modal fade" id="modal-fechar" tabindex="-1" role="dialog" aria-labelledby="FecharPauta" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -102,8 +101,13 @@
 	</div>
 </div>
 
-<script>
+<?= view('template/modal_comentarios_pauta'); ?>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
 	window.scrollPautasListagemTopo = function () {
 		var el = document.getElementById('pautas-encontradas-listagem');
 		if (el) {
@@ -184,8 +188,6 @@
 	$(document).ready(function () {
 		$(".btn-submeter").click();
 	});
-
+	});
 </script>
-<?= view('template/modal_comentarios_pauta'); ?>
-
 <?= $this->endSection(); ?>

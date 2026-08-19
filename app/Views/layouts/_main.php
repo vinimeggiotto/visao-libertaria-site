@@ -6,18 +6,12 @@
 
 	<title><?= $_SESSION['site_config']['texto_nome']; ?></title>
 	<link rel="icon" type="image/x-icon"
-		href="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
-	<!-- CSS bootstrap-->
+		href="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	<!--  Style -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.2.0/magnific-popup.css" />
-	<?php if (getenv('CI_ENVIRONMENT') !== 'development'): ?>
-		<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-	<?php endif; ?>
-	<link rel="stylesheet" href="<?= site_url(relativePath: 'public/css/style.css'); ?>">
-	<link rel="stylesheet" href="<?= site_url(relativePath: 'public/css/site-public-layout.css'); ?>">
+	<?= $this->renderSection('head_assets') ?>
+	<link rel="stylesheet" href="<?= asset_url('public/css/site-theme.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/site-public-layout.css'); ?>">
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/css/bootstrap-toaster.min.css">
 	<style>
@@ -178,11 +172,11 @@
 		<meta name="twitter:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>">
 		<meta name="twitter:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>">
 		<meta name="twitter:image"
-			content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
 
 		<meta property="og:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>" />
 		<meta property="og:image"
-			content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>" />
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>" />
 		<meta property="og:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>" />
 	<?php endif; ?>
 </head>
@@ -198,8 +192,9 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<a class="navbar-brand" href="<?= site_url('site'); ?>">
 								<img class="img-fluid logo"
-									src="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>"
-									alt="<?= $_SESSION['site_config']['texto_nome']; ?>">
+									src="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
+									alt="<?= $_SESSION['site_config']['texto_nome']; ?>"
+									width="50" height="50">
 								<div><?= $_SESSION['site_config']['texto_nome']; ?></div>
 							</a>
 							<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -324,6 +319,7 @@
 							<?php
 							$hcSiteKey = config('Hcaptcha')->siteKey ?? '';
 							if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
+								<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 								<div class="d-flex justify-content-center">
 									<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
 								</div>
@@ -352,8 +348,9 @@
 			<div class="row pt-5">
 				<!-- Footer Widget -->
 				<div class="col-md-6 col-lg-4 mb-4">
-					<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;" loading="lazy"
-						src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : (site_url('public/assets/logo.jpg')); ?>" />
+					<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;" loading="lazy" width="48" height="48"
+						src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
+						alt="">
 					<span class="lead"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					<p class="mt-2 lh-sm fw-light"><?= $_SESSION['site_config']['texto_rodape']; ?></p>
 				</div>
@@ -480,9 +477,8 @@
 
 	<script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.2.0/jquery.magnific-popup.min.js"></script>
-	<script defer src="<?= site_url('public/js/functions.js'); ?>"></script>
+	<?= $this->renderSection('body_scripts') ?>
+	<script defer src="<?= asset_url('public/js/functions.js'); ?>"></script>
 	<script defer
 		src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
 	<script>
@@ -534,7 +530,7 @@
 				e.preventDefault();
 				$.ajax({
 					type: 'POST',
-					async: false,
+					async: true,
 					url: '<?= base_url() . 'site/login'; ?>',
 					data: $(this).serialize(),
 					dataType: 'json',

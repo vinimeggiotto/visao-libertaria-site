@@ -7,8 +7,6 @@ use CodeIgniter\I18n\Time;
 
 <?= $this->section('content'); ?>
 
-
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
 <style>
@@ -195,8 +193,12 @@ use CodeIgniter\I18n\Time;
 	</div>
 </section>
 
-<script type="text/javascript">
+<?= $this->endSection(); ?>
 
+<?= $this->section('scripts'); ?>
+<script defer src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	$(".salvar-texto-narracao").on("click", function () {
 		$('#artigo_visualizacao_narracao').html(quill_artigo_visualizacao_narracao.root.innerHTML);
 		form = new FormData(narracao_form);
@@ -313,8 +315,6 @@ use CodeIgniter\I18n\Time;
 		value = '<?= preg_replace('/\s\s+/', '\n', $dados['descricao_padrao_youtube']); ?>';;
 		delta = quill_descricao_padrao_youtube.clipboard.dangerouslyPasteHTML(value);
 	<?php endif; ?>
-
+	});
 </script>
-
-
 <?= $this->endSection(); ?>

@@ -50,7 +50,7 @@ $temLinhas = $artigosPagina !== null && !empty($artigosPagina);
 			<tr>
 				<td colspan="4" class="p-0">
 					<div class="text-center py-5 px-3">
-						<i class="fas fa-folder-open fa-2x text-muted mb-3 d-block" aria-hidden="true"></i>
+						<i class="bi bi-folder2-open fs-2 text-muted mb-3 d-block" aria-hidden="true"></i>
 						<p class="fw-semibold text-body mb-1">Nenhum resultado nesta pesquisa</p>
 						<p class="small text-muted mb-0">Ajuste o título, marque ou desmarque <strong>Incluir artigos descartados</strong> ou veja os artigos em produção no quadro acima.</p>
 					</div>

@@ -74,10 +74,10 @@
 							</div>
 							<div class="col-12 col-lg-2 d-flex gap-2">
 								<button class="btn btn-primary btn-sm flex-grow-1 btn-submeter" type="submit">
-									<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i>Pesquisar
+									<i class="bi bi-search me-1" aria-hidden="true"></i>Pesquisar
 								</button>
 								<button class="btn btn-primary btn-sm" type="button" id="btn-limpar-filtros">
-									<i class="fas fa-rotate-left" aria-hidden="true"></i>
+									<i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
 								</button>
 							</div>
 						</div>
@@ -99,7 +99,11 @@
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	function formatarTotalRegistrosPermissoes(n) {
 		if (n === 0) {
 			return 'Nenhum registro encontrado com os filtros atuais.';
@@ -159,6 +163,6 @@
 	$(document).ready(function () {
 		refreshPermissoesList();
 	});
+	});
 </script>
-
 <?= $this->endSection(); ?>

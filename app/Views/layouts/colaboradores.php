@@ -8,14 +8,12 @@
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	<script defer src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
-		integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-
-	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-	<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 
 
 	<meta property="og:type" content="website" />
@@ -28,21 +26,16 @@
 	<meta name="twitter:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>">
 	<meta name="twitter:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>">
 	<meta name="twitter:image"
-		content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
+		content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
 	<meta property="og:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>" />
 	<meta property="og:image"
-		content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>" />
+		content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>" />
 	<meta property="og:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>" />
 
-	<!-- Font Awesome -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-	<!-- MDB -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="<?= site_url('public/css/theme-tokens.css'); ?>">
-	<link rel="stylesheet" href="<?= site_url('public/css/theme-dark.css'); ?>">
-	<link rel="stylesheet" href="<?= site_url('public/css/layout-shared.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/theme-tokens.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/theme-dark.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/layout-shared.css'); ?>">
 
 	<style type="text/css">
 		.artigo-list-image {
@@ -88,7 +81,7 @@
 		<?= $_SESSION['site_config']['texto_nome']; ?>
 	</title>
 	<link rel="icon" type="image/x-icon"
-		href="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
+		href="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
 
 
 	<link rel="stylesheet"
@@ -97,9 +90,10 @@
 </head>
 
 <body>
-	<script
+	<script defer
 		src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
 	<script>
+		document.addEventListener('DOMContentLoaded', function () {
 		let toast = {
 			title: "",
 			message: "",
@@ -117,6 +111,7 @@
 			toast.timeout = timeoutMs || 3000;
 			Toast.create(toast);
 		};
+		});
 	</script>
 
 	<div class="modal bg-light" style="opacity: 0.4; z-index:7000;" id="modal-loading" tabindex="-1"
@@ -154,11 +149,11 @@
 							<!-- Switch button -->
 							<span class="modeswitch dark-button btn-tertiary" aria-expanded="false"
 								data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="fas fa-moon fa-2x"></i>
+								<i class="bi bi-moon-fill fs-2"></i>
 							</span>
 							<span class="modeswitch light-button btn-tertiary" aria-expanded="false"
 								data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="far fa-moon fa-2x"></i>
+								<i class="bi bi-moon fs-2"></i>
 							</span>
 						</div>
 						<!-- Dark mode options END -->
@@ -172,7 +167,7 @@
 					<a class="navbar-brand mt-2 mt-lg-0 js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
 						data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">
 						<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-							src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : (site_url('public/assets/logo.jpg')); ?>"
+							src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
 							loading="lazy">
 						<span class="lead fw-bold"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					</a>
@@ -180,7 +175,7 @@
 				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-bs-toggle="collapse"
 					data-bs-target="#menuPrincipal" data-target="#menuPrincipal" aria-controls="menuPrincipal"
 					aria-expanded="false" aria-label="Toggle navigation">
-					<i class="fas fa-bars"></i>
+					<i class="bi bi-list"></i>
 				</button>
 
 				<div class="collapse navbar-collapse" id="menuPrincipal">
@@ -188,10 +183,10 @@
 						<li class="nav-item active">
 							<a class="nav-link js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
 								data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>"><i
-									class="fas fa-globe"></i> Dashboard</a>
+									class="bi bi-globe"></i> Dashboard</a>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#"><i class="fas fa-pen"
+							<a class="nav-link dropdown-toggle" href="#"><i class="bi bi-pencil"
 									id="menuArtigosColaboradores"></i>
 								Artigos</a>
 							<ul class="dropdown-menu bg-primary" aria-labelledby="menuArtigosColaboradores">
@@ -218,7 +213,7 @@
 						</li>
 						<?php if (isset($_SESSION) && isset($_SESSION['site_config']['paginas']['menu_colaborador'])): ?>
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#"><i class="far fa-file-lines"></i>
+								<a class="nav-link dropdown-toggle" href="#"><i class="bi bi-file-text"></i>
 									Páginas</a>
 								<ul class="dropdown-menu bg-primary" aria-labelledby="menuArtigosColaboradores">
 									<?php foreach ($_SESSION['site_config']['paginas']['menu_colaborador'] as $pagina): ?>
@@ -299,9 +294,9 @@
 		</div>
 	</div>
 	<?= view('components/_aviso_permissao'); ?>
-</body>
-
-<script type="text/javascript">
+	<?= $this->renderSection('scripts'); ?>
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 
 	$(document).ready(function () {
 		bsCustomFileInput.init()
@@ -343,6 +338,8 @@
 		$('body').attr('data-mdb-theme', '');
 		localStorage.setItem('dark-mode', 'light');
 	});
-</script>
+	});
+	</script>
+</body>
 
 </html>

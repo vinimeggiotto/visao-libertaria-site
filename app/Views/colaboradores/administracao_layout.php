@@ -90,16 +90,15 @@ use CodeIgniter\I18n\Time;
 				</div>
 			</div>
 
-
-
-
-
 		</div>
 	</div>
 </section>
 
-<script type="text/javascript">
+<?= $this->endSection(); ?>
 
+<?= $this->section('scripts'); ?>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	$(".salvar-config-layout").on("click", function () {
 		form = new FormData(layout_form);
 		submit(form);
@@ -130,7 +129,6 @@ use CodeIgniter\I18n\Time;
 			}
 		});
 	}
+	});
 </script>
-
-
 <?= $this->endSection(); ?>

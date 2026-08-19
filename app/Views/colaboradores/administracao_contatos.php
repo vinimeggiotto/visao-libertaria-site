@@ -99,7 +99,7 @@
 						</div>
 						<div class="col-12 col-md-12 col-lg-2 d-grid d-md-flex align-items-end">
 							<button class="btn btn-primary btn-sm w-100" type="button" id="btn-pesquisar-contatos">
-								<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i> Pesquisar
+								<i class="bi bi-search me-1" aria-hidden="true"></i> Pesquisar
 							</button>
 						</div>
 					</form>
@@ -112,7 +112,7 @@
 							<p class="small text-muted mb-0 mt-1" id="contatos-total-registros" aria-live="polite"></p>
 						</div>
 						<button type="button" class="btn btn-outline-danger btn-sm" id="btn-excluir-contatos-lote" disabled>
-							<i class="fas fa-trash-can me-1" aria-hidden="true"></i> Excluir selecionados
+							<i class="bi bi-trash me-1" aria-hidden="true"></i> Excluir selecionados
 						</button>
 					</div>
 					<div class="table-responsive listagem-site-table-wrap rounded border">
@@ -168,7 +168,11 @@
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	(function () {
 		var contatosListUrl = "<?= base_url('colaboradores/admin/contatosList'); ?>";
 		var contatosExcluirBase = "<?= base_url('colaboradores/admin/contatosExcluir/'); ?>";
@@ -227,7 +231,7 @@
 		function carregarContatosLista() {
 			var $btn = $('#btn-pesquisar-contatos');
 			var formData = $('#pesquisa_contatos').serialize();
-			$btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1" aria-hidden="true"></i> Carregando…');
+			$btn.prop('disabled', true).html('<i class="spinner-border spinner-border-sm me-1" aria-hidden="true"></i> Carregando…');
 			$.ajax({
 				url: contatosListUrl,
 				type: 'get',
@@ -236,7 +240,7 @@
 				beforeSend: function () { $('#modal-loading').show(); },
 				complete: function () {
 					$('#modal-loading').hide();
-					$btn.prop('disabled', false).html('<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i> Pesquisar');
+					$btn.prop('disabled', false).html('<i class="bi bi-search me-1" aria-hidden="true"></i> Pesquisar');
 				},
 				success: function (data) {
 					vlContatosInjetarLista(data);
@@ -434,7 +438,7 @@
 								class: 'link-secondary link-underline-opacity-25 link-underline-opacity-100-hover fw-semibold',
 								title: 'Abrir permissões do colaborador numa nova aba'
 							})
-								.append($('<i>', { class: 'fas fa-external-link-alt fa-xs me-1', 'aria-hidden': 'true' }))
+								.append($('<i>', { class: 'bi bi-box-arrow-up-right small me-1', 'aria-hidden': 'true' }))
 								.append(document.createTextNode(String(c.apelido)))
 								.appendTo($mu);
 						} else {
@@ -509,6 +513,7 @@
 			carregarContatosLista();
 		});
 	})();
+	});
 </script>
-
 <?= $this->endSection(); ?>
+

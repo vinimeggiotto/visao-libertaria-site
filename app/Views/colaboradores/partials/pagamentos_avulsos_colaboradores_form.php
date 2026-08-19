@@ -31,6 +31,6 @@
 <div id="wrap_btn_finalizar_repasse" class="mt-3 d-none text-center">
 	<button type="button" class="btn btn-outline-primary btn-sm" id="btn_finalizar_repasse"
 		data-preview-url="<?= esc(base_url('colaboradores/admin/financeiro/preview'), 'attr'); ?>">
-		<i class="fas fa-circle-check me-1" aria-hidden="true"></i>Finalizar repasse
+		<i class="bi bi-check-circle me-1" aria-hidden="true"></i>Finalizar repasse
 	</button>
 </div>

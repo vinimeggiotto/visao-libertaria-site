@@ -27,7 +27,11 @@ use CodeIgniter\I18n\Time;
 </div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	$(document).ready(function () {
 		$.ajax({
 			url: "<?php echo base_url('colaboradores/admin/estaticasList'); ?>",
@@ -43,6 +47,6 @@ use CodeIgniter\I18n\Time;
 			}
 		});
 	});
+	});
 </script>
-
 <?= $this->endSection(); ?>

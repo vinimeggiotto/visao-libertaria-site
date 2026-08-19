@@ -64,11 +64,11 @@ $totalRegistros = (int) ($contatosList['total'] ?? 0);
 							<button type="button"
 								class="btn btn-light btn-sm btn-floating mb-0 btn-contato-responder"
 								data-bs-toggle="tooltip" data-bs-placement="top" title="Responder"
-								data-contato-id="<?= esc($contato['id'], 'attr'); ?>"><i class="fas fa-pencil" aria-hidden="true"></i></button>
+								data-contato-id="<?= esc($contato['id'], 'attr'); ?>"><i class="bi bi-pencil" aria-hidden="true"></i></button>
 							<button type="button"
 								class="btn btn-light btn-sm btn-floating mb-0 btn-excluir"
 								data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"
-								data-contatos-id="<?= esc($contato['id'], 'attr'); ?>"><i class="fas fa-trash-can"
+								data-contatos-id="<?= esc($contato['id'], 'attr'); ?>"><i class="bi bi-trash"
 									aria-hidden="true"></i></button>
 						</div>
 					</td>

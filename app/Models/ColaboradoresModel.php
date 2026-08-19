@@ -70,8 +70,27 @@ class ColaboradoresModel extends Model
 
 	public function getNow()
 	{
-		$query = $this->db->query("SELECT now() AS now");
-		return $query->getResult('array')[0]['now'];
+		return app_now();
+	}
+
+	public function gravarRememberToken(int $id, string $tokenHash): void
+	{
+		$this->db->table($this->table)->where('id', $id)->update(['remember_token' => $tokenHash]);
+	}
+
+	public function limparRememberToken(int $id): void
+	{
+		$this->db->table($this->table)->where('id', $id)->update(['remember_token' => null]);
+	}
+
+	public function buscarPorRememberToken(string $tokenHash): array
+	{
+		$linha = $this->db->table($this->table)
+			->where('remember_token', $tokenHash)
+			->get()
+			->getRowArray();
+
+		return is_array($linha) ? $linha : [];
 	}
 
 	public function getTodosColaboradores($apelido = '', $email = '', $atribuicao = '', $status = 'A')
@@ -114,7 +133,6 @@ class ColaboradoresModel extends Model
 	{	
 		$colaboradoresHistoricosModel = new \App\Models\ColaboradoresHistoricosModel();
 		$this->session = \Config\Services::session();
-		$this->session->start();
 		
 		$dados_inseridos = $dados['data'];
 		if(!isset($dados_inseridos['id']) && isset($dados['id'])) {

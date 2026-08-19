@@ -51,14 +51,12 @@ class PautasModel extends Model
 
 	public function getNovaUUID()
 	{
-		$query = $this->db->query("SELECT uuid() AS id");
-		return $query->getResult('array')[0]['id'];
+		return app_uuid();
 	}
 
 	public function getNow()
 	{
-		$query = $this->db->query("SELECT now() AS now");
-		return $query->getResult('array')[0]['now'];
+		return app_now();
 	}
 
 	public function getPautasFechamento()
@@ -113,10 +111,10 @@ class PautasModel extends Model
 		}
 		if ($pesquisa !== NULL && $pesquisa !== '') {
 			$pesquisaEscapada = $this->db->escapeLikeString($pesquisa);
+			$against = $this->db->escape($pesquisa);
 			$this->builder()->groupStart()
 				->like('pautas.link', $pesquisaEscapada)
-				->orLike('pautas.titulo', $pesquisaEscapada)
-				->orLike('pautas.texto', $pesquisaEscapada)
+				->orWhere("MATCH(pautas.titulo, pautas.texto) AGAINST ({$against} IN NATURAL LANGUAGE MODE)", null, false)
 				->groupEnd();
 		}
 		$this->builder()->orderBy('pautas.criado', 'DESC');
@@ -136,7 +134,12 @@ class PautasModel extends Model
 			->where('colaboradores.shadowban', 'N');
 		$this->builder()->orderBy('pautas.criado', 'DESC');
 		if($pesquisa !== NULL) {
-			$this->builder()->where("(pautas.link like '%$pesquisa%' or pautas.titulo like '%$pesquisa%' or pautas.texto like '%$pesquisa%')");
+			$pesquisaEscapada = $this->db->escapeLikeString($pesquisa);
+			$against = $this->db->escape($pesquisa);
+			$this->builder()->groupStart()
+				->like('pautas.link', $pesquisaEscapada)
+				->orWhere("MATCH(pautas.titulo, pautas.texto) AGAINST ({$against} IN NATURAL LANGUAGE MODE)", null, false)
+				->groupEnd();
 			return $this->withDeleted();
 		}
 		return $this;
@@ -185,7 +188,6 @@ class PautasModel extends Model
 	{	
 		$colaboradoresHistoricosModel = new \App\Models\ColaboradoresHistoricosModel();
 		$this->session = \Config\Services::session();
-		$this->session->start();
 
 		$dados_inseridos = $dados['data'];
 		if(!isset($dados_inseridos['id']) && isset($dados['id'])) {

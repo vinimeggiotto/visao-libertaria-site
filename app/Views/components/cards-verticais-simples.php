@@ -72,7 +72,7 @@ if ($tipo === 'artigo') {
 				class="vl-card-vertical-thumb-link text-decoration-none">
 				<img class="vl-card-vertical-thumb-img" src="<?= esc($imagemSrc, 'attr'); ?>"
 					alt="<?= esc($titulo, 'attr'); ?>"
-					loading="lazy">
+					loading="lazy" width="480" height="270">
 			</a>
 		</div>
 		<div class="card-body d-flex flex-column p-3">

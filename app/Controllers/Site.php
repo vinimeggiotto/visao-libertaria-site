@@ -90,6 +90,7 @@ class Site extends BaseController
 		}
 
 		$data['ultimos_artigos'] = $this->artigosModel
+			->select('id, titulo, link_video_youtube, url_friendly, publicado, imagem')
 			->whereIn('fase_producao_id', array(6, 7))
 			->where('descartado', null)
 			->orderBy('publicado', 'DESC')
@@ -107,19 +108,33 @@ class Site extends BaseController
 	 */
 	public function noticias(): string
 	{
-		$pautasModel = new \App\Models\PautasModel();
-		$get         = $this->request->getGet();
-		$pesquisa    = (isset($get['pesquisa']) && $get['pesquisa'] !== '') ? $get['pesquisa'] : null;
-		$pautas       = $pautasModel->getPautas(false, false, false, $pesquisa);
+		$get = $this->request->getGet();
+		$listaSomente = $this->request->getMethod() === 'GET'
+			&& (
+				isset($get['page_noticias'])
+				|| (
+					($get['partial'] ?? '') === '1'
+					&& $this->request->isAJAX()
+				)
+			);
 
-		$configuracaoModel = new \App\Models\ConfiguracaoModel();
-		$perPage           = (int) $configuracaoModel->find('site_quantidade_listagem')['config_valor'];
+		if ($listaSomente || ! $this->usuarioAnonimo()) {
+			return $this->renderNoticias($get);
+		}
 
-		$data['pautasList'] = [
-			'pautas' => $pautas->paginate($perPage, 'noticias'),
-			'pager'  => $pautas->pager,
-		];
+		$chave = $this->chaveCacheListagem('noticias', serialize($get));
 
+		return $this->obterHtmlCacheAnonimo($chave, function () use ($get) {
+			return view('_noticias', $this->montarDadosNoticias($get));
+		});
+	}
+
+	/**
+	 * @param array<string, mixed> $get
+	 */
+	private function renderNoticias(array $get): string
+	{
+		$data = $this->montarDadosNoticias($get);
 		$listaSomente = $this->request->getMethod() === 'GET'
 			&& (
 				isset($get['page_noticias'])
@@ -132,6 +147,27 @@ class Site extends BaseController
 		if ($listaSomente) {
 			return view('template/templatePautasListSite', $data);
 		}
+
+		return view('_noticias', $data);
+	}
+
+	/**
+	 * @param array<string, mixed> $get
+	 * @return array<string, mixed>
+	 */
+	private function montarDadosNoticias(array $get): array
+	{
+		$pautasModel = new \App\Models\PautasModel();
+		$pesquisa    = (isset($get['pesquisa']) && $get['pesquisa'] !== '') ? $get['pesquisa'] : null;
+		$pautas       = $pautasModel->getPautas(false, false, false, $pesquisa);
+
+		$configuracaoModel = new \App\Models\ConfiguracaoModel();
+		$perPage           = (int) $configuracaoModel->find('site_quantidade_listagem')['config_valor'];
+
+		$data['pautasList'] = [
+			'pautas' => $pautas->paginate($perPage, 'noticias'),
+			'pager'  => $pautas->pager,
+		];
 
 		$data['config'] = [
 			'pauta_tamanho_maximo'   => $configuracaoModel->find('pauta_tamanho_maximo')['config_valor'],
@@ -159,17 +195,30 @@ class Site extends BaseController
 		$data['active_menu']   = 'noticias';
 		$data['colaboradores'] = $this->session->get('colaboradores');
 
-		return view('_noticias', $data);
+		return $data;
 	}
 
 	public function videos($projeto = null)
 	{
-		// Verificar se é uma requisição AJAX para infinite scroll
 		if ($this->request->isAJAX()) {
 			return $this->videosAjax($projeto);
 		}
 
-		// Buscar todos os projetos
+		if ($this->usuarioAnonimo()) {
+			$chave = $this->chaveCacheListagem('videos', (string) $projeto . serialize($this->request->getGet()));
+			return $this->obterHtmlCacheAnonimo($chave, function () use ($projeto) {
+				return view('_videos', $this->montarDadosVideos($projeto));
+			});
+		}
+
+		return view('_videos', $this->montarDadosVideos($projeto));
+	}
+
+	/**
+	 * @return array<string, mixed>
+	 */
+	private function montarDadosVideos($projeto = null): array
+	{
 		$data['projetos'] = $this->projetosModel->findAll();
 
 		// Configurar a query base
@@ -193,7 +242,7 @@ class Site extends BaseController
 
 		$data['active_menu'] = 'videos';
 
-		return view('_videos', $data);
+		return $data;
 	}
 
 	private function videosAjax($projeto = null)
@@ -224,7 +273,7 @@ class Site extends BaseController
 			$html .= '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
 			$html .= '<div class="card video-card h-100">';
 			$html .= '<div class="video-thumbnail">';
-			$html .= '<img src="' . cria_url_thumb($video_id) . '" alt="' . $titulo . '" class="card-img-top">';
+			$html .= '<img src="' . cria_url_thumb($video_id) . '" alt="' . $titulo . '" class="card-img-top" width="480" height="270" loading="lazy">';
 			$html .= '<div class="play-overlay">';
 			$html .= '<i class="bi bi-play-circle-fill play-icon"></i>';
 			$html .= '<a href="' . cria_link_watch($video_id) . '" class="gen-video-popup" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></a>';
@@ -273,6 +322,18 @@ class Site extends BaseController
 
 	/*LISTAGEM DE ARTIGOS*/
 	public function artigos($id_categoria = null): string
+	{
+		if ($this->usuarioAnonimo()) {
+			$chave = $this->chaveCacheListagem('artigos', (string) $id_categoria . serialize($this->request->getGet()));
+			return $this->obterHtmlCacheAnonimo($chave, function () use ($id_categoria) {
+				return $this->montarHtmlArtigos($id_categoria);
+			});
+		}
+
+		return $this->montarHtmlArtigos($id_categoria);
+	}
+
+	private function montarHtmlArtigos($id_categoria = null): string
 	{
 		$data = array();
 
@@ -590,7 +651,9 @@ class Site extends BaseController
 					$colaboradoresHistorico->cadastraHistorico($colaborador['id'], 'acessar', NULL, NULL);
 
 					if (isset($post['lembrar'])) {
-						set_cookie('hash', $this->secured_encrypt(md5($post['email'] . hash('sha256', $post['senha']))), 60 * 60 * 24 * 7);
+						$token = bin2hex(random_bytes(32));
+						$colaboradoresModel->gravarRememberToken((int) $colaborador['id'], hash('sha256', $token));
+						set_cookie('hash', $this->secured_encrypt($token), 60 * 60 * 24 * 7);
 					}
 
 					return $retorno->retorno(true, 'Bem-vindo de volta ' . $colaborador['apelido'], true);
@@ -622,6 +685,10 @@ class Site extends BaseController
 	public function logout()
 	{
 		helper('cookie');
+		$colaboradorSessao = $this->session->get('colaboradores');
+		if (is_array($colaboradorSessao) && !empty($colaboradorSessao['id'])) {
+			(new \App\Models\ColaboradoresModel())->limparRememberToken((int) $colaboradorSessao['id']);
+		}
 		$this->session->remove('colaboradores');
 		$link = base_url() . 'site';
 		$next = caminho_retorno_login($this->request->getGet('next'));
@@ -688,13 +755,37 @@ class Site extends BaseController
 
 	public function pagina($url = NULL)
 	{
-		$paginasEstaticasModel = new \App\Models\PaginasEstaticasModel();
 		if ($url === null) {
 			return redirect()->to(base_url() . 'site');
 		}
-		$pagina = $paginasEstaticasModel->where('url_friendly', $url)->get()->getResultArray();
-		if ($pagina == NULL || empty($pagina)) {
+
+		if ($this->usuarioAnonimo()) {
+			$chave = $this->chaveCacheListagem('pagina', (string) $url);
+			$html = $this->obterHtmlCacheAnonimo($chave, function () use ($url) {
+				return $this->montarHtmlPagina($url);
+			});
+			if ($html === '') {
+				return redirect()->to(base_url() . 'site');
+			}
+			return $html;
+		}
+
+		$html = $this->montarHtmlPagina($url);
+		if ($html === '') {
 			return redirect()->to(base_url() . 'site');
+		}
+		return $html;
+	}
+
+	private function montarHtmlPagina(string $url): string
+	{
+		$paginasEstaticasModel = new \App\Models\PaginasEstaticasModel();
+		$pagina = $paginasEstaticasModel->select('id, titulo, url_friendly, conteudo, localizacao, ativo')
+			->where('url_friendly', $url)
+			->get()
+			->getResultArray();
+		if ($pagina == NULL || empty($pagina)) {
+			return '';
 		}
 		$data = array();
 		$data['estatica'] = $pagina[0];
@@ -820,7 +911,14 @@ class Site extends BaseController
 		$data['classeListaCSS'] = 'listagem-escritor';
 		$data['omitPagerAjaxDelegado'] = true;
 
-		return view_cell('\App\Libraries\Listas::listasVerticaisSimples', $data);
+		$paginaLista = (string) ($this->request->getGet('page_lista') ?? '1');
+
+		return view_cell(
+			'\App\Libraries\Listas::listasVerticaisSimples',
+			$data,
+			300,
+			'lista_escritor_' . $cid . '_' . $papel . '_' . $paginaLista
+		);
 	}
 
 	public function colaborador($apelido = NULL)
@@ -906,7 +1004,14 @@ class Site extends BaseController
 		}
 		$data['urlComponente'] = '\App\Libraries\Cards::cardsVerticaisSimples';
 		$data['classeListaCSS'] = 'listagem-colaborador';
-		return view_cell('\App\Libraries\Listas::listasVerticaisSimples', $data);
+		$paginaLista = (string) ($this->request->getGet('page_lista') ?? '1');
+
+		return view_cell(
+			'\App\Libraries\Listas::listasVerticaisSimples',
+			$data,
+			300,
+			'lista_colaborador_' . (int) $colaborador['id'] . '_' . $paginaLista
+		);
 	}
 
 	public function links(): string
@@ -1083,14 +1188,17 @@ class Site extends BaseController
 	{
 		$retorno = new \App\Libraries\RetornoPadrao();
 		if (get_cookie('hash') !== null) {
-			$colaboradoresModel = new \App\Models\ColaboradoresModel();
-			$colaboradoresModel->where("'" . $this->secured_decrypt(get_cookie('hash')) . "' = MD5(CONCAT(email,senha))");
-			$colaborador = $colaboradoresModel->get()->getResultArray();
-			if (empty($colaborador)) {
+			$token = $this->secured_decrypt(get_cookie('hash'));
+			if ($token === false || $token === null || $token === '') {
 				delete_cookie('hash');
 				return false;
 			}
-			$colaborador = $colaborador[0];
+			$colaboradoresModel = new \App\Models\ColaboradoresModel();
+			$colaborador = $colaboradoresModel->buscarPorRememberToken(hash('sha256', (string) $token));
+			if ($colaborador === []) {
+				delete_cookie('hash');
+				return false;
+			}
 			$estrutura_session = [
 				'colaboradores' => [
 					'id' => $colaborador['id'],

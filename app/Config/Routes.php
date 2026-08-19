@@ -19,7 +19,7 @@ $routes->set404Override();
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-$routes->setAutoRoute(true);
+$routes->setAutoRoute(false);
 
 /*
  * --------------------------------------------------------------------
@@ -53,6 +53,11 @@ $routes->group('', ['filter' => 'authCookie:optional'], static function ($routes
 
 // Login endpoint (AJAX and cookie flow).
 $routes->match(['get', 'post'], 'site/login', 'Site::login', ['filter' => 'authCookie:optional']);
+
+// Cron and bot (previously auto-routed).
+$routes->get('cron/(:segment)', 'Cron::index/$1');
+$routes->get('cron/index/(:segment)', 'Cron::index/$1');
+$routes->match(['get', 'post'], 'ancapsubot/pauta', 'Ancapsubot::pauta');
 
 // Protected actions outside /colaboradores.
 $routes->group('site', ['filter' => 'authCookie'], static function ($routes) {

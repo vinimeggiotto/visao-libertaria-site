@@ -26,7 +26,7 @@ class Routing extends BaseRouting
 
     public ?string $override404 = null;
 
-    public bool $autoRoute = true;
+    public bool $autoRoute = false;
 
     public bool $prioritize = false;
 

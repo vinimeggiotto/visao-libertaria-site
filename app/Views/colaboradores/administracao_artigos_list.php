@@ -66,10 +66,10 @@
 							</div>
 							<div class="col-12 col-lg-6 d-flex flex-wrap gap-2 align-items-end">
 								<button class="btn btn-primary btn-sm btn-pesquisar-publicado flex-grow-1 flex-lg-grow-0" type="submit">
-									<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i> Pesquisar
+									<i class="bi bi-search me-1" aria-hidden="true"></i> Pesquisar
 								</button>
 								<button class="btn btn-primary btn-sm flex-grow-1 flex-lg-grow-0" type="button" id="btn-limpar-filtros-listagem-admin">
-									<i class="fas fa-rotate-left me-1" aria-hidden="true"></i> Limpar filtros
+									<i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i> Limpar filtros
 								</button>
 							</div>
 						</div>
@@ -79,7 +79,7 @@
 								aria-controls="filtrosAvancadosListagemAdmin" id="btn-toggle-filtros-avancados-admin">
 								<span class="filtros-avancados-admin-when-collapsed">Mostrar filtros avançados</span>
 								<span class="filtros-avancados-admin-when-expanded d-none">Ocultar filtros avançados</span>
-								<i class="fas fa-chevron-down small ms-1" aria-hidden="true"></i>
+								<i class="bi bi-chevron-down small ms-1" aria-hidden="true"></i>
 							</button>
 						</div>
 						<div class="collapse mt-3" id="filtrosAvancadosListagemAdmin">
@@ -170,7 +170,11 @@
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	function refreshListPublicado(url) {
 		if (url == false) {
 			url = '<?php echo base_url('colaboradores/artigos/artigosList'); ?>';
@@ -225,7 +229,7 @@
 		var open = e.type === 'shown';
 		$('.filtros-avancados-admin-when-collapsed').toggleClass('d-none', open);
 		$('.filtros-avancados-admin-when-expanded').toggleClass('d-none', !open);
-		$('#btn-toggle-filtros-avancados-admin').find('i.fas').toggleClass('fa-chevron-down', !open).toggleClass('fa-chevron-up', open);
+		$('#btn-toggle-filtros-avancados-admin').find('i.bi').toggleClass('bi-chevron-down', !open).toggleClass('bi-chevron-up', open);
 	});
 
 	$(document).ready(function () {
@@ -249,6 +253,6 @@
 			}
 		});
 	});
+	});
 </script>
-
 <?= $this->endSection(); ?>

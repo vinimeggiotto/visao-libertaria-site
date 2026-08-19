@@ -57,7 +57,6 @@ class VerificaPermissao
 			: ($url);
 
 		$session = \Config\Services::session();
-		$session->start();
 		if ($codigoPermissao !== null) {
 			$session->setFlashdata('aviso_permissao', self::nomePermissaoExigida($codigoPermissao));
 		}
@@ -80,7 +79,6 @@ class VerificaPermissao
 			header("location: " . $url);
 		}
 		$session = \Config\Services::session();
-		$session->start();
 		if ($session->has('colaboradores')) {
 			$permissoes = $session->get('colaboradores');
 			$permissoes = $permissoes['permissoes'];

@@ -492,7 +492,11 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	$(function () {
 		$('.listar-colaboracoes-fechadas').tooltip();
 		$('#avatar-perfil-abrir-imagem').on('click', function () {
@@ -888,6 +892,7 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 			});
 		});
 	});
+	});
 </script>
-
 <?= $this->endSection(); ?>
+

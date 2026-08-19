@@ -28,10 +28,10 @@ use CodeIgniter\I18n\Time;
 						<div class="d-flex">
 							<a class="btn btn-light btn-floating mb-0 btn-tooltip btn-descartar"
 								data-estatica-id="<?= $estatica['id']; ?>" data-toggle="tooltip" data-placement="top"
-								title="Excluir página"><i class="fas fa-trash-can"></i></a>
+								title="Excluir página"><i class="bi bi-trash"></i></a>
 							<a href="<?= site_url('colaboradores/admin/estaticas/' . $estatica['id']); ?>"
 								class="btn btn-light btn-floating mb-0 btn-tooltip" data-toggle="tooltip" data-placement="top"
-								title="Editar página"><i class="fas fa-pencil"></i></a>
+								title="Editar página"><i class="bi bi-pencil"></i></a>
 						</div>
 					</td>
 				</tr>

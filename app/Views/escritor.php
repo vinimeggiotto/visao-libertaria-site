@@ -118,12 +118,15 @@ $avatarBruto = isset($colaborador['avatar']) ? trim((string) $colaborador['avata
 		<div class="row listagem-escritor" id="vlEscritorListaRow" data-vl-papel="escrito"></div>
 	</section>
 </div>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
 			new bootstrap.Tooltip(el);
 		});
-	});
 
 	(function () {
 		var baseLista = <?= json_encode($urlListaEscritor, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>;
@@ -177,6 +180,7 @@ $avatarBruto = isset($colaborador['avatar']) ? trim((string) $colaborador['avata
 			});
 		});
 	})();
+	});
 </script>
-
 <?= $this->endSection(); ?>
+

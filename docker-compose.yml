@@ -9,6 +9,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
+  redis:
+    container_name: vl-redis
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
   db:
     container_name: vl-db
     image: mariadb:10.6.16

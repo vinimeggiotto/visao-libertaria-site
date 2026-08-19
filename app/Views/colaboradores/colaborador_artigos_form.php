@@ -7,7 +7,6 @@ use CodeIgniter\I18n\Time;
 
 <?= $this->section('content'); ?>
 
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 <style>
 	#editor .ql-container {
@@ -134,7 +133,7 @@ use CodeIgniter\I18n\Time;
 									<div class="mb-3">
 										<label class="form-label small text-muted mb-1" for="link">Link da Notícia</label>
 										<div class="input-group input-group-sm">
-											<div class="input-group-text"><i class="fas fa-link"></i></div>
+											<div class="input-group-text"><i class="bi bi-link-45deg"></i></div>
 											<input type="text" class="form-control form-control-sm" id="link"
 												placeholder="Link da notícia para pauta" name="link"
 												value="<?= (isset($artigo['link'])) ? (esc($artigo['link'])) : (''); ?>">
@@ -487,7 +486,6 @@ use CodeIgniter\I18n\Time;
 	</div>
 </div>
 
-
 <div class="modal fade" id="modalListagem" tabindex="-1" role="dialog" aria-labelledby="modalListagemLabel"
 	aria-hidden="true">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
@@ -557,17 +555,62 @@ use CodeIgniter\I18n\Time;
 		</div>
 	</div>
 
-	<script type="text/javascript">
+	
+
+<?php endif; ?>
+
+<?= view('template/colaboradores_contagem_palavras_init', [
+	'contagemPalavrasConfig' => [
+		'endpoint'            => site_url('colaboradores/artigos/contarPalavrasTexto'),
+		'textareaSelector'    => '#texto',
+		'outputSelector'      => '#count_message',
+		'debounceMs'          => 200,
+		'bindQuillWindowName' => 'quill',
+	],
+]); ?>
+
+	<?php if (!$cadastro): ?>
+
+	
+	<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
+		<?= view('template/colaboradores_historico_artigo_init', [
+			'historicoArtigoConfig' => [
+				'historicosUrl'               => site_url('colaboradores/artigos/historicos/' . $artigo['id']),
+				'textoHistoricosListUrl'      => site_url('colaboradores/artigos/artigosTextoHistoricosList/' . $artigo['id']),
+				'textoHistoricoItemUrlPrefix' => base_url('colaboradores/artigos/artigosTextoHistorico/'),
+				'delegarCliqueHistoricoTexto' => true,
+				'openModalProgrammatically'   => true,
+				'bindReverterEditor'          => true,
+			],
+		]); ?>
+	<?php endif; ?>
+
+	<?php endif; ?>
+
+	<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
+		<?= view('template/colaboradores_comentarios_init', [
+			'comentariosConfig' => [
+				'endpoint'   => base_url('colaboradores/artigos/comentarios/' . $artigo['id']),
+				'autoLoad'   => true,
+			],
+		]); ?>
+	<?php endif; ?>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
+<script defer src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 		const avisoCadastroEl = document.getElementById('modalAvisoCadastro');
 		if (avisoCadastroEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
 			const myModal = bootstrap.Modal.getOrCreateInstance(avisoCadastroEl);
 			myModal.show();
 		}
+	});
 	</script>
-
-<?php endif; ?>
-
 <script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	function verificaPautaEscrita() {
 		const formData = new FormData(artigo_form);
 		$.ajax({
@@ -606,17 +649,10 @@ use CodeIgniter\I18n\Time;
 		quill.setText(<?= json_encode(preg_replace('/\s\s+/', "\n\n", htmlspecialchars_decode($artigo['texto']))); ?>);
 	<?php endif; ?>
 	$('#texto').val(quill.getText(0, quill.getLength()));
+	});
 </script>
-<?= view('template/colaboradores_contagem_palavras_init', [
-	'contagemPalavrasConfig' => [
-		'endpoint'            => site_url('colaboradores/artigos/contarPalavrasTexto'),
-		'textareaSelector'    => '#texto',
-		'outputSelector'      => '#count_message',
-		'debounceMs'          => 200,
-		'bindQuillWindowName' => 'quill',
-	],
-]); ?>
 <script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	if (typeof window.VL_CONTAGEM_PALAVRAS_INIT === 'function') {
 		window.VL_CONTAGEM_PALAVRAS_INIT();
 	}
@@ -679,12 +715,10 @@ use CodeIgniter\I18n\Time;
 			}
 		});
 	});
+	});
 </script>
-
-	<?php if (!$cadastro): ?>
-
-	<script type="text/javascript">
-
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 		<?php if ($artigo['fase_producao_id'] == '1'): ?>
 
 			$('.aceite-submeter-fase1').on('change', function () {
@@ -846,30 +880,7 @@ use CodeIgniter\I18n\Time;
 			});
 		});
 
-	</script>
-	<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
-		<?= view('template/colaboradores_historico_artigo_init', [
-			'historicoArtigoConfig' => [
-				'historicosUrl'               => site_url('colaboradores/artigos/historicos/' . $artigo['id']),
-				'textoHistoricosListUrl'      => site_url('colaboradores/artigos/artigosTextoHistoricosList/' . $artigo['id']),
-				'textoHistoricoItemUrlPrefix' => base_url('colaboradores/artigos/artigosTextoHistorico/'),
-				'delegarCliqueHistoricoTexto' => true,
-				'openModalProgrammatically'   => true,
-				'bindReverterEditor'          => true,
-			],
-		]); ?>
-	<?php endif; ?>
-
-	<?php endif; ?>
-
-	<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
-		<?= view('template/colaboradores_comentarios_init', [
-			'comentariosConfig' => [
-				'endpoint'   => base_url('colaboradores/artigos/comentarios/' . $artigo['id']),
-				'autoLoad'   => true,
-			],
-		]); ?>
-	<?php endif; ?>
-
-
+	
+	});
+</script>
 <?= $this->endSection(); ?>

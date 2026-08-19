@@ -1,5 +1,18 @@
 <?= $this->extend('layouts/_main'); ?>
 
+<?= $this->section('head_assets') ?>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.2.0/magnific-popup.css" />
+	<?php if (!empty($videos_destaque[0]['video_id'])): ?>
+		<link rel="preload" as="image" href="<?= esc(cria_url_thumb($videos_destaque[0]['video_id']), 'attr'); ?>" fetchpriority="high">
+	<?php endif; ?>
+<?= $this->endSection(); ?>
+
+<?= $this->section('body_scripts') ?>
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.2.0/jquery.magnific-popup.min.js"></script>
+<?= $this->endSection(); ?>
+
 <?= $this->section('content'); ?>
 
    <?php if (isset($videos_destaque) && !empty($videos_destaque)): ?>
@@ -60,7 +73,7 @@
 						$ytUaThumb = $ytUa !== null ? cria_url_thumb($ytUa) : base_url('public/assets/imagem-default.png');
 						?>
                      <img src="<?= esc($ytUaThumb, 'attr') ?>"
-                        alt="<?= esc($ua['titulo']) ?>" loading="lazy">
+                        alt="<?= esc($ua['titulo']) ?>" loading="lazy" width="480" height="270">
                         <div class="movie-card-overlay">
                            <i class="bi bi-play-circle-fill play-icon"></i>
                            <!-- O link do popup envolve tudo para ser clicável -->
@@ -161,7 +174,7 @@
 						$thumbV = $ytV !== null ? cria_url_thumb($ytV) : base_url('public/assets/imagem-default.png');
 						?>
                         <img src="<?= esc($thumbV, 'attr') ?>"
-                           alt="<?= esc($v['titulo']) ?>" loading="lazy">
+                           alt="<?= esc($v['titulo']) ?>" loading="lazy" width="480" height="270">
                         <div class="movie-card-overlay">
                            <i class="bi bi-play-circle-fill play-icon"></i>
                            <!-- O link do popup envolve tudo para ser clicável -->

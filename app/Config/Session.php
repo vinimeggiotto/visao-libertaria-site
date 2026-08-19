@@ -5,6 +5,7 @@ namespace Config;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Session\Handlers\BaseHandler;
 use CodeIgniter\Session\Handlers\FileHandler;
+use CodeIgniter\Session\Handlers\RedisHandler;
 
 class Session extends BaseConfig
 {
@@ -99,4 +100,15 @@ class Session extends BaseConfig
      * DB Group for the database session.
      */
     public ?string $DBGroup = null;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $host = getenv('REDIS_HOST');
+        if (is_string($host) && $host !== '') {
+            $this->driver = RedisHandler::class;
+            $this->savePath = 'tcp://' . $host . ':6379';
+        }
+    }
 }

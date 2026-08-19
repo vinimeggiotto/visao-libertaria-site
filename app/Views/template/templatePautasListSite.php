@@ -1,6 +1,6 @@
 <div class="pautas-list row">
 	<?php foreach ($pautasList['pautas'] as $pauta): ?>
-		<?= view_cell('\App\Libraries\Cards::cardsVerticaisSimplesPautas', $pauta); ?>
+		<?= view_cell('\App\Libraries\Cards::cardsVerticaisSimplesPautas', $pauta, 300, 'card_pauta_' . ($pauta['id'] ?? '')); ?>
 	<?php endforeach; ?>
 </div>
 <div class="d-none">

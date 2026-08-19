@@ -8,4 +8,4 @@ $jsonFlags            = JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | 
 <script>
 	window.VL_HISTORICO_ARTIGO = <?= json_encode($historicoArtigoConfig, $jsonFlags); ?>;
 </script>
-<script src="<?= site_url('public/js/colaboradores-historico-artigo.js'); ?>"></script>
+<script defer src="<?= site_url('public/js/colaboradores-historico-artigo.js'); ?>"></script>

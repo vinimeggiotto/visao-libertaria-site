@@ -5,11 +5,11 @@ use CodeIgniter\I18n\Time;
 $temLinhas = $artigos !== null && !empty($artigos);
 
 $fasesKanban = array(
-	'1' => array('titulo' => 'Escrevendo', 'icon' => 'fa-file-lines', 'bs' => 'success'),
-	'2' => array('titulo' => 'Revisando', 'icon' => 'fa-pen-to-square', 'bs' => 'primary'),
-	'3' => array('titulo' => 'Narrando', 'icon' => 'fa-microphone', 'bs' => 'info'),
-	'4' => array('titulo' => 'Produzindo', 'icon' => 'fa-video', 'bs' => 'secondary'),
-	'5' => array('titulo' => 'Publicando', 'icon' => 'fab fa-youtube', 'bs' => 'danger'),
+	'1' => array('titulo' => 'Escrevendo', 'icon' => 'bi-file-text', 'bs' => 'success'),
+	'2' => array('titulo' => 'Revisando', 'icon' => 'bi-pencil-square', 'bs' => 'primary'),
+	'3' => array('titulo' => 'Narrando', 'icon' => 'bi-mic', 'bs' => 'info'),
+	'4' => array('titulo' => 'Produzindo', 'icon' => 'bi-camera-video', 'bs' => 'secondary'),
+	'5' => array('titulo' => 'Publicando', 'icon' => 'bi-youtube', 'bs' => 'danger'),
 );
 
 $porFase = array();
@@ -31,7 +31,7 @@ if ($temLinhas) {
 ?>
 <?php if (!$temLinhas): ?>
 	<div class="text-center py-5 px-3">
-		<i class="fas fa-folder-open fa-2x text-muted mb-3 d-block" aria-hidden="true"></i>
+		<i class="bi bi-folder2-open fs-2 text-muted mb-3 d-block" aria-hidden="true"></i>
 		<p class="fw-semibold text-body mb-1">Nenhum artigo em produção</p>
 		<p class="small text-muted mb-3">Quando tiver rascunhos ou artigos na trilha de produção, eles aparecem aqui.</p>
 		<a href="<?= site_url('colaboradores/artigos/cadastrar'); ?>" class="btn btn-sm btn-primary">Novo artigo</a>
@@ -48,7 +48,7 @@ if ($temLinhas) {
 					style="width: min(100%, 17rem); max-height: min(62vh, 34rem);">
 					<div class="kanban-producao-col-head px-2 py-2 border-bottom bg-body-secondary bg-opacity-50 rounded-top-3">
 						<div class="d-flex align-items-center gap-2">
-							<i class="<?= strpos($meta['icon'], 'fab ') === 0 ? $meta['icon'] : ('fas ' . $meta['icon']); ?> small text-<?= $meta['bs']; ?>"
+							<i class="bi <?= $meta['icon']; ?> small text-<?= $meta['bs']; ?>"
 								aria-hidden="true"></i>
 							<span class="small fw-semibold text-uppercase" style="letter-spacing: 0.03em;"><?= esc($meta['titulo']); ?></span>
 							<span class="badge bg-secondary ms-auto"><?= $n; ?></span>
@@ -70,7 +70,7 @@ if ($temLinhas) {
 											</span>
 										</div>
 										<p class="small text-muted mb-2 mb-md-3">
-											<i class="far fa-clock me-1" aria-hidden="true"></i>
+											<i class="bi bi-clock me-1" aria-hidden="true"></i>
 											<?= app_time($artigo['atualizado'])->toLocalizedString('dd MMM yyyy'); ?>
 										</p>
 										<?php if ($artigo['fase_producao_id'] == '1'): ?>
@@ -78,12 +78,12 @@ if ($temLinhas) {
 												<button type="button" class="btn btn-light btn-sm btn-floating btn-tooltip btn-descartar"
 													data-artigo-id="<?= $artigo['id']; ?>" data-toggle="tooltip" data-placement="top"
 													title="Descartar artigo" aria-label="Descartar artigo">
-													<i class="fas fa-trash-can" aria-hidden="true"></i>
+													<i class="bi bi-trash" aria-hidden="true"></i>
 												</button>
 												<a href="<?= site_url('colaboradores/artigos/cadastrar/') . $artigo['id']; ?>"
 													class="btn btn-light btn-sm btn-floating btn-tooltip" data-toggle="tooltip" data-placement="top"
 													title="Continuar escrevendo" aria-label="Continuar escrevendo">
-													<i class="fas fa-pencil" aria-hidden="true"></i>
+													<i class="bi bi-pencil" aria-hidden="true"></i>
 												</a>
 											</div>
 										<?php endif; ?>
@@ -99,7 +99,7 @@ if ($temLinhas) {
 					style="width: min(100%, 17rem); max-height: min(62vh, 34rem);">
 					<div class="kanban-producao-col-head px-2 py-2 border-bottom bg-body-secondary bg-opacity-50 rounded-top-3">
 						<div class="d-flex align-items-center gap-2">
-							<i class="fas fa-layer-group small text-body" aria-hidden="true"></i>
+							<i class="bi bi-layers small text-body" aria-hidden="true"></i>
 							<span class="small fw-semibold text-uppercase" style="letter-spacing: 0.03em;">Outras fases</span>
 							<span class="badge bg-secondary ms-auto"><?= count($porFase['_outros']); ?></span>
 						</div>

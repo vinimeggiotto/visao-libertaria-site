@@ -110,7 +110,7 @@ class Pautas extends BaseController
 			$validaFormularios = new \App\Libraries\ValidaFormularios();
 			$valida = $validaFormularios->validaFormularioPauta($post);
 			if (empty($valida->getErrors())) {
-				if (!is_array(@getimagesize($post['imagem']))) {
+				if (! $this->urlImagemValida($post['imagem'] ?? '')) {
 					$post['imagem'] = base_url('public/assets/imagem-default.png');
 				}
 				if (!$isAdmin && ($gerenciadorTextos->contaPalavras($post['texto']) > $data['config']['pauta_tamanho_maximo'] || $gerenciadorTextos->contaPalavras($post['texto']) < $data['config']['pauta_tamanho_minimo'])) {
@@ -170,7 +170,7 @@ class Pautas extends BaseController
 		$verifica->PermiteAcesso('1');
 		$retorno = new \App\Libraries\RetornoPadrao();
 		$post = service('request')->getPost();
-		if (is_array(@getimagesize($post['imagem']))) {
+		if ($this->urlImagemValida($post['imagem'] ?? '')) {
 			return $retorno->retorno(true, '', true);
 		} else {
 			return $retorno->retorno(false, 'A imagem não é válida.', true);
@@ -181,7 +181,6 @@ class Pautas extends BaseController
 	public function detalhe($idPautas = null)
 	{
 		$session = \Config\Services::session();
-		$session->start();
 		if (!$session->has('colaboradores') || $session->get('colaboradores')['id'] === NULL) {
 			header("location: " . site_url('site/pauta/' . $idPautas));
 			die();
@@ -568,6 +567,30 @@ class Pautas extends BaseController
 			$comentarios = $pautasComentariosModel->getComentarios($idPauta);
 			return view('template/templateComentarios', array('comentarios' => $comentarios, 'colaborador' => $this->session->get('colaboradores')['id']));
 		}
+	}
+
+	private function urlImagemValida(string $url): bool
+	{
+		if ($url === '' || filter_var($url, FILTER_VALIDATE_URL) === false) {
+			return false;
+		}
+
+		$caminho = parse_url($url, PHP_URL_PATH);
+		$extensao = strtolower((string) pathinfo((string) $caminho, PATHINFO_EXTENSION));
+		if (! in_array($extensao, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)) {
+			return false;
+		}
+
+		$contexto = stream_context_create([
+			'http' => ['method' => 'HEAD', 'timeout' => 3, 'follow_location' => 1],
+			'https' => ['method' => 'HEAD', 'timeout' => 3, 'follow_location' => 1],
+		]);
+		$cabecalhos = @get_headers($url, true, $contexto);
+		if (! is_array($cabecalhos) || ! isset($cabecalhos[0])) {
+			return false;
+		}
+
+		return (bool) preg_match('/\s2\d\d\s/', (string) $cabecalhos[0]);
 	}
 
 	private function getInformacaoLink($post)

@@ -52,7 +52,7 @@ use CodeIgniter\I18n\Time;
 					<td>
 						<a href="<?= site_url('colaboradores/admin/permissoes/') . $colaborador['id']; ?>"
 							class="btn btn-light btn-floating mb-0 btn-tooltip" data-toggle="tooltip" data-placement="top"
-							title="Editar colaboradores"><i class="fas fa-pencil"></i></a>
+							title="Editar colaboradores"><i class="bi bi-pencil"></i></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>

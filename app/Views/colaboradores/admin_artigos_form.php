@@ -3,7 +3,6 @@
 
 <?= $this->section('content'); ?>
 
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
 <style>
@@ -127,7 +126,7 @@
 													<div class="mb-0">
 														<label class="form-label small text-muted mb-1" for="link">Link da Notícia</label>
 														<div class="input-group input-group-sm">
-															<div class="input-group-text"><i class="fas fa-link" aria-hidden="true"></i>
+															<div class="input-group-text"><i class="bi bi-link-45deg" aria-hidden="true"></i>
 															</div>
 															<input type="text" class="form-control form-control-sm" id="link"
 																placeholder="Link da notícia para pauta" name="link"
@@ -265,7 +264,7 @@
 										<div id="narracao-link-mp4" class="mb-3 <?= ($tipoAudioAdmin === 'mp3') ? 'd-none' : ''; ?>">
 											<label class="form-label small text-muted mb-1" for="link_mp4">Link do arquivo .mp4</label>
 											<div class="input-group input-group-sm">
-												<span class="input-group-text"><i class="fas fa-link"></i></span>
+												<span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
 												<input type="url" class="form-control" id="link_mp4" name="link_mp4"
 													placeholder="https://..." value="<?= esc($linkMp4Admin, 'attr'); ?>"
 													aria-describedby="link-mp4-help-admin">
@@ -308,7 +307,7 @@
 										<div class="mb-3">
 											<label class="form-label small text-muted mb-1" for="video_link">Link do Vídeo no YouTube</label>
 											<div class="input-group input-group-sm">
-												<span class="input-group-text"><i class="fas fa-link" aria-hidden="true"></i></span>
+												<span class="input-group-text"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
 												<input type="text" class="form-control form-control-sm" id="video_link"
 													name="video_link" placeholder="Link do Vídeo no YouTube"
 													value="<?= esc($artigo['link_produzido'] ?? '', 'attr'); ?>" required>
@@ -317,7 +316,7 @@
 										<div class="mb-3">
 											<label class="form-label small text-muted mb-1" for="shorts_link">Link do Shorts no YouTube</label>
 											<div class="input-group input-group-sm">
-												<span class="input-group-text"><i class="fas fa-link" aria-hidden="true"></i></span>
+												<span class="input-group-text"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
 												<input type="text" class="form-control form-control-sm" id="shorts_link"
 													value="<?= esc($artigo['link_shorts'] ?? '', 'attr'); ?>" name="shorts_link"
 													placeholder="Link do Shorts no YouTube" required>
@@ -373,7 +372,7 @@
 										<div class="mb-3">
 											<label class="form-label small text-muted mb-1" for="link_video_youtube">Link do Vídeo no YouTube (Visão Libertária)</label>
 											<div class="input-group input-group-sm">
-												<span class="input-group-text"><i class="fas fa-link" aria-hidden="true"></i></span>
+												<span class="input-group-text"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
 												<input type="text" class="form-control form-control-sm" id="link_video_youtube"
 													name="link_video_youtube"
 													value="<?= esc($artigo['link_video_youtube'] ?? '', 'attr'); ?>"
@@ -624,7 +623,6 @@
 	</div>
 </div>
 
-
 <div class="modal fade" id="modalListagem" tabindex="-1" role="dialog" aria-labelledby="modalListagemTitulo"
 	aria-hidden="true">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
@@ -675,7 +673,42 @@
 	</div>
 </div>
 
+<?= view('template/colaboradores_contagem_palavras_init', [
+	'contagemPalavrasConfig' => [
+		'endpoint'            => site_url('colaboradores/artigos/contarPalavrasTexto'),
+		'textareaSelector'    => '#texto',
+		'outputSelector'      => '#count_message',
+		'debounceMs'          => 200,
+		'bindQuillWindowName' => 'quill',
+	],
+]); ?>
+
+<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
+	<?= view('template/colaboradores_comentarios_init', [
+		'comentariosConfig' => [
+			'endpoint'              => base_url('colaboradores/artigos/comentarios/' . $artigo['id']),
+			'autoLoad'              => true,
+			'accordionCollapseId'   => 'collapseComentariosArtigoAdmin',
+		],
+	]); ?>
+	<?= view('template/colaboradores_historico_artigo_init', [
+		'historicoArtigoConfig' => [
+			'historicosUrl'               => site_url('colaboradores/artigos/historicos/' . $artigo['id']),
+			'textoHistoricosListUrl'      => site_url('colaboradores/artigos/artigosTextoHistoricosList/' . $artigo['id']),
+			'textoHistoricoItemUrlPrefix' => base_url('colaboradores/artigos/artigosTextoHistorico/'),
+			'delegarCliqueHistoricoTexto' => false,
+			'openModalProgrammatically'   => false,
+			'bindReverterEditor'          => true,
+		],
+	]); ?>
+<?php endif; ?>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
+<script defer src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	function verificaPautaEscrita() {
 		var form = new FormData(document.getElementById('artigo_form'));
 		$.ajax({
@@ -719,17 +752,10 @@
 		]);
 	<?php endif; ?>
 	$('#texto').val(quill.getText(0, quill.getLength()));
+	});
 </script>
-<?= view('template/colaboradores_contagem_palavras_init', [
-	'contagemPalavrasConfig' => [
-		'endpoint'            => site_url('colaboradores/artigos/contarPalavrasTexto'),
-		'textareaSelector'    => '#texto',
-		'outputSelector'      => '#count_message',
-		'debounceMs'          => 200,
-		'bindQuillWindowName' => 'quill',
-	],
-]); ?>
 <script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	if (typeof window.VL_CONTAGEM_PALAVRAS_INIT === 'function') {
 		window.VL_CONTAGEM_PALAVRAS_INIT();
 	}
@@ -1023,27 +1049,6 @@
 			}
 		});
 	});
-
+	});
 </script>
-<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
-	<?= view('template/colaboradores_comentarios_init', [
-		'comentariosConfig' => [
-			'endpoint'              => base_url('colaboradores/artigos/comentarios/' . $artigo['id']),
-			'autoLoad'              => true,
-			'accordionCollapseId'   => 'collapseComentariosArtigoAdmin',
-		],
-	]); ?>
-	<?= view('template/colaboradores_historico_artigo_init', [
-		'historicoArtigoConfig' => [
-			'historicosUrl'               => site_url('colaboradores/artigos/historicos/' . $artigo['id']),
-			'textoHistoricosListUrl'      => site_url('colaboradores/artigos/artigosTextoHistoricosList/' . $artigo['id']),
-			'textoHistoricoItemUrlPrefix' => base_url('colaboradores/artigos/artigosTextoHistorico/'),
-			'delegarCliqueHistoricoTexto' => false,
-			'openModalProgrammatically'   => false,
-			'bindReverterEditor'          => true,
-		],
-	]); ?>
-<?php endif; ?>
-
-
 <?= $this->endSection(); ?>

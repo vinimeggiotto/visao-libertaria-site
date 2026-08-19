@@ -185,6 +185,10 @@
 	</div>
 	<div class="text-center mb-4"><small>Calculadora feita por <a href="https://github.com/izaqueIsrael/clt-vs-pj" target="_blank">Isaac</a></small></div>
 </div>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function () {
 		const calc1_initialState = {
@@ -511,3 +515,4 @@
 	});
 </script>
 <?= $this->endSection(); ?>
+

@@ -1,12 +1,16 @@
 # Docker local
 
-O ambiente local tem dois serviços: `vl-web` (PHP 8.2 + Composer + servidor embutido na porta 8080) e `vl-db` (MariaDB 10.6).
+O ambiente local tem três serviços: `vl-web` (PHP 8.2 + Composer + servidor embutido na porta 8080), `vl-db` (MariaDB 10.6) e `vl-redis` (Redis 7).
 
 A document root do `vl-web` é a raiz do repositório (igual XAMPP/produção), não a pasta `public/`. O roteador é `.docker/router.php`. Assim `/public/css/...` e `/public/js/...` resolvem.
 
-O `Dockerfile` instala só as extensões que o app usa (`mysqli`, `pdo_mysql`, `intl`, `gd`, `mbstring`, `exif`) e o Composer. Os limites de upload (`8M` / `12M`) e `memory_limit=256M` vêm de `.docker/php-uploads.ini` copiado para o PHP do container. Mudança nessa ini ou nas extensões exige rebuild da imagem (`docker compose build web`). O código da pasta do projeto é montado no container; o `entrypoint` cria `.env` a partir de `env.docker` se faltar e roda `composer install`.
+O `Dockerfile` instala as extensões que o app usa (`mysqli`, `pdo_mysql`, `intl`, `gd`, `mbstring`, `exif`, `opcache`, `redis`) e o Composer. Upload e memória vêm de `.docker/php-uploads.ini`. OPcache local: `.docker/php-opcache.ini` (`validate_timestamps=1`). Mudança nessas ini ou nas extensões exige rebuild (`docker compose build web`).
 
-O `web` espera o healthcheck do `db` antes de subir. O `.env` precisa apontar o banco para o host `vl-db` (como no `env.docker`); se o arquivo já existir, o entrypoint não sobrescreve.
+O `entrypoint` cria `.env` a partir de `env.docker` se faltar. `.env` já existente não é sobrescrito: para usar Redis, inclua `REDIS_HOST=vl-redis` (como no `env.docker`). Sem essa variável o cache e a sessão continuam em arquivo. Sem Redis no Plesk, não defina `REDIS_HOST` em produção.
+
+Depois do migrate de performance: `docker compose exec web php spark thumbs:backfill` (thumbs locais). Detalhes de servidor: `performance-servidor.md`.
+
+O `web` espera o healthcheck do `db` e o Redis antes de subir. O banco no `.env` aponta para `vl-db`.
 
 `METHOD` no Docker local tem de ser cifra **sem** AEAD (ex.: `aes-256-cbc`) e `METHOD_HMAC` um algoritmo de hash do `hash_hmac` (ex.: `sha256`). `aria-256-ccm` exige tag no `openssl_encrypt`; `aria-128-ofb` não é hash. Com “lembrar-me” isso vira HTTP 500 em `/site/login`.
 

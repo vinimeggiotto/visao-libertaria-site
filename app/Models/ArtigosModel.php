@@ -40,12 +40,13 @@ class ArtigosModel extends Model
 	protected $afterDelete    = ['cadastraHistoricoUsuarioExcluir'];
 
 	public function getContadorPostados(){
-		return $this->db->query('SELECT * from artigos WHERE artigos.fase_producao_id IN (6,7) AND descartado IS NULL')->getNumRows();
+		return $this->whereIn('fase_producao_id', [6, 7])->where('descartado', null)->countAllResults();
 	}
 
 	public function getArtigosHome($limit = 21){
-		$this->select('*, artigos.id AS id, imagem AS imagem, url_friendly AS url, titulo AS titulo, publicado AS publicacao, \'artigo\' AS tipo_conteudo');
+		$this->select('artigos.id AS id, artigos.imagem AS imagem, artigos.url_friendly AS url, artigos.titulo AS titulo, artigos.publicado AS publicacao, artigos.link_video_youtube, \'artigo\' AS tipo_conteudo');
 		$this->whereIn('artigos.fase_producao_id', array(6,7));
+		$this->where('artigos.descartado', null);
 		$this->orderBy('artigos.publicado', 'DESC');
 		$this->join('colaboradores','artigos.escrito_colaboradores_id = colaboradores.id');
 		$this->limit($limit);
@@ -53,10 +54,14 @@ class ArtigosModel extends Model
 	}
 
 	public function getArtigosHomeRand($limit = 3){
+		$this->select('artigos.id, artigos.titulo, artigos.url_friendly, artigos.imagem, artigos.link_video_youtube, artigos.publicado');
 		$this->whereIn('artigos.fase_producao_id', array(6,7));
-		$this->orderBy('RAND()');
-		$this->limit($limit);
-		return $this->get()->getResultArray();
+		$this->where('artigos.descartado', null);
+		$this->orderBy('artigos.publicado', 'DESC');
+		$this->limit($limit * 3);
+		$linhas = $this->get()->getResultArray();
+		shuffle($linhas);
+		return array_slice($linhas, 0, $limit);
 	}
 
 	public function getColaboradoresArtigo($artigoId)
@@ -287,14 +292,12 @@ class ArtigosModel extends Model
 
 	public function getNovaUUID()
 	{
-		$query = $this->db->query("SELECT uuid() AS id");
-		return $query->getResult('array')[0]['id'];
+		return app_uuid();
 	}
 
 	public function getNow()
 	{
-		$query = $this->db->query("SELECT now() AS now");
-		return $query->getResult('array')[0]['now'];
+		return app_now();
 	}
 
 	protected function cadastraHistoricoUsuarioInserir(array $dados) {
@@ -313,7 +316,6 @@ class ArtigosModel extends Model
 	{	
 		$colaboradoresHistoricosModel = new \App\Models\ColaboradoresHistoricosModel();
 		$this->session = \Config\Services::session();
-		$this->session->start();
 		
 		$dados_inseridos = $dados['data'];
 		if(!isset($dados_inseridos['id']) && isset($dados['id'])) {

@@ -8,4 +8,4 @@ $jsonFlags         = JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSO
 <script>
 	window.VL_COMENTARIOS = <?= json_encode($comentariosConfig, $jsonFlags); ?>;
 </script>
-<script src="<?= site_url('public/js/colaboradores-comentarios.js'); ?>"></script>
+<script defer src="<?= site_url('public/js/colaboradores-comentarios.js'); ?>"></script>

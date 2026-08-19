@@ -119,7 +119,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: artigos escritos"
 									data-bs-title="Artigos que você criou como escritor nos últimos 30 dias (inclui rascunhos e excluídos recentemente).">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<p class="display-6 text-primary mb-1">
@@ -128,7 +128,7 @@ $metricas = $metricas ?? array(
 							<p class="small text-muted mb-0">
 								<span class="text-<?= ($artigos['diferenca'] > 0) ? ('success') : (($artigos['diferenca'] < 0) ? ('danger') : ('body-secondary')); ?>">
 									<?= ($artigos['diferenca'] > 0) ? ('+') : (''); ?><?= number_format($artigos['diferenca'], 0, ',', '.'); ?>
-									<i class="fas <?= ($artigos['diferenca'] > 0) ? ('fa-up-long') : (($artigos['diferenca'] < 0) ? ('fa-down-long') : ('fa-minus')); ?> fa-xs" aria-hidden="true"></i>
+									<i class="bi <?= ($artigos['diferenca'] > 0) ? ('bi-arrow-up') : (($artigos['diferenca'] < 0) ? ('bi-arrow-down') : ('bi-dash')); ?> small" aria-hidden="true"></i>
 								</span>
 								vs período anterior
 								<span class="text-body-secondary">(<?= number_format($artigos['antigo'], 0, ',', '.'); ?>)</span>
@@ -145,7 +145,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: artigos publicados"
 									data-bs-title="Artigos com data de publicação nos últimos 30 dias e você como escritor.">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<p class="display-6 text-success mb-1">
@@ -154,7 +154,7 @@ $metricas = $metricas ?? array(
 							<p class="small text-muted mb-0">
 								<span class="text-<?= ($artigos['publicados_diferenca'] > 0) ? ('success') : (($artigos['publicados_diferenca'] < 0) ? ('danger') : ('body-secondary')); ?>">
 									<?= ($artigos['publicados_diferenca'] > 0) ? ('+') : (''); ?><?= number_format($artigos['publicados_diferenca'], 0, ',', '.'); ?>
-									<i class="fas <?= ($artigos['publicados_diferenca'] > 0) ? ('fa-up-long') : (($artigos['publicados_diferenca'] < 0) ? ('fa-down-long') : ('fa-minus')); ?> fa-xs" aria-hidden="true"></i>
+									<i class="bi <?= ($artigos['publicados_diferenca'] > 0) ? ('bi-arrow-up') : (($artigos['publicados_diferenca'] < 0) ? ('bi-arrow-down') : ('bi-dash')); ?> small" aria-hidden="true"></i>
 								</span>
 								vs período anterior
 								<span class="text-body-secondary">(<?= number_format($artigos['publicados_antigo'], 0, ',', '.'); ?>)</span>
@@ -178,7 +178,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: escritos"
 									data-bs-title="Total de artigos em que você é o escritor e que não foram descartados (todas as fases).">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<p class="display-6 text-primary mb-1">
@@ -197,7 +197,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: publicados"
 									data-bs-title="Artigos concluídos no site (fases finais), você como escritor, não descartados.">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<p class="display-6 text-success mb-1">
@@ -216,7 +216,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: palavras totais"
 									data-bs-title="Soma das palavras contabilizadas para o escritor em todos os seus artigos ativos (não descartados).">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<p class="display-6 text-primary mb-1">
@@ -235,7 +235,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: descartados"
 									data-bs-title="Total histórico de artigos seus em que o descarte foi registado; não entram nas contagens de artigos ativos acima.">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<p class="display-6 text-warning mb-1">
@@ -261,7 +261,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: em produção"
 									data-bs-title="Artigos seus como escritor que ainda não estão publicados (fases antes de concluído), excluindo descartados.">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<div class="kpi-metrica-bloco">
@@ -280,7 +280,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: tempo até publicar"
 									data-bs-title="Média de dias entre a criação do artigo e a data de publicação, só para artigos publicados nos últimos 30 dias, não descartados, com datas válidas.">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<div class="kpi-metrica-bloco">
@@ -309,7 +309,7 @@ $metricas = $metricas ?? array(
 									data-bs-toggle="tooltip" data-bs-placement="top"
 									aria-label="Ajuda: palavras por artigo"
 									data-bs-title="Média de palavras (campo do escritor) nos artigos publicados nos últimos 30 dias, comparada à média em todos os artigos seus como escritor.">
-									<i class="fas fa-circle-question" aria-hidden="true"></i>
+									<i class="bi bi-question-circle" aria-hidden="true"></i>
 								</button>
 							</div>
 							<div class="kpi-metrica-bloco">
@@ -385,7 +385,7 @@ $metricas = $metricas ?? array(
 									<label class="form-check-label small" for="incluir-descartados-meus-publicados">Incluir artigos descartados</label>
 								</div>
 								<button class="btn btn-primary btn-sm btn-pesquisar-meus-publicados ms-auto flex-shrink-0" type="submit" aria-label="Pesquisar">
-									<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i> Pesquisar
+									<i class="bi bi-search me-1" aria-hidden="true"></i> Pesquisar
 								</button>
 							</div>
 						</form>
@@ -399,7 +399,11 @@ $metricas = $metricas ?? array(
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	var artigoId = null;
 	var urlMeusArtigosList = '<?= esc(base_url('colaboradores/artigos/meusArtigosList'), 'js'); ?>';
 
@@ -551,6 +555,7 @@ $metricas = $metricas ?? array(
 		});
 		return false;
 	});
+	});
 </script>
-
 <?= $this->endSection(); ?>
+

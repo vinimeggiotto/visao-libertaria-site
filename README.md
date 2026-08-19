@@ -177,8 +177,9 @@ O primeiro build instala extensões PHP e pode levar vários minutos.
 
 O que sobe:
 
-- **vl-web** — PHP 8.2 + Composer; o código da pasta é montado no container; o entrypoint roda `composer install` e o servidor embutido do PHP (raiz do projeto + `.docker/router.php`).
+- **vl-web** — PHP 8.2 + Composer + OPcache + Redis; o código da pasta é montado no container; o entrypoint roda `composer install` e o servidor embutido do PHP (raiz do projeto + `.docker/router.php`).
 - **vl-db** — MariaDB 10.6.16; banco `visao_libertaria`; root sem senha; dados em `./.db`.
+- **vl-redis** — Redis 7; cache e sessão quando `.env` tem `REDIS_HOST=vl-redis`.
 
 Se **não existir** `.env`, o entrypoint cria um a partir de `env.docker` (host `vl-db`, URL `http://localhost:8080`).
 
@@ -194,6 +195,8 @@ database.default.username = root
 database.default.password =
 database.default.DBDriver = MySQLi
 database.default.port = 3306
+
+REDIS_HOST = vl-redis
 ```
 
 ### 3. Tabelas e dados
@@ -201,6 +204,7 @@ database.default.port = 3306
 ```bat
 docker compose exec web php spark migrate
 docker compose exec web php spark db:seed Main
+docker compose exec web php spark thumbs:backfill
 ```
 
 Banco que já foi populado (sem rodar o Main de novo): `docker compose exec web php spark db:seed SincronizaContasFixas` — só cria/atualiza as 11 contas da tabela do topo.

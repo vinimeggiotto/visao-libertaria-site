@@ -46,7 +46,7 @@ $totalLista = (int) ($pautasList['total'] ?? 0);
 					<td>
 						<a href="<?= site_url('colaboradores/pautas/fechadas/' . $pauta['id']); ?>"
 							class="btn btn-light btn-floating mb-0 btn-tooltip-pautas-fechadas" data-bs-toggle="tooltip"
-							data-bs-placement="top" title="Abrir detalhe"><i class="fas fa-arrow-up-right-from-square"></i></a>
+							data-bs-placement="top" title="Abrir detalhe"><i class="bi bi-box-arrow-up-right"></i></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>

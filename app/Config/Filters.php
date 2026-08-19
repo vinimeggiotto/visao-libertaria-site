@@ -46,7 +46,6 @@ class Filters extends BaseFilters
         'after' => [
             'pagecache',
             'performance',
-            'toolbar',
         ],
     ];
 
@@ -59,7 +58,9 @@ class Filters extends BaseFilters
             // 'csrf',
             // 'invalidchars',
         ],
-        'after' => [
+        'after' => CI_DEBUG ? [
+            'toolbar',
+        ] : [
             // 'honeypot',
             // 'secureheaders',
         ],

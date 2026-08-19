@@ -59,8 +59,6 @@ use CodeIgniter\I18n\Time;
 		</div>
 	</div>
 
-	<script type="text/javascript">
-	</script>
-
+	
 
 	<?= $this->endSection(); ?>

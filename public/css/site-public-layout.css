@@ -1,6 +1,6 @@
 /**
  * Layout público (/site, /site/videos) — rosto do site (`layouts/_main`).
- * Carregar após `public/css/style.css`. Usa `var(--primary-color)` do tema.
+ * Carregar após `public/css/site-theme.css`. Usa `var(--primary-color)` do tema.
  */
 @keyframes slideInUp {
 			from {

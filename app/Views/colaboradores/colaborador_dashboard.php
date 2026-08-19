@@ -23,7 +23,7 @@
 								class="listagem-artigos-produzindo w-100 d-flex align-items-center gap-2 rounded-2 p-2 border border-transparent text-body pipeline-fase-link"
 								data-fase-producao="1"
 								aria-label="Filtrar listagem por fase Escrevendo">
-								<span class="pipeline-fase-icon rounded-2 p-2 bg-success bg-opacity-10 text-success flex-shrink-0"><i class="far fa-file-lines" aria-hidden="true"></i></span>
+								<span class="pipeline-fase-icon rounded-2 p-2 bg-success bg-opacity-10 text-success flex-shrink-0"><i class="bi bi-file-text" aria-hidden="true"></i></span>
 								<span class="text-start pipeline-fase-text">
 									<span class="d-block fw-bold lh-sm"><?= ($resumo['escrevendo'] < 10) ? ('0' . $resumo['escrevendo']) : ($resumo['escrevendo']); ?></span>
 									<span class="d-block small text-muted text-truncate">Escrevendo</span>
@@ -35,7 +35,7 @@
 								class="listagem-artigos-produzindo w-100 d-flex align-items-center gap-2 rounded-2 p-2 border border-transparent text-body pipeline-fase-link"
 								data-fase-producao="2"
 								aria-label="Filtrar listagem por fase Revisando">
-								<span class="pipeline-fase-icon rounded-2 p-2 text-bg-primary bg-opacity-10 text-primary flex-shrink-0"><i class="fas fa-pen-to-square" aria-hidden="true"></i></span>
+								<span class="pipeline-fase-icon rounded-2 p-2 text-bg-primary bg-opacity-10 text-primary flex-shrink-0"><i class="bi bi-pencil-square" aria-hidden="true"></i></span>
 								<span class="text-start pipeline-fase-text">
 									<span class="d-block fw-bold lh-sm"><?= ($resumo['revisando'] < 10) ? ('0' . $resumo['revisando']) : ($resumo['revisando']); ?></span>
 									<span class="d-block small text-muted text-truncate">Revisando</span>
@@ -47,7 +47,7 @@
 								class="listagem-artigos-produzindo w-100 d-flex align-items-center gap-2 rounded-2 p-2 border border-transparent text-body pipeline-fase-link"
 								data-fase-producao="3"
 								aria-label="Filtrar listagem por fase Narrando">
-								<span class="pipeline-fase-icon rounded-2 p-2 bg-info bg-opacity-10 text-info flex-shrink-0"><i class="fas fa-microphone" aria-hidden="true"></i></span>
+								<span class="pipeline-fase-icon rounded-2 p-2 bg-info bg-opacity-10 text-info flex-shrink-0"><i class="bi bi-mic" aria-hidden="true"></i></span>
 								<span class="text-start pipeline-fase-text">
 									<span class="d-block fw-bold lh-sm"><?= ($resumo['narrando'] < 10) ? ('0' . $resumo['narrando']) : ($resumo['narrando']); ?></span>
 									<span class="d-block small text-muted text-truncate">Narrando</span>
@@ -59,7 +59,7 @@
 								class="listagem-artigos-produzindo w-100 d-flex align-items-center gap-2 rounded-2 p-2 border border-transparent text-body pipeline-fase-link"
 								data-fase-producao="4"
 								aria-label="Filtrar listagem por fase Produzindo">
-								<span class="pipeline-fase-icon rounded-2 p-2 bg-secondary bg-opacity-10 text-secondary flex-shrink-0"><i class="fas fa-video" aria-hidden="true"></i></span>
+								<span class="pipeline-fase-icon rounded-2 p-2 bg-secondary bg-opacity-10 text-secondary flex-shrink-0"><i class="bi bi-camera-video" aria-hidden="true"></i></span>
 								<span class="text-start pipeline-fase-text">
 									<span class="d-block fw-bold lh-sm"><?= ($resumo['produzindo'] < 10) ? ('0' . $resumo['produzindo']) : ($resumo['produzindo']); ?></span>
 									<span class="d-block small text-muted text-truncate">Produzindo</span>
@@ -71,7 +71,7 @@
 								class="listagem-artigos-produzindo w-100 d-flex align-items-center gap-2 rounded-2 p-2 border border-transparent text-body pipeline-fase-link"
 								data-fase-producao="5"
 								aria-label="Filtrar listagem por fase Publicando">
-								<span class="pipeline-fase-icon rounded-2 p-2 bg-danger bg-opacity-10 text-danger flex-shrink-0"><i class="fab fa-youtube" aria-hidden="true"></i></span>
+								<span class="pipeline-fase-icon rounded-2 p-2 bg-danger bg-opacity-10 text-danger flex-shrink-0"><i class="bi bi-youtube" aria-hidden="true"></i></span>
 								<span class="text-start pipeline-fase-text">
 									<span class="d-block fw-bold lh-sm"><?= ($resumo['publicando'] < 10) ? ('0' . $resumo['publicando']) : ($resumo['publicando']); ?></span>
 									<span class="d-block small text-muted text-truncate">Publicando</span>
@@ -83,7 +83,7 @@
 								class="listagem-artigos-produzindo w-100 d-flex align-items-center gap-2 rounded-2 p-2 border border-transparent text-body pipeline-fase-link"
 								data-fase-producao="6"
 								aria-label="Filtrar listagem por fase Pagando">
-								<span class="pipeline-fase-icon rounded-2 p-2 bg-warning bg-opacity-10 text-warning flex-shrink-0"><i class="fab fa-bitcoin" aria-hidden="true"></i></span>
+								<span class="pipeline-fase-icon rounded-2 p-2 bg-warning bg-opacity-10 text-warning flex-shrink-0"><i class="bi bi-currency-bitcoin" aria-hidden="true"></i></span>
 								<span class="text-start pipeline-fase-text">
 									<span class="d-block fw-bold lh-sm"><?= ($resumo['pagando'] < 10) ? ('0' . $resumo['pagando']) : ($resumo['pagando']); ?></span>
 									<span class="d-block small text-muted text-truncate">Pagando</span>
@@ -178,10 +178,10 @@
 							</div>
 							<div class="col-12 col-lg-6 d-flex flex-wrap gap-2 align-items-end">
 								<button class="btn btn-primary btn-sm btn-pesquisar-publicado flex-grow-1 flex-lg-grow-0" type="submit">
-									<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i> Pesquisar
+									<i class="bi bi-search me-1" aria-hidden="true"></i> Pesquisar
 								</button>
 								<button class="btn btn-primary btn-sm flex-grow-1 flex-lg-grow-0" type="button" id="btn-limpar-filtros-listagem">
-									<i class="fas fa-rotate-left me-1" aria-hidden="true"></i> Limpar filtros
+									<i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i> Limpar filtros
 								</button>
 							</div>
 						</div>
@@ -191,7 +191,7 @@
 								aria-controls="filtrosAvancadosListagem" id="btn-toggle-filtros-avancados">
 								<span class="filtros-avancados-label-when-collapsed">Mostrar filtros avançados</span>
 								<span class="filtros-avancados-label-when-expanded d-none">Ocultar filtros avançados</span>
-								<i class="fas fa-chevron-down small ms-1" aria-hidden="true"></i>
+								<i class="bi bi-chevron-down small ms-1" aria-hidden="true"></i>
 							</button>
 						</div>
 						<div class="collapse mt-3" id="filtrosAvancadosListagem">
@@ -243,7 +243,11 @@
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	var listagemSiteLoadingHtml = '<div class="listagem-site-loading d-flex align-items-center justify-content-center gap-2 p-4 text-muted small">' +
 		'<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' +
 		'<span>Carregando resultados…</span></div>';
@@ -315,7 +319,7 @@
 		var open = e.type === 'shown';
 		$('.filtros-avancados-label-when-collapsed').toggleClass('d-none', open);
 		$('.filtros-avancados-label-when-expanded').toggleClass('d-none', !open);
-		$('#btn-toggle-filtros-avancados').find('i.fas').toggleClass('fa-chevron-down', !open).toggleClass('fa-chevron-up', open);
+		$('#btn-toggle-filtros-avancados').find('i.bi').toggleClass('bi-chevron-down', !open).toggleClass('bi-chevron-up', open);
 	});
 
 	$(document).ready(function () {
@@ -343,6 +347,7 @@
 			secListagem.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		}
 	});
+	});
 </script>
-
 <?= $this->endSection(); ?>
+

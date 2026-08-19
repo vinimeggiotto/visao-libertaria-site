@@ -157,7 +157,7 @@ $temRepasseElectrum = ($usuarios !== null && ! empty($usuarios))
 				<div class="d-flex justify-content-between align-items-center gap-2 mb-1">
 					<label class="form-label small text-muted mb-0" for="repasse_electrum">Resumo de Pagamento</label>
 					<button type="button" class="btn btn-primary btn-sm" id="btn-copiar-repasse-electrum">
-						<i class="fas fa-copy me-1" aria-hidden="true"></i>Copiar resumo
+						<i class="bi bi-copy me-1" aria-hidden="true"></i>Copiar resumo
 					</button>
 				</div>
 				<textarea id="repasse_electrum" class="form-control form-control-sm" <?= isset($pagamentos_id) ? ('disabled') : (''); ?>

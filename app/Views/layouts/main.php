@@ -8,16 +8,12 @@
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	<script defer src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"
-		integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-
-	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-	<?php if (getenv('CI_ENVIRONMENT') !== 'development'): ?>
-		<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-	<?php endif; ?>
+	<script defer src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 
 
 	<meta property="og:type" content="website" />
@@ -42,23 +38,18 @@
 		<meta name="twitter:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>">
 		<meta name="twitter:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>">
 		<meta name="twitter:image"
-			content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
 
 		<meta property="og:title" content="<?= $_SESSION['site_config']['texto_nome']; ?>" />
 		<meta property="og:image"
-			content="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>" />
+			content="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>" />
 		<meta property="og:description" content="<?= $_SESSION['site_config']['texto_rodape']; ?>" />
 	<?php endif; ?>
 
-	<!-- Font Awesome -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-	<!-- MDB -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="<?= site_url('public/css/theme-tokens.css'); ?>">
-	<link rel="stylesheet" href="<?= site_url('public/css/theme-dark.css'); ?>">
-	<link rel="stylesheet" href="<?= site_url('public/css/layout-shared.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/theme-tokens.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/theme-dark.css'); ?>">
+	<link rel="stylesheet" href="<?= asset_url('public/css/layout-shared.css'); ?>">
 
 	<style type="text/css">
 		/* Cards verticais: thumb 16:9 (padrão YouTube) + zoom no hover */
@@ -183,7 +174,7 @@
 		<?= $_SESSION['site_config']['texto_nome']; ?>
 	</title>
 	<link rel="icon" type="image/x-icon"
-		href="<?= (file_exists('public/assets/favicon.ico')) ? (site_url('public/assets/favicon.ico')) : (site_url('public/assets/logo.jpg')); ?>">
+		href="<?= esc($_SESSION['site_config']['marca_favicon'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>">
 
 
 	<link rel="stylesheet"
@@ -192,9 +183,10 @@
 </head>
 
 <body>
-	<script
+	<script defer
 		src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
 	<script>
+		document.addEventListener('DOMContentLoaded', function () {
 		let toast = {
 			title: "",
 			message: "",
@@ -212,6 +204,7 @@
 			toast.timeout = timeoutMs || 3000;
 			Toast.create(toast);
 		};
+		});
 	</script>
 
 	<div class="modal bg-light" style="opacity: 0.4; z-index:7000;" id="modal-loading" tabindex="-1"
@@ -258,11 +251,11 @@
 							<!-- Switch button -->
 							<span class="modeswitch dark-button btn-tertiary" aria-expanded="false"
 								data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="fas fa-moon fa-2x"></i>
+								<i class="bi bi-moon-fill fs-2"></i>
 							</span>
 							<span class="modeswitch light-button btn-tertiary" aria-expanded="false"
 								data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="far fa-moon fa-2x"></i>
+								<i class="bi bi-moon fs-2"></i>
 							</span>
 						</div>
 						<!-- Dark mode options END -->
@@ -275,7 +268,7 @@
 				<div>
 					<a class="navbar-brand mt-2 mt-lg-0" href="<?= site_url('site'); ?>">
 						<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-							src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : (site_url('public/assets/logo.jpg')); ?>"
+							src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>"
 							alt="MDB Logo" loading="lazy">
 						<span class="lead fw-bold"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					</a>
@@ -283,7 +276,7 @@
 				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-bs-toggle="collapse"
 					data-bs-target="#menuPrincipal" data-target="#menuPrincipal" aria-controls="menuPrincipal"
 					aria-expanded="false" aria-label="Toggle navigation">
-					<i class="fas fa-bars"></i>
+					<i class="bi bi-list"></i>
 				</button>
 
 				<div class="collapse navbar-collapse" id="menuPrincipal">
@@ -365,7 +358,7 @@
 				<!-- Footer Widget -->
 				<div class="col-md-6 col-lg-4 mb-4">
 					<img class="img-thumbnail rounded-circle mr-3" style="max-width: 3rem;"
-						src="<?= (file_exists('public/assets/rodape.png')) ? (site_url('public/assets/rodape.png')) : (site_url('public/assets/logo.jpg')); ?>" />
+						src="<?= esc($_SESSION['site_config']['marca_rodape'] ?? site_url('public/assets/logo.jpg'), 'attr'); ?>" />
 					<span class="lead"><?= $_SESSION['site_config']['texto_nome']; ?></span>
 					<p class="mt-2 lh-sm fw-light"><?= $_SESSION['site_config']['texto_rodape']; ?></p>
 				</div>
@@ -432,42 +425,42 @@
 							<ul class="nav flex-column">
 								<li class="nav-item text-uppercase">Ancapsu</li>
 								<li class="nav-item"><a class="" href="https://www.youtube.com/@ancap_su"><i
-											class="fab fa-youtube-square fa-fw me-2"
+											class="bi bi-youtube me-2"
 											style="color:#ff0000;"></i>YouTube</a></li>
 								<li class="nav-item"><a class="" href="https://www.instagram.com/ancap.su"><i
-											class="fab fa-instagram-square fa-fw me-2 text-youtube"></i>Instagram</a>
+											class="bi bi-instagram me-2 text-youtube"></i>Instagram</a>
 								</li>
 								<li class="nav-item"><a class="" href="https://twitter.com/ancapsu"><i
 											style="color: #40bff5;"
-											class="fab fa-twitter-square fa-fw me-2 text-youtube"></i>Twitter</a></li>
+											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
 								<li class="nav-item text-uppercase mt-2">Safe source</li>
 								<li class="nav-item"><a class="" href="https://www.youtube.com/@safesrc"><i
-											class="fab fa-youtube-square fa-fw me-2"
+											class="bi bi-youtube me-2"
 											style="color:#ff0000;"></i>YouTube</a></li>
 								<li class="nav-item"><a class="" href="https://twitter.com/safesrc1"><i
 											style="color: #40bff5;"
-											class="fab fa-twitter-square fa-fw me-2 text-youtube"></i>Twitter</a></li>
+											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
 							</ul>
 						</div>
 						<div class="col-6">
 							<ul class="nav flex-column">
 								<li class="nav-item text-uppercase">VISÃO LIBERTÁRIA</li>
 								<li class="nav-item"><a class="" href="https://www.youtube.com/@Visao_Libertaria"><i
-											class="fab fa-youtube-square fa-fw me-2"
+											class="bi bi-youtube me-2"
 											style="color:#ff0000;"></i>YouTube</a></li>
 								</li>
 								<li class="nav-item"><a class="" href="https://twitter.com/visaolibertaria"><i
 											style="color: #40bff5;"
-											class="fab fa-twitter-square fa-fw me-2 text-youtube"></i>Twitter</a></li>
+											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
 								<li class="nav-item">&nbsp;</li>
 								<li class="nav-item text-uppercase mt-2">mundo em revolução</li>
 								<li class="nav-item"><a class="" href="https://www.youtube.com/@wrevolving"><i
-											class="fab fa-youtube-square fa-fw me-2"
+											class="bi bi-youtube me-2"
 											style="color:#ff0000;"></i>YouTube</a></li>
 								</li>
 								<li class="nav-item"><a class="" href="https://twitter.com/MundoEmRevo"><i
 											style="color: #40bff5;"
-											class="fab fa-twitter-square fa-fw me-2 text-youtube"></i>Twitter</a></li>
+											class="bi bi-twitter-x me-2 text-youtube"></i>Twitter</a></li>
 							</ul>
 						</div>
 					</div>
@@ -484,9 +477,9 @@
 		</div>
 	</footer>
 	<?= view('components/_aviso_permissao'); ?>
-</body>
-
-<script type="text/javascript">
+	<?= $this->renderSection('scripts'); ?>
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 
 	$(document).ready(function () {
 		bsCustomFileInput.init()
@@ -569,6 +562,8 @@
 			});
 		}
 	});
-</script>
+	});
+	</script>
+</body>
 
 </html>

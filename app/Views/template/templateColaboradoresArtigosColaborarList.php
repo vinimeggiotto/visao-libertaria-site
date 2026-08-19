@@ -60,19 +60,19 @@
 									data-vl-artigo="<?= $artigo['id'] ?>"
 									class="btn btn-light btn-floating mb-0 btn-tooltip btn-desmarcar"
 									data-toggle="tooltip" data-placement="top" title="Desmarcar"><i
-										class="fas fa-xmark"></i></a>
+										class="bi bi-x"></i></a>
 								<?php if ($fase_producao_id == '2'): //revisão ?>
 									<a href="<?= site_url('colaboradores/artigos/cadastrar/') . $artigo['id']; ?>"
 										class="btn btn-light btn-floating mb-0 btn-tooltip" data-toggle="tooltip"
-										data-placement="top" title="Revisar"><i class="fas fa-pen-to-square"></i></a>
+										data-placement="top" title="Revisar"><i class="bi bi-pencil-square"></i></a>
 								<?php elseif ($fase_producao_id == '3'): //narração ?>
 									<a href="<?= site_url('colaboradores/artigos/detalhamento/') . $artigo['id']; ?>"
 										class="btn btn-light btn-floating mb-0 btn-tooltip" data-toggle="tooltip"
-										data-placement="top" title="Narrar"><i class="fas fa-microphone"></i></a>
+										data-placement="top" title="Narrar"><i class="bi bi-mic"></i></a>
 								<?php elseif ($fase_producao_id == '4'): //producao ?>
 									<a href="<?= site_url('colaboradores/artigos/detalhamento/') . $artigo['id']; ?>"
 										class="btn btn-light btn-floating mb-0 btn-tooltip" data-toggle="tooltip"
-										data-placement="top" title="Produzir"><i class="fas fa-video"></i></a>
+										data-placement="top" title="Produzir"><i class="bi bi-camera-video"></i></a>
 								<?php endif; ?>
 							<?php else: ?>
 
@@ -81,13 +81,13 @@
 										<a data-bs-toggle="modal" data-bs-target="#mi-modal"
 											data-vl-artigo="<?= $artigo['id'] ?>"
 											class="btn btn-light btn-floating mb-0 btn-tooltip btn-marcar" data-toggle="tooltip"
-											data-placement="top" title="Marcar artigo"><i class="fas fa-bookmark"></i></a>
+											data-placement="top" title="Marcar artigo"><i class="bi bi-bookmark"></i></a>
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php if ($fase_producao_id == '5'): //publicação ?>
 									<a href="<?= site_url('colaboradores/artigos/detalhamento/') . $artigo['id']; ?>"
 										class="btn btn-light btn-floating mb-0 btn-tooltip" data-toggle="tooltip"
-										data-placement="top" title="Publicar"><i class="fab fa-youtube"></i></a>
+										data-placement="top" title="Publicar"><i class="bi bi-youtube"></i></a>
 								<?php endif; ?>
 							<?php endif; ?>
 						</div>
@@ -98,7 +98,7 @@
 			<tr>
 				<td colspan="6" class="p-0">
 					<div class="text-center py-5 px-3">
-						<i class="far fa-folder-open fa-2x text-muted mb-2 d-block" aria-hidden="true"></i>
+						<i class="bi bi-folder2-open fs-2 text-muted mb-2 d-block" aria-hidden="true"></i>
 						<p class="fw-semibold text-body mb-1">Nenhum artigo encontrado</p>
 						<p class="small text-muted mb-0">Ajuste a pesquisa ou o tipo de artigo.</p>
 					</div>

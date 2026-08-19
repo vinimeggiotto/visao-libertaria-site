@@ -174,7 +174,7 @@
 								<div id="narracao-link-mp4" class="mb-3 <?= ($tipoAudioNarracao === 'mp3') ? 'd-none' : ''; ?>">
 									<label for="link_mp4">Link do arquivo .mp4</label>
 									<div class="input-group">
-										<span class="input-group-text"><i class="fas fa-link"></i></span>
+										<span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
 										<input type="url" class="form-control" id="link_mp4" name="link_mp4"
 											placeholder="https://..." value="<?= esc($linkMp4Narracao, 'attr'); ?>"
 											aria-describedby="link-mp4-help">
@@ -228,7 +228,7 @@
 									<a href="<?= esc($arquivoAudioProducao, 'attr'); ?>" class="btn btn-outline"
 										download="<?= esc($artigo['id'] . ($audioProducaoEhLinkMp4 ? '.mp4' : '.mp3'), 'attr'); ?>"
 										<?= $audioProducaoEhLinkMp4 ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>>
-										<i class="fas fa-download me-1"></i> Baixar narração
+										<i class="bi bi-download me-1"></i> Baixar narração
 									</a>
 								</div>
 							<?php endif; ?>
@@ -236,7 +236,7 @@
 								<div class="mb-3">
 									<label for="username">Link do Vídeo no YouTube</label>
 									<div class="input-group">
-										<span class="input-group-text"><i class="fas fa-link"></i></span>
+										<span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
 										<input type="text" class="form-control" id="video_link" name="video_link"
 											placeholder="Link do Vídeo no YouTube" value="<?= esc($artigo['link_produzido'], 'attr'); ?>"
 											required>
@@ -245,7 +245,7 @@
 								<div class="mb-3">
 									<label for="username">Link do Shorts no YouTube</label>
 									<div class="input-group">
-										<span class="input-group-text"><i class="fas fa-link"></i></span>
+										<span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
 										<input type="text" class="form-control" id="shorts_link"
 											value="<?= esc($artigo['link_shorts'], 'attr'); ?>" name="shorts_link"
 											placeholder="Link do Shorts no YouTube" required>
@@ -309,7 +309,7 @@
 								<div class="mb-3">
 									<label for="username">Link do Vídeo no YouTube (Visão Libertária)</label>
 									<div class="input-group">
-										<span class="input-group-text"><i class="fas fa-link"></i></span>
+										<span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
 										<input type="text" class="form-control" id="link_video_youtube"
 											name="link_video_youtube" value="<?= esc($artigo['link_video_youtube'], 'attr'); ?>"
 											placeholder="Link do Vídeo no Canal do Visão Libertária" required>
@@ -354,7 +354,7 @@
 <button type="button" id="btn-topo" class="btn btn-primary position-fixed d-none"
 	style="right: 20px; bottom: 20px; z-index: 1050; width: 44px; height: 44px; border-radius: 50%; padding: 0; font-size: 1.2rem; line-height: 1;"
 	aria-label="Voltar ao topo" title="Voltar ao topo">
-	<i class="fas fa-chevron-up" aria-hidden="true"></i>
+	<i class="bi bi-chevron-up" aria-hidden="true"></i>
 </button>
 
 <div class="modal fade" id="modalSubmeter" tabindex="-1" aria-labelledby="modalSubmeterLabel" aria-hidden="true">
@@ -426,7 +426,22 @@
 	</div>
 </div>
 
+<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
+	<?= view('template/colaboradores_comentarios_init', [
+		'comentariosConfig' => [
+			'endpoint'            => base_url('colaboradores/artigos/comentarios/' . $artigo['id']),
+			'accordionCollapseId' => 'comentarios',
+			'autoLoad'            => true,
+			'useAjaxError'        => true,
+		],
+	]); ?>
+<?php endif; ?>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	function tratarErroAjax(xhr, status, error) {
 		let mensagem = 'Não foi possível concluir a operação. Tente novamente.';
 		if (xhr && xhr.responseJSON && xhr.responseJSON.mensagem) {
@@ -683,21 +698,10 @@
 
 
 	<?php endif; ?>
-
-
+	});
 </script>
-<?php if (isset($artigo['id']) && $artigo['id'] !== null): ?>
-	<?= view('template/colaboradores_comentarios_init', [
-		'comentariosConfig' => [
-			'endpoint'            => base_url('colaboradores/artigos/comentarios/' . $artigo['id']),
-			'accordionCollapseId' => 'comentarios',
-			'autoLoad'            => true,
-			'useAjaxError'        => true,
-		],
-	]); ?>
-<?php endif; ?>
 <script>
-
+	document.addEventListener('DOMContentLoaded', function () {
 	$('#btn-confirmar-submeter').on('click', function () {
 		$.ajax({
 			url: "<?= site_url('colaboradores/artigos/submeter/') . $artigo['id']; ?>",
@@ -723,6 +727,7 @@
 			},
 			error: tratarErroAjax
 		});
+	});
 	});
 </script>
 <?= $this->endSection(); ?>

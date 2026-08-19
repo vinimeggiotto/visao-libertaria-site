@@ -132,3 +132,6 @@ app/Config/Email.php
 # Adicionar ao gitignore public/assets/avatars/ exceto 1.png dessa pasta
 public/assets/avatars/*
 !public/assets/avatars/1.png
+
+public/assets/thumbs/*
+!public/assets/thumbs/.gitkeep

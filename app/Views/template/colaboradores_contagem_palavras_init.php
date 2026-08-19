@@ -8,4 +8,4 @@ $jsonFlags            = JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | 
 <script>
 	window.VL_CONTAGEM_PALAVRAS = <?= json_encode($contagemPalavrasConfig, $jsonFlags); ?>;
 </script>
-<script src="<?= site_url('public/js/colaboradores-contagem-palavras.js'); ?>"></script>
+<script defer src="<?= site_url('public/js/colaboradores-contagem-palavras.js'); ?>"></script>

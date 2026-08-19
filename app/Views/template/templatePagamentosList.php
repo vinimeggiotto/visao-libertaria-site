@@ -35,7 +35,7 @@
 							<a href="<?= site_url('colaboradores/admin/financeiro/' . $pagamento['id']); ?>"
 								class="btn btn-light btn-floating mb-0 btn-tooltip" data-toggle="tooltip" data-placement="top"
 								aria-label="Ver pagamento" data-bs-original-title="Ver pagamento"><i
-									class="fas fa-arrow-up-right-from-square"></i></a>
+									class="bi bi-box-arrow-up-right"></i></a>
 						</div>
 					</td>
 				</tr>

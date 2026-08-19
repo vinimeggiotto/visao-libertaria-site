@@ -339,6 +339,7 @@ class Cron extends BaseController
 					'thumbnail' => $video['snippet']['thumbnails']['high']['url'],
 					'short' => $this->videoEhShort($client, $youtubeApiKey, $projeto['canal_youtube_id'], $videoId),
 				]);
+				(new \App\Libraries\ThumbYoutube())->baixar($videoId);
 				$videoIdsCadastrados[$videoId] = true;
 				$homeCacheInvalidar = true;
 			}

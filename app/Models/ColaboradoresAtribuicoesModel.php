@@ -95,7 +95,6 @@ class ColaboradoresAtribuicoesModel extends Model
 	{	
 		$colaboradoresHistoricosModel = new \App\Models\ColaboradoresHistoricosModel();
 		$this->session = \Config\Services::session();
-		$this->session->start();
 		
 		$dados_inseridos = $dados['data'];
 		if(!isset($dados_inseridos['atribuicoes_id']) && isset($dados['atribuicoes_id'])) {

@@ -96,12 +96,15 @@ $urlListaColaborador = site_url('site/colaboradorList/' . rawurlencode($colabora
 		<div class="row <?= esc($classeListaCSS, 'attr'); ?>"></div>
 	</section>
 </div>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
 			new bootstrap.Tooltip(el);
 		});
-	});
 
 	(function () {
 		var urlLista = <?= json_encode($urlListaColaborador, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>;
@@ -119,6 +122,7 @@ $urlListaColaborador = site_url('site/colaboradorList/' . rawurlencode($colabora
 			});
 		});
 	})();
+	});
 </script>
-
 <?= $this->endSection(); ?>
+

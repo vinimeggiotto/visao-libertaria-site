@@ -105,7 +105,6 @@ class PagamentosModel extends Model
 	{	
 		$colaboradoresHistoricosModel = new \App\Models\ColaboradoresHistoricosModel();
 		$this->session = \Config\Services::session();
-		$this->session->start();
 		
 		$dados_inseridos = $dados['data'];
 		if(!isset($dados_inseridos['id']) && isset($dados['id'])) {

@@ -820,7 +820,11 @@
 	</div>
 </section>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	(function () {
 		var acc = document.getElementById('accordionConfiguracoes');
 		function setActiveNavForSection(sectionId) {
@@ -961,7 +965,7 @@
 			$('.cron_notificacoes_status_delete').hide();
 		}
 	});
+	});
 </script>
-
-
 <?= $this->endSection(); ?>
+

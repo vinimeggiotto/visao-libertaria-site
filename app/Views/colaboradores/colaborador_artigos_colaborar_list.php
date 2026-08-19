@@ -73,7 +73,7 @@
 									<?= ($primeira['id'] == '2') ? ('checked') : (''); ?>>
 								<label class="colab-fase-label" for="revisar">
 									<span class="colab-fase-icon rounded-2 p-2 text-bg-primary bg-opacity-10 text-primary flex-shrink-0"><i
-											class="fas fa-pen-to-square" aria-hidden="true"></i></span>
+											class="bi bi-pencil-square" aria-hidden="true"></i></span>
 									<span class="text-start colab-fase-text">
 										<span class="d-block fw-bold lh-sm">Revisar</span>
 										<span class="d-block small text-muted text-truncate">Revisando</span>
@@ -87,7 +87,7 @@
 									<?= ($primeira['id'] == '3') ? ('checked') : (''); ?>>
 								<label class="colab-fase-label" for="narrar">
 									<span class="colab-fase-icon rounded-2 p-2 bg-info bg-opacity-10 text-info flex-shrink-0"><i
-											class="fas fa-microphone" aria-hidden="true"></i></span>
+											class="bi bi-mic" aria-hidden="true"></i></span>
 									<span class="text-start colab-fase-text">
 										<span class="d-block fw-bold lh-sm">Narrar</span>
 										<span class="d-block small text-muted text-truncate">Narrando</span>
@@ -101,7 +101,7 @@
 									<?= ($primeira['id'] == '4') ? ('checked') : (''); ?>>
 								<label class="colab-fase-label" for="produzir">
 									<span class="colab-fase-icon rounded-2 p-2 bg-secondary bg-opacity-10 text-secondary flex-shrink-0"><i
-											class="fas fa-video" aria-hidden="true"></i></span>
+											class="bi bi-camera-video" aria-hidden="true"></i></span>
 									<span class="text-start colab-fase-text">
 										<span class="d-block fw-bold lh-sm">Produzir</span>
 										<span class="d-block small text-muted text-truncate">Produzindo</span>
@@ -115,7 +115,7 @@
 									<?= ($primeira['id'] == '5') ? ('checked') : (''); ?>>
 								<label class="colab-fase-label" for="publicar">
 									<span class="colab-fase-icon rounded-2 p-2 bg-danger bg-opacity-10 text-danger flex-shrink-0"><i
-											class="fab fa-youtube" aria-hidden="true"></i></span>
+											class="bi bi-youtube" aria-hidden="true"></i></span>
 									<span class="text-start colab-fase-text">
 										<span class="d-block fw-bold lh-sm">Publicar</span>
 										<span class="d-block small text-muted text-truncate">Publicando</span>
@@ -160,7 +160,7 @@
 						</div>
 						<div class="d-flex justify-content-end mt-2 mt-md-3">
 							<button class="btn btn-primary btn-sm btn-pesquisar" type="submit" aria-label="Pesquisar">
-								<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i> Pesquisar
+								<i class="bi bi-search me-1" aria-hidden="true"></i> Pesquisar
 							</button>
 						</div>
 					</form>
@@ -285,8 +285,11 @@
 	</div>
 </div>
 
-<script>
+<?= $this->endSection(); ?>
 
+<?= $this->section('scripts'); ?>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
 	function refreshListPublicado(url, fase_producao) {
 		if (url == false) {
 			url = '<?php echo base_url('colaboradores/artigos/artigosColaborarList'); ?>';
@@ -412,7 +415,7 @@
 	$(document).ready(function () {
 		refreshListPublicado(false, <?= $primeira['id']; ?>);
 	});
-
+	});
 </script>
-
 <?= $this->endSection(); ?>
+

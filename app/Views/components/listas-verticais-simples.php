@@ -17,7 +17,7 @@ pagerQueryParams = opcional, array associativo ex. ['papel' => 'escrito'] para a
 
 <?php if ($listas['lista'] !== NULL && !empty($listas['lista'])): ?>
 	<?php foreach ($listas['lista'] as $lista): ?>
-        <?= view_cell($urlComponente, $lista); ?>
+        <?= view_cell($urlComponente, $lista, 300, 'lista_card_' . ($lista['tipo_conteudo'] ?? 'item') . '_' . ($lista['id'] ?? '')); ?>
 	<?php endforeach; ?>
 <?php else: ?>
 	<div class="text-center">

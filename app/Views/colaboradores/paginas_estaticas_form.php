@@ -7,8 +7,6 @@ use CodeIgniter\I18n\Time;
 
 <?= $this->section('content'); ?>
 
-
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
 <style>
@@ -76,7 +74,6 @@ use CodeIgniter\I18n\Time;
 								</div>
 							</div>
 
-
 							<div class="col-12">
 								<div class="mb-3">
 									<label class="form-label" for="localizacao">Localização da página</label>
@@ -109,7 +106,6 @@ use CodeIgniter\I18n\Time;
 								</div>
 							</div>
 
-
 							<div class="d-sm-flex justify-content-end">
 								<button type="button"
 									class="btn btn-sm btn-primary me-2 mb-0 salvar-pagina-estatica">Salvar página
@@ -123,8 +119,12 @@ use CodeIgniter\I18n\Time;
 	</div>
 </section>
 
-<script type="text/javascript">
+<?= $this->endSection(); ?>
 
+<?= $this->section('scripts'); ?>
+<script defer src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
 	$(".salvar-pagina-estatica").on("click", function () {
 		$('#conteudo').html(quill_pagina_estatica.root.innerHTML);
 		form = new FormData(estaticas_form);
@@ -204,8 +204,6 @@ use CodeIgniter\I18n\Time;
 		value = '<?= preg_replace('/\s\s+/', '\n', $estaticas['conteudo']); ?>';
 		delta = quill_pagina_estatica.clipboard.dangerouslyPasteHTML(value);
 	<?php endif; ?>
-
+	});
 </script>
-
-
 <?= $this->endSection(); ?>

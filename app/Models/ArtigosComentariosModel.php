@@ -63,14 +63,12 @@ class ArtigosComentariosModel extends Model
 
 	public function getNovaUUID()
 	{
-		$query = $this->db->query("SELECT uuid() AS id");
-		return $query->getResult('array')[0]['id'];
+		return app_uuid();
 	}
 
 	public function getNow()
 	{
-		$query = $this->db->query("SELECT now() AS now");
-		return $query->getResult('array')[0]['now'];
+		return app_now();
 	}
 
 	protected function cadastraHistoricoUsuarioInserir(array $dados) {
@@ -89,7 +87,6 @@ class ArtigosComentariosModel extends Model
 	{	
 		$colaboradoresHistoricosModel = new \App\Models\ColaboradoresHistoricosModel();
 		$this->session = \Config\Services::session();
-		$this->session->start();
 		
 		if(isset($dados['data'])) {
 			$dados_inseridos = $dados['data'];

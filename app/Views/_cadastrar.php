@@ -93,6 +93,7 @@
 								</div>
 
 								<?php if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
+									<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 									<div class="d-flex justify-content-center mt-4">
 										<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
 									</div>
@@ -118,7 +119,7 @@
 	$('.btn-submeter').on('click', function () {
 		$.ajax({
 			type: 'POST',
-			async: false,
+			async: true,
 			url: '<?= base_url() . 'site/cadastre-se'; ?>',
 			data: $('#cadastrarColaboradorForm').serialize(),
 			dataType: 'json',

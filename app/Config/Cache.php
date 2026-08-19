@@ -169,4 +169,15 @@ class Cache extends BaseConfig
         'redis'     => RedisHandler::class,
         'wincache'  => WincacheHandler::class,
     ];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $host = getenv('REDIS_HOST');
+        if (is_string($host) && $host !== '') {
+            $this->handler = 'redis';
+            $this->redis['host'] = $host;
+        }
+    }
 }

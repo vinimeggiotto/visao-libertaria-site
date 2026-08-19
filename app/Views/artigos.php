@@ -8,12 +8,6 @@ use CodeIgniter\I18n\Time;
 
 <?= $this->section('content'); ?>
 
-<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
-	integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"
-	async></script>
-
-<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
-
 <style>
 	.page-load-status {
 		display: none;
@@ -32,7 +26,6 @@ use CodeIgniter\I18n\Time;
 		<?php //endforeach; ?>
 	</div>
 </div> -->
-
 
 <div class="container-fluid py-3">
 	<div class="container">
@@ -63,7 +56,7 @@ use CodeIgniter\I18n\Time;
 
 		<div class="row list-artigos">
 			<?php foreach ($artigosList['artigos'] as $artigo): ?>
-				<?= view_cell('\App\Libraries\Cards::cardsVerticaisSimples', $artigo); ?>
+				<?= view_cell('\App\Libraries\Cards::cardsVerticaisSimples', $artigo, 300, 'card_artigo_' . ($artigo['id'] ?? '')); ?>
 			<?php endforeach; ?>
 		</div>
 
@@ -85,7 +78,15 @@ use CodeIgniter\I18n\Time;
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
+	integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"
+	async></script>
+<script defer src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	$(document).ready(function () {
 		var $grid = $('.list-artigos').masonry({
 			itemSelector: '.vl-card-vertical-col',
@@ -106,6 +107,6 @@ use CodeIgniter\I18n\Time;
 			status: '.page-load-status'
 		});
 	});
+	});
 </script>
-
 <?= $this->endSection(); ?>

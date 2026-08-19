@@ -13,10 +13,9 @@ class AuthCookieFilter implements FilterInterface
 {
 	public function before(RequestInterface $request, $arguments = null)
 	{
-		helper('cookie');
+		helper(['cookie', 'session']);
 
-		$session = \Config\Services::session();
-		$session->start();
+		$session = app_session();
 		$isOptional = in_array('optional', (array) $arguments, true);
 
 		$colaboradorSession = $session->get('colaboradores');
@@ -53,14 +52,11 @@ class AuthCookieFilter implements FilterInterface
 		}
 
 		$colaboradoresModel = new ColaboradoresModel();
-		$colaboradoresModel->where("'" . $hashDecriptado . "' = MD5(CONCAT(email,senha))");
-		$colaborador = $colaboradoresModel->get()->getResultArray();
-		if (empty($colaborador)) {
+		$colaborador = $colaboradoresModel->buscarPorRememberToken(hash('sha256', (string) $hashDecriptado));
+		if ($colaborador === []) {
 			delete_cookie('hash');
 			return false;
 		}
-
-		$colaborador = $colaborador[0];
 		$estruturaSession = [
 			'colaboradores' => [
 				'id' => $colaborador['id'],

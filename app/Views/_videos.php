@@ -61,10 +61,10 @@ use CodeIgniter\I18n\Time;
                   <div class="card video-card h-100">
                      <div class="video-thumbnail">
                         <img src="<?= cria_url_thumb($video['video_id']); ?>" alt="<?= esc($video['titulo']); ?>"
-                           class="card-img-top" loading="lazy">
+                           class="card-img-top" loading="lazy" width="480" height="270">
                         <div class="play-overlay">
                            <i class="bi bi-play-circle-fill play-icon"></i>
-                           <a href="<?= cria_link_watch($video['video_id']); ?>" class="gen-video-popup"
+                           <a href="<?= cria_link_watch($video['video_id']); ?>"
                               style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></a>
                         </div>
                         <?php if (!empty($video['short'])): ?>
@@ -140,56 +140,8 @@ use CodeIgniter\I18n\Time;
          if (response && response.html) {
             var $newItems = $(response.html);
             $grid.append($newItems).masonry('appended', $newItems);
-
-            // Aguardar o Masonry terminar de posicionar os itens
-            $grid.one('layoutComplete', function () {
-               // Reinicializar Magnific Popup nos novos vídeos com a mesma configuração
-               var $popupLinks = $newItems.find('.gen-video-popup');
-
-               $popupLinks.magnificPopup({
-                  type: 'iframe',
-                  mainClass: 'mfp-fade',
-                  removalDelay: 160,
-                  preloader: false,
-                  fixedContentPos: false
-               });
-            });
          }
       });
-
-      // Magnific Popup para vídeo
-      $('.gen-video-popup').magnificPopup({
-         type: 'iframe',
-         mainClass: 'mfp-fade',
-         removalDelay: 160,
-         preloader: false,
-         fixedContentPos: false
-      });
-
-      // Backup: Evento de clique global para garantir funcionamento
-      $(document).on('click', '.gen-video-popup', function (e) {
-         e.preventDefault();
-         var url = $(this).attr('href');
-
-         if (url && url.includes('youtube.com/watch?v=')) {
-            var videoId = url.split('v=')[1];
-            if (videoId) {
-               var embedUrl = 'https://www.youtube.com/watch?v=' + videoId + '?autoplay=1';
-
-               $.magnificPopup.open({
-                  items: {
-                     src: embedUrl
-                  },
-                  type: 'iframe',
-                  mainClass: 'mfp-fade',
-                  removalDelay: 160,
-                  preloader: false,
-                  fixedContentPos: false
-               });
-            }
-         }
-      });
-
 
       });
    });

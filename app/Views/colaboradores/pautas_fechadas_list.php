@@ -67,10 +67,10 @@
 							</div>
 							<div class="col-12 col-md-2 col-lg-4 d-flex gap-2">
 								<button class="btn btn-primary btn-sm flex-grow-1" type="submit" id="btn-pesquisar-pautas-fechadas">
-									<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i>Pesquisar
+									<i class="bi bi-search me-1" aria-hidden="true"></i>Pesquisar
 								</button>
 								<button class="btn btn-primary btn-sm" type="button" id="btn-limpar-filtros-pautas-fechadas" title="Limpar filtros">
-									<i class="fas fa-rotate-left" aria-hidden="true"></i>
+									<i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
 								</button>
 							</div>
 						</div>
@@ -94,7 +94,11 @@
 	</div>
 </div>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	function formatarTotalPautasFechadas(n) {
 		if (n === 0) {
 			return 'Nenhum fechamento encontrado com os filtros atuais.';
@@ -185,5 +189,7 @@
 	$(document).ready(function () {
 		refreshPautasFechadasList();
 	});
+	});
 </script>
 <?= $this->endSection(); ?>
+

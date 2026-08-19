@@ -166,6 +166,7 @@ $hcSiteKey = config('Hcaptcha')->siteKey ?? '';
 								</div>
 
 								<?php if (getenv('CI_ENVIRONMENT') !== 'development' && $hcSiteKey !== ''): ?>
+									<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 									<div class="d-flex justify-content-center vl-contato-captcha-wrap">
 										<div class="h-captcha" data-sitekey="<?= esc($hcSiteKey, 'attr'); ?>"></div>
 									</div>

@@ -32,7 +32,7 @@
 									<button type="button" class="btn btn-outline-secondary" id="btn_abrir_calc_btc"
 										data-bs-toggle="modal" data-bs-target="#modalCalcBitcoin"
 										title="Calcular quantidade em BTC">
-										<i class="fas fa-calculator" aria-hidden="true"></i>
+										<i class="bi bi-calculator" aria-hidden="true"></i>
 									</button>
 								<?php endif; ?>
 							</div>
@@ -110,13 +110,13 @@
 					<?php if (isset($pagamentos)): ?>
 						<div class="mt-3 d-flex justify-content-end">
 							<button class="btn btn-primary btn-sm buscar-detalhe" type="button">
-								<i class="fas fa-magnifying-glass me-1" aria-hidden="true"></i>Mostrar detalhes do pagamento
+								<i class="bi bi-search me-1" aria-hidden="true"></i>Mostrar detalhes do pagamento
 							</button>
 						</div>
 					<?php else: ?>
 						<div class="mt-3 d-flex justify-content-end">
 							<button class="btn btn-primary btn-sm gerar-preview" type="button">
-								<i class="fas fa-list-check me-1" aria-hidden="true"></i>Buscar artigos pendentes
+								<i class="bi bi-ui-checks me-1" aria-hidden="true"></i>Buscar artigos pendentes
 							</button>
 						</div>
 					<?php endif; ?>
@@ -133,7 +133,7 @@
 					<?php if (!isset($pagamentos)): ?>
 						<div class="mt-3 d-flex justify-content-end">
 							<button class="btn btn-primary btn-sm collapse submit-pagamento" type="button">
-								<i class="fas fa-floppy-disk me-1" aria-hidden="true"></i>Salvar pagamento
+								<i class="bi bi-floppy me-1" aria-hidden="true"></i>Salvar pagamento
 							</button>
 						</div>
 					<?php endif; ?>
@@ -168,7 +168,7 @@
 							<input type="text" class="form-control form-control-sm" id="calc_btc_brl" inputmode="decimal"
 								autocomplete="off" placeholder="0,00">
 							<button type="button" class="btn btn-outline-primary" id="calc_buscar_preco_btc" title="Buscar cotação atual">
-								<i class="fas fa-sync-alt me-1" aria-hidden="true"></i>Buscar valor
+								<i class="bi bi-arrow-repeat me-1" aria-hidden="true"></i>Buscar valor
 							</button>
 						</div>
 						<p class="form-text small text-muted mb-0 mt-1" id="calc_btc_fetch_msg" role="status"></p>
@@ -182,7 +182,7 @@
 				<div class="modal-footer flex-wrap gap-2 justify-content-between">
 					<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
 					<button type="button" class="btn btn-primary btn-sm" id="calc_copiar_qtd_btc" disabled>
-						<i class="fas fa-paste me-1" aria-hidden="true"></i>Copiar para Qtde. Bitcoin
+						<i class="bi bi-clipboard me-1" aria-hidden="true"></i>Copiar para Qtde. Bitcoin
 					</button>
 				</div>
 			</div>
@@ -190,7 +190,11 @@
 	</div>
 <?php endif; ?>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	<?php if (isset($pagamentos)): ?>
 
 		$('.buscar-detalhe').on('click', function (e) {
@@ -494,7 +498,7 @@
 					));
 					$tr.append($('<td>', { class: 'text-end' }).append(
 						$('<button>', { type: 'button', class: 'btn btn-outline-danger btn-sm avulso-remover', title: 'Remover' })
-							.html('<i class="fas fa-trash" aria-hidden="true"></i>')
+							.html('<i class="bi bi-trash" aria-hidden="true"></i>')
 					));
 					$tb.append($tr);
 				});
@@ -728,7 +732,6 @@
 			}
 			$tmp.remove();
 		});
-
+	});
 </script>
-
 <?= $this->endSection(); ?>

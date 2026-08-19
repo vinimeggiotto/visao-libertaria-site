@@ -7,8 +7,6 @@ use CodeIgniter\I18n\Time;
 
 <?= $this->section('content'); ?>
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
 <style>
 	.metricas-colaborador {
 		--bs-gutter-x: 0.75rem;
@@ -78,7 +76,7 @@ use CodeIgniter\I18n\Time;
 						<p class="mb-2"><span
 								class="text-<?= ($artigos['diferenca'] > 0) ? ('success') : ('danger'); ?> ms-1 me-1 "><?= (number_format($artigos['diferenca'], 0, ',', '.')); ?>
 								<i
-									class="fas <?= ($artigos['diferenca'] > 0) ? ('fa-up-long') : (($artigos['diferenca'] < 0) ? ('fa-down-long') : ('fa-minus')); ?> fa-xs"></i></span>
+									class="bi <?= ($artigos['diferenca'] > 0) ? ('bi-arrow-up') : (($artigos['diferenca'] < 0) ? ('bi-arrow-down') : ('bi-dash')); ?> small"></i></span>
 							vs último mês</p>
 					</div>
 				</div>
@@ -97,7 +95,7 @@ use CodeIgniter\I18n\Time;
 							<span
 								class="text-<?= ($artigos['publicados_diferenca'] > 0) ? ('success') : ('danger'); ?> ms-1 me-1 "><?= (number_format($artigos['publicados_diferenca'], 0, ',', '.')); ?>
 								<i
-									class="fas <?= ($artigos['publicados_diferenca'] > 0) ? ('fa-up-long') : (($artigos['publicados_diferenca'] < 0) ? ('fa-down-long') : ('fa-minus')); ?> fa-xs"></i></span>
+									class="bi <?= ($artigos['publicados_diferenca'] > 0) ? ('bi-arrow-up') : (($artigos['publicados_diferenca'] < 0) ? ('bi-arrow-down') : ('bi-dash')); ?> small"></i></span>
 							vs último mês
 						</p>
 					</div>
@@ -116,7 +114,7 @@ use CodeIgniter\I18n\Time;
 						<p class="mb-2"><span
 								class="text-<?= ($pautas['diferenca'] > 0) ? ('success') : ('danger'); ?> ms-1 me-1 "><?= (number_format($pautas['diferenca'], 0, ',', '.')); ?>
 								<i
-									class="fas <?= ($pautas['diferenca'] > 0) ? ('fa-up-long') : (($pautas['diferenca'] < 0) ? ('fa-down-long') : ('fa-minus')); ?> fa-xs"></i></span>
+									class="bi <?= ($pautas['diferenca'] > 0) ? ('bi-arrow-up') : (($pautas['diferenca'] < 0) ? ('bi-arrow-down') : ('bi-dash')); ?> small"></i></span>
 							vs último mês</p>
 					</div>
 				</div>
@@ -135,7 +133,7 @@ use CodeIgniter\I18n\Time;
 							<span
 								class="text-<?= ($pautas['utilizados_diferenca'] > 0) ? ('success') : ('danger'); ?> ms-1 me-1 "><?= (number_format($pautas['utilizados_diferenca'], 0, ',', '.')); ?>
 								<i
-									class="fas <?= ($pautas['utilizados_diferenca'] > 0) ? ('fa-up-long') : (($pautas['utilizados_diferenca'] < 0) ? ('fa-down-long') : ('fa-minus')); ?> fa-xs"></i></span>
+									class="bi <?= ($pautas['utilizados_diferenca'] > 0) ? ('bi-arrow-up') : (($pautas['utilizados_diferenca'] < 0) ? ('bi-arrow-down') : ('bi-dash')); ?> small"></i></span>
 							vs último mês
 						</p>
 					</div>
@@ -391,7 +389,6 @@ use CodeIgniter\I18n\Time;
 				</div>
 			</div>
 
-
 		</div>
 
 		<div class="col-lg-12 order-4">
@@ -458,7 +455,16 @@ use CodeIgniter\I18n\Time;
 	</div>
 </div>
 
+<?php if (isset($graficos['base']) && !empty($graficos['base'])): ?>
+	
+<?php endif; ?>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
+<script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
+	document.addEventListener('DOMContentLoaded', function () {
 	const colaboradorIdPermissoes = <?= (int) $colaboradores['id'] ?>;
 	let confirmacaoAcaoPendente = null;
 	let historicoJaCarregado = false;
@@ -798,10 +804,10 @@ use CodeIgniter\I18n\Time;
 	$('#modal-confirmar-acao-permissoes').on('hidden.bs.modal', function () {
 		confirmacaoAcaoPendente = null;
 	});
+	});
 </script>
-
-<?php if (isset($graficos['base']) && !empty($graficos['base'])): ?>
-	<script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
 		var options = {
 			chart: {
 				type: 'bar',
@@ -846,7 +852,6 @@ use CodeIgniter\I18n\Time;
 		var chart = new ApexCharts(document.querySelector("#chart"), options);
 
 		chart.render();
+	});
 	</script>
-<?php endif; ?>
-
 <?= $this->endSection(); ?>

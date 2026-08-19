@@ -1,5 +1,19 @@
 # Layout
 
+## Assets públicos
+
+CSS do rosto do site: `site-theme.css` (tokens, Jost self-host, header/botões) + `site-public-layout.css`. Não carregar o StreamLab (`style.css`). URLs locais usam `asset_url()` (`?v=` + mtime).
+
+Fonte **Jost** (400/600/700) em `public/fonts/`. Sem Google Fonts no layout público.
+
+hCaptcha só junto do widget: modal de login (anônimo, body do `_main`, não no `<head>`), cadastro, contato e esqueci senha. Layouts internos não carregam hCaptcha.
+
+Owl Carousel e Magnific Popup só na home. A listagem de vídeos abre o YouTube pelo link `cria_link_watch` (sem popup). AJAX desses forms usa `async: true`.
+
+Ícones do site público e das telas internas: só Bootstrap Icons (`bi bi-*`).
+
+Layouts internos (`colaboradores`, `administradores`, `main`) usam `defer` em jQuery, Bootstrap JS e demais scripts do `<head>`. JS de página que depende de `$` vai na section `scripts` da view (renderizada no fim do body, após o parse).
+
 ## Header público (`#gen-header.gen-header-style-1`)
 
 No tema, o header é `position: absolute` para sobrepor o banner `vh-100` da home.
@@ -8,7 +22,7 @@ Quando a página **não** tem `.banner-section`, o header passa a `position: rel
 
 ## Marca (logo / favicon / rodapé)
 
-Arquivos enviados no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`) têm prioridade via `file_exists`. Se o arquivo não estiver no disco, a URL é `public/assets/logo.jpg`. Não usar URL externa do YouTube como marca.
+URLs de favicon e rodapé vêm de `site_config.marca_favicon` e `site_config.marca_rodape` (resolvidas uma vez no `BaseController`). Prioridade: arquivo enviado no admin (`public/assets/favicon.ico`, `public/assets/rodape.png`); senão `public/assets/logo.jpg`. Views não chamam `file_exists` para marca. Não usar URL externa do YouTube como marca.
 
 ## Avatar de colaborador
 
