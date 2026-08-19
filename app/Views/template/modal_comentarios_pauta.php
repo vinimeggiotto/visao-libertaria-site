@@ -1,17 +1,9 @@
 <?php
 
 /**
- * Modal "Comentários da Pauta" + init JS + listener de abertura.
- * Usar em páginas de pautas (fechar, fechadas/ID, etc.) com o mesmo endpoint de comentários.
- *
- * @var array<string, mixed>|null $comentariosConfig Opcional: sobrescreve chaves do config (merge com defaults).
+ * Modal "Comentários da Pauta" (apenas HTML).
+ * O JS fica em template/modal_comentarios_pauta_scripts.php, na section scripts.
  */
-$comentariosConfig = array_merge([
-	'endpointPrefix'   => base_url('colaboradores/pautas/comentarios/'),
-	'entityIdSelector' => '#idPauta',
-	'autoLoad'         => false,
-], $comentariosConfig ?? []);
-
 ?>
 <div class="modal fade" id="modalComentariosPauta" tabindex="-1" aria-labelledby="modalComentariosPautaLabel"
 	aria-hidden="true">
@@ -57,26 +49,3 @@ $comentariosConfig = array_merge([
 		</div>
 	</div>
 </div>
-
-<?= view('template/colaboradores_comentarios_init', [
-	'comentariosConfig' => $comentariosConfig,
-]); ?>
-
-<script>
-	const modalComentarios = document.getElementById('modalComentariosPauta');
-	if (modalComentarios) {
-		modalComentarios.addEventListener('show.bs.modal', event => {
-			// relatedTarget pode ser um filho (ex.: <i> dentro do <a>); os data-bs-* ficam no gatilho.
-			const trigger = event.relatedTarget && event.relatedTarget.closest('[data-bs-pautas-id]');
-			if (!trigger) {
-				return;
-			}
-
-			$('.modalImagem').attr('src', trigger.getAttribute('data-bs-imagem'));
-			$('.modalTexto').html(trigger.getAttribute('data-bs-texto'));
-			$('.modalTitulo').html(trigger.getAttribute('data-bs-titulo'));
-			$('#idPauta').val(trigger.getAttribute('data-bs-pautas-id'));
-			getComentarios();
-		});
-	}
-</script>

@@ -30,6 +30,7 @@ $routes->setAutoRoute(false);
 // Public pages (optional cookie login, no redirect when absent).
 $routes->group('', ['filter' => 'authCookie:optional'], static function ($routes) {
     $routes->get('/', 'Site::index');
+    $routes->get('site', static fn () => redirect()->to(site_url('/')));
     $routes->get('links', 'Site::links');
     $routes->get('site/noticias', 'Site::noticias');
     $routes->match(['get', 'post'], 'site/cadastre-se', 'Site::cadastrar');

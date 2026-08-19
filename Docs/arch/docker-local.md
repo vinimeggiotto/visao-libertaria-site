@@ -2,7 +2,7 @@
 
 O ambiente local tem três serviços: `vl-web` (PHP 8.2 + Composer + servidor embutido na porta 8080), `vl-db` (MariaDB 10.6) e `vl-redis` (Redis 7).
 
-A document root do `vl-web` é a raiz do repositório (igual XAMPP/produção), não a pasta `public/`. O roteador é `.docker/router.php`. Assim `/public/css/...` e `/public/js/...` resolvem.
+A document root do `vl-web` é a raiz do repositório (igual XAMPP/produção), não a pasta `public/`. O roteador é `.docker/router.php`. Assim `/public/css/...` e `/public/js/...` resolvem. Pedidos a `/favicon.ico` são servidos de `public/assets/favicon.ico` (o Chrome sempre pede o ícone na raiz).
 
 O `Dockerfile` instala as extensões que o app usa (`mysqli`, `pdo_mysql`, `intl`, `gd`, `mbstring`, `exif`, `opcache`, `redis`) e o Composer. Upload e memória vêm de `.docker/php-uploads.ini`. OPcache local: `.docker/php-opcache.ini` (`validate_timestamps=1`). Mudança nessas ini ou nas extensões exige rebuild (`docker compose build web`).
 
