@@ -128,3 +128,7 @@ use CodeIgniter\I18n\Time;
 <?= view('template/modal_comentarios_pauta'); ?>
 
 <?= $this->endSection(); ?>
+
+<?= $this->section('scripts'); ?>
+<?= view('template/modal_comentarios_pauta_scripts'); ?>
+<?= $this->endSection(); ?>

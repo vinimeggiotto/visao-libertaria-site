@@ -106,6 +106,7 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('scripts'); ?>
+<?= view('template/modal_comentarios_pauta_scripts'); ?>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 	window.scrollPautasListagemTopo = function () {
