@@ -6,7 +6,7 @@ A document root do nginx é a raiz do repositório (igual XAMPP/produção), nã
 
 O `Dockerfile` é `php:8.2-fpm-alpine` e instala as extensões que o app usa (`mysqli`, `pdo_mysql`, `intl`, `gd`, `mbstring`, `exif`, `opcache`, `redis`) e o Composer. O CLI do PHP permanece na imagem: `docker compose exec web php spark …`. Upload e memória vêm de `.docker/php-uploads.ini`. OPcache local: `.docker/php-opcache.ini` (`validate_timestamps=1`). Mudança nessas ini, nas extensões ou no `Dockerfile` exige rebuild (`docker compose build web`).
 
-O `entrypoint` cria `.env` a partir de `env.docker` se faltar, roda `composer install` e sobe `php-fpm`. `.env` já existente não é sobrescrito: para usar Redis, inclua `REDIS_HOST=vl-redis` (como no `env.docker`). Sem essa variável o cache e a sessão continuam em arquivo. Sem Redis no Plesk, não defina `REDIS_HOST` em produção.
+O `entrypoint` cria `.env` a partir de `env.docker` se faltar, roda `composer install`, deixa `writable/debugbar` gravável pelo pool FPM (`www-data`) e sobe `php-fpm`. Sem isso o toolbar injeta o script e o `?debugbar_time=` devolve 404 (o JSON não foi escrito). `.env` já existente não é sobrescrito: para usar Redis, inclua `REDIS_HOST=vl-redis` (como no `env.docker`). Sem essa variável o cache e a sessão continuam em arquivo. Sem Redis no Plesk, não defina `REDIS_HOST` em produção.
 
 O arquivo `.docker/router.php` existe no repo, mas não é o runtime HTTP. Estáticos, gzip e `expires` estão em `.docker/nginx.conf` (css/js 1 mês; imagens e fontes 1 ano; HTML sem `Cache-Control` longo). Não reativar `.docker/apache2.conf`.
 

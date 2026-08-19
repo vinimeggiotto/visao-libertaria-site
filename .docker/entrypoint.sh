@@ -7,4 +7,7 @@ fi
 
 composer install
 
+mkdir -p writable/debugbar
+chmod 0777 writable/debugbar
+
 exec php-fpm
