@@ -235,7 +235,7 @@
 							<?php $temRecados = isset($_SESSION['colaboradores']['notificacoes']) && (int) $_SESSION['colaboradores']['notificacoes'] > 0; ?>
 							<ul class="navbar-nav">
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+									<a class="nav-link dropdown-toggle" href="<?= site_url('colaboradores/perfil'); ?>" id="navbarDropdownMenuLink" role="button"
 										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span class="position-relative d-inline-block">
 											<?= avatar_slot_html(

@@ -13,25 +13,25 @@ Toast de Escritor (5 s, sem navegar):
 
 ## Deve entrar
 
-- [ ] Avatar → **Meu Perfil** abre
+- [x] Avatar → **Meu Perfil** abre
 - [ ] No perfil: **Artigos → Colaborar com artigos** aparece
 - [ ] Nessa tela, a fase **Narrar** aparece e funciona
-- [ ] **Notícias** → **Sugerir pauta** abre
+- [x] **Notícias** → **Sugerir pauta** abre
 
 ## Toast no clique (não navega)
 
-- [ ] Header **Colaborar** → toast **Escritor**
-- [ ] No perfil: **Dashboard** → toast **Escritor**
-- [ ] **Artigos → Escrever novo** → toast **Escritor**
-- [ ] **Artigos → Meus artigos** → toast **Escritor**
+- [x] Header **Colaborar** → toast **Escritor**
+- [x] No perfil: **Dashboard** → toast **Escritor**
+- [x] **Artigos → Escrever novo** → toast **Escritor**
+- [x] **Artigos → Meus artigos** → toast **Escritor**
 
 ## Não deve aparecer
 
-- [ ] **Administrar** some do header
-- [ ] Fases **Revisar**, **Produzir**, **Publicar** somem
-- [ ] **Gerenciar todos os artigos**, Configurações, Financeiro, Pautas somem
+- [x] **Administrar** some do header
+- [x] Fases **Revisar**, **Produzir**, **Publicar** somem
+- [x] **Gerenciar todos os artigos**, Configurações, Financeiro, Pautas somem
 
 ## Toast no servidor (colar a URL)
 
-- [ ] `/colaboradores/artigos/dashboard` → perfil + toast **Escritor**
-- [ ] `/colaboradores/admin/dashboard` → perfil + toast **Administrador**
+- [x] `/colaboradores/artigos/dashboard` → perfil + toast **Escritor**
+- [x] `/colaboradores/admin/dashboard` → perfil + toast **Administrador**

@@ -109,9 +109,14 @@ textarea#referencias.form-control {
 	color: inherit;
 	line-height: 1;
 	box-sizing: border-box;
+	container-type: size;
 }
 
 .vl-avatar-placeholder .bi {
-	font-size: 70%;
+	font-size: 90cqmin;
 	line-height: 1;
+}
+
+#avatar_perfil .vl-avatar-placeholder .bi {
+	font-size: 5.5rem;
 }

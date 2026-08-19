@@ -19,13 +19,16 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 				<div class="card mb-3">
 					<div class="card-body">
 						<div class="d-flex flex-column align-items-center text-center">
-							<?= avatar_slot_html(
-								'avatar_perfil',
-								$avatarSrc,
-								'Avatar',
-								'rounded-circle p-1 bg-primary',
-								'width:110px;height:110px;object-fit:cover;'
-							); ?>
+							<button type="button" class="btn p-0 border-0 bg-transparent" id="avatar-perfil-abrir-imagem"
+								title="Ver foto de perfil">
+								<?= avatar_slot_html(
+									'avatar_perfil',
+									$avatarSrc,
+									'Avatar',
+									'rounded-circle p-1 bg-primary',
+									'width:110px;height:110px;object-fit:cover;'
+								); ?>
+							</button>
 							<div class="mt-3">
 								<h4 class="apelido_colaborador">
 									<?= esc($colaboradores['apelido']); ?>
@@ -471,9 +474,43 @@ $avatarSrc = $colaboradores['avatar'] ?? null;
 	</div>
 </div>
 
+<div class="modal fade" id="modal-avatar-perfil" tabindex="-1" aria-labelledby="modal-avatar-perfil-titulo" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal-avatar-perfil-titulo">Foto de perfil</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+			</div>
+			<div class="modal-body text-center">
+				<img id="avatar-perfil-modal-img" class="img-fluid rounded" alt="Foto de perfil" hidden>
+				<div id="avatar-perfil-modal-placeholder" class="text-secondary" hidden>
+					<i class="bi bi-person-circle" style="font-size: 8rem;" aria-hidden="true"></i>
+					<p class="small mt-2 mb-0">Nenhuma foto enviada</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
 	$(function () {
 		$('.listar-colaboracoes-fechadas').tooltip();
+		$('#avatar-perfil-abrir-imagem').on('click', function () {
+			var src = $('#avatar_perfil img').attr('src');
+			var $img = $('#avatar-perfil-modal-img');
+			var $vazio = $('#avatar-perfil-modal-placeholder');
+			if (src) {
+				$img.attr('src', src).prop('hidden', false);
+				$vazio.prop('hidden', true);
+			} else {
+				$img.removeAttr('src').prop('hidden', true);
+				$vazio.prop('hidden', false);
+			}
+			var modalEl = document.getElementById('modal-avatar-perfil');
+			if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+				bootstrap.Modal.getOrCreateInstance(modalEl).show();
+			}
+		});
 	});
 
 	var csrfName = <?= json_encode(csrf_token()) ?>;

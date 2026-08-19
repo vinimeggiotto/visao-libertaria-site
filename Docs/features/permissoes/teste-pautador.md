@@ -20,7 +20,7 @@ Antes: saia de qualquer sessão. Abra `http://localhost:8080`. Entre com esta co
 - [ ] Header **Colaborar** → toast **Escritor**
 - [ ] Header **Administrar** → toast **Administrador**; não abre o dashboard
 - [ ] Depois de entrar em Fechar pautas: **Dashboard** (admin) → toast **Administrador**
-- [ ] **Área do colaborador** → toast **Escritor**
+- [ ] **Área do colaborador** abre o perfil (sem toast)
 
 ## Não deve aparecer
 

@@ -91,18 +91,18 @@
 			}
 		}
 
-		.gen-account-menu {
-			display: block !important;
+		.gen-account-holder > .gen-account-menu {
+			display: none !important;
 			opacity: 0;
 			visibility: hidden;
-			transition: opacity 0.3s ease, visibility 0s 0.3s;
 			pointer-events: none;
 		}
 
-		.gen-account-menu.gen-form-show {
+		.gen-account-holder:hover > .gen-account-menu,
+		.gen-account-holder:focus-within > .gen-account-menu {
+			display: block !important;
 			opacity: 1;
 			visibility: visible;
-			transition-delay: 0s;
 			pointer-events: auto;
 		}
 

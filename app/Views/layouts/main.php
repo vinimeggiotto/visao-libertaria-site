@@ -239,8 +239,7 @@
 						<?php endif; ?>
 						<?php if (isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null): ?>
 							<li class="nav-item">
-								<a class="nav-link ps-0 js-requer-permissao" href="<?= site_url('colaboradores/artigos/dashboard'); ?>"
-									data-permissoes="2" data-permissao-nome="<?= esc(nome_atribuicao('2'), 'attr'); ?>">Área do
+								<a class="nav-link ps-0" href="<?= site_url('colaboradores/perfil'); ?>">Área do
 									colaborador</a>
 							</li>
 							<?php if (in_array('7', $_SESSION['colaboradores']['permissoes']) || in_array('8', $_SESSION['colaboradores']['permissoes']) || in_array('9', $_SESSION['colaboradores']['permissoes']) || in_array('10', $_SESSION['colaboradores']['permissoes'])): ?>
@@ -322,7 +321,7 @@
 							<?php $temRecados = isset($_SESSION['colaboradores']['notificacoes']) && (int) $_SESSION['colaboradores']['notificacoes'] > 0; ?>
 							<ul class="navbar-nav">
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+									<a class="nav-link dropdown-toggle" href="<?= site_url('colaboradores/perfil'); ?>" id="navbarDropdownMenuLink" role="button"
 										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span class="position-relative d-inline-block">
 											<?= avatar_slot_html(

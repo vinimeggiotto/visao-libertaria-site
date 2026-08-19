@@ -22,7 +22,7 @@ Antes: saia de qualquer sessão. Abra `http://localhost:8080`. Entre com esta co
 - [ ] Depois de entrar no Financeiro: **Dashboard** (admin) → toast **Administrador**
 - [ ] **Colaboradores → Colaboradores** → toast **Recrutador**
 - [ ] **Colaboradores → Mensagens de contato** → toast **Administrador**
-- [ ] **Área do colaborador** → toast **Escritor**
+- [ ] **Área do colaborador** abre o perfil (sem toast)
 
 ## Não deve aparecer
 

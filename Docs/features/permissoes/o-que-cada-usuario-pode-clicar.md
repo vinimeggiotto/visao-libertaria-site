@@ -112,9 +112,9 @@ Só a base do Colaborador. Sem tela exclusiva.
 | Financeiro | 8 | 8 | **ocultar** para os outros; URL → **toast no servidor** |
 | Menu Colaboradores (grupo) | 8 | — | **ocultar** se não for 8 |
 | Colaboradores (lista / ficha) | 8 (dentro do grupo) | 9 | **toast no clique** se for 8 sem 9; URL → **toast no servidor** (Recrutador) |
-| Mensagens de contato | 8 (dentro do grupo) | 7 | **toast no clique** se for 8 sem 7; URL → **toast no servidor** (Administrador) |
+| Mensagens de contato | 8 no menu; URL para 7 | 7 | **toast no clique** se for 8 sem 7; URL sem 7 → **toast no servidor** |
 | Pautas → Fechar / Fechadas | 10 | 10 | **ocultar** para os outros; URL → **toast no servidor** |
-| Área do colaborador (layout admin) | quem está no admin | 2 | **toast no clique** se não for 2 |
+| Área do colaborador (layout admin) | quem está no admin | 1 | entra no perfil |
 | Dashboard admin (layout admin) | quem está no admin | 7 | **toast no clique** se não for 7 |
 
 Quem tem a atribuição certa no botão **entra** — não há toast.

@@ -295,7 +295,7 @@ class Admin extends BaseController
 		$config = array();
 		$config['site_quantidade_listagem'] = (int) $configuracaoModel->find('site_quantidade_listagem')['config_valor'];
 
-		$this->verificaPermissao->PermiteAcesso('9');
+		$this->verificaPermissao->PermiteAcesso('7');
 		$contatosModel = new \App\Models\ContatosModel();
 		if ($this->request->getMethod() === 'GET') {
 			$get = service('request')->getGet();

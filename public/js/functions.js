@@ -23,26 +23,6 @@
             }
         });
 
-        jQuery('.gen-account-menu').hide();
-         jQuery('#gen-user-btn').on('click', function(e) {
-            
-            jQuery('.gen-account-menu').slideToggle();
-
-             e.stopPropagation();
-            // jQuery('.gen-account-menu').toggleClass('gen-form-show');
-            // if (jQuery('.gen-account-menu').hasClass("gen-form-show")) {
-            //     jQuery(this).html('<i class="fa fa-times"></i>');
-            // } else {
-            //     jQuery(this).html('<i class="fa fa-user"></i>');
-            // }
-        });
-
-        jQuery('body').on('click' , function(){
-            if(jQuery('.gen-account-menu').is(":visible"))
-            {
-                jQuery('.gen-account-menu').slideUp();
-            }
-        });
         /*------------------------
                 Sidebar Toggle
         --------------------------*/

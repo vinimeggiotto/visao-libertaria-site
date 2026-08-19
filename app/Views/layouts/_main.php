@@ -253,11 +253,11 @@
 								<?php if (isset($_SESSION['colaboradores']) && $_SESSION['colaboradores']['id'] !== null): ?>
 									<?php $temRecados = isset($_SESSION['colaboradores']['notificacoes']) && (int) $_SESSION['colaboradores']['notificacoes'] > 0; ?>
 									<div class="gen-account-holder">
-										<a href="javascript:void(0)" id="gen-user-btn" class="position-relative d-inline-block">
+										<a href="<?= site_url('colaboradores/perfil'); ?>" id="gen-user-btn" class="position-relative d-inline-block" title="Meu Perfil">
 											<?= avatar_slot_html(
 												'avatar_menu',
 												$_SESSION['colaboradores']['avatar'] ?? null,
-												'Avatar',
+												'Meu Perfil',
 												'rounded-circle',
 												'width:45px;height:45px;object-fit:cover;'
 											); ?>
@@ -266,7 +266,7 @@
 											</span>
 										</a>
 										<div class="gen-account-menu">
-											<ul class="gen-account-menu rounded-bottom-3 rounded-top-3">
+											<ul class="rounded-bottom-3 rounded-top-3">
 												<li>
 													<a class="dropdown-item rounded-top-3"
 														href="<?= site_url('colaboradores/perfil'); ?>">Meu
@@ -527,29 +527,6 @@
 				var navCollapse = document.getElementById('navbarSupportedContent');
 				if (navCollapse && navCollapse.classList.contains('show') && typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
 					bootstrap.Collapse.getOrCreateInstance(navCollapse).hide();
-				}
-			});
-
-			// --- User Account Menu Toggle ---
-			$('.gen-account-holder:not(.gen-account-holder-login) #gen-user-btn').on('click', function (e) {
-				e.stopPropagation();
-				var menu = $('.gen-account-menu');
-
-				// Usamos a classe que o tema espera: 'gen-form-show'
-				if (menu.hasClass('gen-form-show')) {
-					menu.removeClass('gen-form-show');
-				} else {
-					menu.addClass('gen-form-show');
-				}
-			});
-
-			// Fecha o menu se clicar fora dele
-			$(document).on('click', function (e) {
-				var menu = $('.gen-account-menu');
-				if (!$(e.target).closest('.gen-account-holder').length) {
-					if (menu.hasClass('gen-form-show')) {
-						menu.removeClass('gen-form-show');
-					}
 				}
 			});
 

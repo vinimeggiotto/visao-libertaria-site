@@ -15,3 +15,9 @@ Três comportamentos, nesta ordem:
 3. **Toast no servidor** — URL colada: `VerificaPermissao` grava flash e manda ao perfil; o toast aparece na chegada.
 
 Lista por conta e por botão: `Docs/features/permissoes/o-que-cada-usuario-pode-clicar.md`.
+
+## Menu do avatar (site público)
+
+O círculo do avatar é um `<a href>` para `/colaboradores/perfil`. Funciona sem JavaScript (localhost e produção). O menu **Meu Perfil / Sair** abre no hover ou `:focus-within`. Não interceptar o clique do avatar com `preventDefault`.
+
+**Área do colaborador** (barra admin) aponta para `/colaboradores/perfil` (atribuição 1), não para o dashboard de artigos.
